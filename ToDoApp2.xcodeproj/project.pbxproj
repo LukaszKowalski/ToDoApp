@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
+		C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */; };
 		C3C4FBCD198FC84100F36830 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBCC198FC84100F36830 /* Foundation.framework */; };
 		C3C4FBCF198FC84100F36830 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBCE198FC84100F36830 /* CoreGraphics.framework */; };
 		C3C4FBD1198FC84100F36830 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBD0198FC84100F36830 /* UIKit.framework */; };
@@ -19,6 +21,8 @@
 		C3C4FBE8198FC84100F36830 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBD0198FC84100F36830 /* UIKit.framework */; };
 		C3C4FBF0198FC84100F36830 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C3C4FBEE198FC84100F36830 /* InfoPlist.strings */; };
 		C3C4FBF2198FC84100F36830 /* ToDoApp2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */; };
+		C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */; };
+		C3C4FC06198FCA1C00F36830 /* ToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FC05198FCA1C00F36830 /* ToDoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +36,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewCell.h; sourceTree = "<group>"; };
+		C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewCell.m; sourceTree = "<group>"; };
+		C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsViewController.h; sourceTree = "<group>"; };
+		C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsViewController.m; sourceTree = "<group>"; };
 		C3C4FBC9198FC84100F36830 /* ToDoApp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3C4FBCC198FC84100F36830 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C3C4FBCE198FC84100F36830 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,6 +56,10 @@
 		C3C4FBED198FC84100F36830 /* ToDoApp2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ToDoApp2Tests-Info.plist"; sourceTree = "<group>"; };
 		C3C4FBEF198FC84100F36830 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToDoApp2Tests.m; sourceTree = "<group>"; };
+		C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTaskTableViewCell.h; sourceTree = "<group>"; };
+		C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTaskTableViewCell.m; sourceTree = "<group>"; };
+		C3C4FC04198FCA1C00F36830 /* ToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToDoViewController.h; path = ../ToDoViewController.h; sourceTree = "<group>"; };
+		C3C4FC05198FCA1C00F36830 /* ToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToDoViewController.m; path = ../ToDoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +121,14 @@
 			children = (
 				C3C4FBDB198FC84100F36830 /* ToDoAppDelegate.h */,
 				C3C4FBDC198FC84100F36830 /* ToDoAppDelegate.m */,
+				C3C4FC04198FCA1C00F36830 /* ToDoViewController.h */,
+				C3C4FC05198FCA1C00F36830 /* ToDoViewController.m */,
+				C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */,
+				C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */,
+				C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */,
+				C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */,
+				C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */,
+				C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */,
 				C3C4FBDE198FC84100F36830 /* Images.xcassets */,
 				C3C4FBD3198FC84100F36830 /* Supporting Files */,
 			);
@@ -240,7 +260,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */,
 				C3C4FBDD198FC84100F36830 /* ToDoAppDelegate.m in Sources */,
+				C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */,
+				C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */,
+				C3C4FC06198FCA1C00F36830 /* ToDoViewController.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +462,7 @@
 				C3C4FBF7198FC84100F36830 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C3C4FBF8198FC84100F36830 /* Build configuration list for PBXNativeTarget "ToDoApp2Tests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +471,7 @@
 				C3C4FBFA198FC84100F36830 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

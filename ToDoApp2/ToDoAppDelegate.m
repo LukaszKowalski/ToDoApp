@@ -13,7 +13,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    ToDoViewController *viewController = [[ToDoViewController alloc] init];
+    FriendsViewController *friendsView = [[FriendsViewController alloc] init];
+    UINavigationController *navCon = [[UINavigationController alloc] init];
+    
+    [navCon pushViewController:friendsView animated:NO];
+    [navCon pushViewController:viewController animated:NO];
+    
+    self.window.rootViewController = navCon;
+    NSLog(@"%d", navCon.viewControllers.count );
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
