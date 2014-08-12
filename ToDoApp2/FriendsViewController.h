@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FriendsTableViewCell.h"
+#import "FriendsToDoViewController.h"
 
 @interface FriendsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -16,6 +17,7 @@
 @property (strong, nonatomic) UITextField *addTaskTextField;
 @property (strong, nonatomic) NSMutableArray *arrayOfFriends;
 @property (strong, nonatomic) FriendsViewController *delegate;
-@property (strong, nonatomic) UIButton *taskList;
+@property (strong, nonatomic) UIButton *backButton;
+
 
 @end

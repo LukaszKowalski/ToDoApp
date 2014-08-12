@@ -14,10 +14,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     ToDoViewController *viewController = [[ToDoViewController alloc] init];
-    FriendsViewController *friendsView = [[FriendsViewController alloc] init];
     UINavigationController *navCon = [[UINavigationController alloc] init];
     
-    [navCon pushViewController:friendsView animated:NO];
+//    [navCon pushViewController:friendsView animated:NO];
     [navCon pushViewController:viewController animated:NO];
     
     self.window.rootViewController = navCon;

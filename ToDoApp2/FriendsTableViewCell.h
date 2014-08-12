@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ToDoViewController.h"
 
 @interface FriendsTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UIButton *newestFriend;
+@property (nonatomic, strong) UILabel *newestFriend;
 -( UIColor *)randomColor;
 
 @end

@@ -8,10 +8,11 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.newestFriend = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.newestFriend = [[UILabel alloc] init];
         self.newestFriend.frame = CGRectMake(0, 0, 320, 78);
         self.newestFriend.backgroundColor = [self randomColor];
-        [self.newestFriend addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
+        self.newestFriend.textAlignment = NSTextAlignmentCenter;
+    
         [self.contentView addSubview:self.newestFriend];
     }
     return self;
@@ -29,8 +30,10 @@
     // Configure the view for the selected state
 }
 
-- (void)confirmTask{
-    self.newestFriend.backgroundColor = [UIColor greenColor];
+- (void)friendIsTapped{
+//    ToDoViewController *controller = [[ToDoViewController alloc] init];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    
 }
 -( UIColor *)randomColor{
     CGFloat red = arc4random() % 255 / 255.0;

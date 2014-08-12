@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
+		C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */; };
 		C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */; };
 		C3C4FBCD198FC84100F36830 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBCC198FC84100F36830 /* Foundation.framework */; };
 		C3C4FBCF198FC84100F36830 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBCE198FC84100F36830 /* CoreGraphics.framework */; };
@@ -38,6 +39,8 @@
 /* Begin PBXFileReference section */
 		C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewCell.h; sourceTree = "<group>"; };
 		C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewCell.m; sourceTree = "<group>"; };
+		C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsToDoViewController.h; sourceTree = "<group>"; };
+		C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsToDoViewController.m; sourceTree = "<group>"; };
 		C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsViewController.h; sourceTree = "<group>"; };
 		C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsViewController.m; sourceTree = "<group>"; };
 		C3C4FBC9198FC84100F36830 /* ToDoApp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +132,8 @@
 				C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */,
 				C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */,
 				C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */,
+				C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */,
+				C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */,
 				C3C4FBDE198FC84100F36830 /* Images.xcassets */,
 				C3C4FBD3198FC84100F36830 /* Supporting Files */,
 			);
@@ -260,6 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */,
 				C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */,
 				C3C4FBDD198FC84100F36830 /* ToDoAppDelegate.m in Sources */,
 				C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */,

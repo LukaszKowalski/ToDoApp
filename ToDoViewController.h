@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIButton *friendsLists;
 @property (strong, nonatomic) UINavigationBar *bar;
 
+
 -(void)addItem:(NSString*)item;
 
 @end

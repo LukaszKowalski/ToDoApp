@@ -11,6 +11,8 @@
 
 @interface FriendsViewController ()
 
+@property (strong, nonatomic) FriendsToDoViewController *controller;
+
 @end
 
 @implementation FriendsViewController
@@ -20,6 +22,7 @@
     // adding tableView
     
     [super viewDidLoad];
+    self.navigationItem.hidesBackButton = YES;
     self.title = @"Friend's lists";
     self.friendsTableView = [[UITableView alloc] init];
     self.friendsTableView.frame = CGRectMake(0, 75, 320, 400);
@@ -42,12 +45,12 @@
     
     // adding friendsList Button
     
-    self.taskList = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.taskList.frame = CGRectMake(159, 64, 161, 75);
-    [self.taskList setTitle:@"Task list" forState:UIControlStateNormal];
-    self.taskList.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
-    [self.taskList addTarget:self action:@selector(taskListButtonFired) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.taskList];
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.backButton.frame = CGRectMake(159, 64, 161, 75);
+    [self.backButton setTitle:@"Task list" forState:UIControlStateNormal];
+    self.backButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
+    [self.backButton addTarget:self action:@selector(backButtonFired) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
     
     // conf button
     
@@ -85,7 +88,7 @@
     if (cell == nil) {
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
-    [cell.newestFriend setTitle:[NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]]forState:UIControlStateNormal];
+    cell.newestFriend.text = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
     
     return cell;
 }
@@ -109,6 +112,12 @@
     return 78;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
+
+    if (!self.controller){
+    self.controller = [[FriendsToDoViewController alloc] init];
+    }
+    self.controller.titleName = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
+    [self.navigationController pushViewController:self.controller animated:YES];
     
 }
 
@@ -121,28 +130,24 @@
 }
 - (void)addFriend:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
-    self.taskList.hidden = YES;
+    self.backButton.hidden = YES;
     [self.addTaskTextField becomeFirstResponder];
     self.addTaskTextField.delegate = self;
 }
-- (void)taskListButtonFired{
-    FriendsViewController *controller = [[self.navigationController viewControllers] objectAtIndex:1];
-    [self.navigationController popToViewController:controller animated:NO];
-    
-    //[self.navigationController popViewControllerAnimated:NO];
+- (void)backButtonFired{
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     NSString *newFriend = textField.text;
-    NSLog(@"%@", newFriend);
     textField.text = @"";
     [self.delegate addItem:newFriend];
-    NSLog(@"%d", self.arrayOfFriends.count);
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;
-    self.taskList.hidden = NO;
-    NSLog(@"end of textfield sr");
+    self.backButton.hidden = NO;
+    
     
     return YES;
 }

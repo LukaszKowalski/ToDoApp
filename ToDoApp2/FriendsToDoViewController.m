@@ -1,20 +1,20 @@
 //
-//  ToDoViewController.m
+//  FriendsToDoViewController.m
 //  ToDoApp2
 //
-//  Created by Łukasz Kowalski on 8/4/14.
+//  Created by Łukasz Kowalski on 8/9/14.
 //  Copyright (c) 2014 Lukasz Kowalski. All rights reserved.
 //
 
-#import "ToDoViewController.h"
+#import "FriendsToDoViewController.h"
 
-@interface ToDoViewController ()
+@interface FriendsToDoViewController ()
 
-@property (strong, nonatomic) FriendsViewController *friendsController;
+@property (strong, nonatomic) FriendsToDoViewController *friendsToDoController;
 
 @end
 
-@implementation ToDoViewController
+@implementation FriendsToDoViewController
 
 
 
@@ -23,7 +23,8 @@
     // adding tableView
     
     [super viewDidLoad];
-    self.title = @"Add New Task";
+    self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
+    self.navigationItem.hidesBackButton = YES;
     self.tableView = [[UITableView alloc] init];
     self.tableView.frame = CGRectMake(0, 75, 320, 400);
     self.tableView.delegate = self;
@@ -71,30 +72,36 @@
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [UIColor whiteColor];
     self.addTaskTextField.font = [UIFont systemFontOfSize:28];
-    self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task"];
+    self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type task for %@", self.titleName];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
     
     // initArray
     
-    self.arrayOfTasks = [[NSMutableArray alloc] init];
+    self.arrayOfFriendsTask = [[NSMutableArray alloc] init];
     self.delegate = self;
-
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d", self.arrayOfTasks.count);
-    return self.arrayOfTasks.count;
+    NSLog(@"%d", self.arrayOfFriendsTask.count);
+    return self.arrayOfFriendsTask.count;
 }
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
     
     if (cell == nil) {
-        cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
+    // init Label
     
-    [cell.newestTask setTitle:[NSString stringWithFormat:@"%@", [self.arrayOfTasks objectAtIndex:indexPath.row]]forState:UIControlStateNormal];
-
+    self.taskForFriend = [[UILabel alloc] init];
+    self.taskForFriend.frame = CGRectMake(0, 0, 320, 78);
+    self.taskForFriend.backgroundColor = [self randomColor];
+    self.taskForFriend.textAlignment = NSTextAlignmentCenter;
+    self.taskForFriend.text = [NSString stringWithFormat:@"%@", [self.arrayOfFriendsTask objectAtIndex:indexPath.row]];
+    [cell.contentView addSubview:self.taskForFriend];
+    
     return cell;
 }
 
@@ -103,14 +110,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-//-(void)friendsListsButtonHeight{
-//    if (self.arrayOfTasks.count > 4) {
-//        NSLog(@"shit;/");
-//        
-//        [self.friendsLists setFrame:CGRectMake(self.friendsLists.frame.origin.x, self.friendsLists.frame.origin.y, self.friendsLists.frame.size.width, self.tableView.frame.size.height)];
-//        NSLog(@"%f", CGRectGetHeight(self.friendsLists.frame));
-//    }
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -122,9 +121,9 @@
 
 -(void)addItem:(NSString *)item {
     NSLog(@"%@", item);
-    [self.arrayOfTasks addObject:item];
-//    [self adjustHeightOfTableview];
-//    [self friendsListsButtonHeight];
+    [self.arrayOfFriendsTask addObject:item];
+    //    [self adjustHeightOfTableview];
+    //    [self friendsListsButtonHeight];
     [self.tableView reloadData];
 }
 - (void)addTask:(UIButton *)sender {
@@ -135,18 +134,13 @@
 }
 - (void)friendsButtonFired{
     
-    if (!self.friendsController){
-    self.friendsController = [[FriendsViewController alloc] init];
-    }
-    [self.navigationController pushViewController:self.friendsController animated:YES];
-    
-    //[self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     NSString *newTask = textField.text;
-   
+    
     textField.text = @"";
     [self.delegate addItem:newTask];
     
@@ -157,10 +151,17 @@
     
     return YES;
 }
+
+-( UIColor *)randomColor{
+    CGFloat red = arc4random() % 255 / 255.0;
+    CGFloat blue = arc4random() % 255 / 255.0;
+    CGFloat green = arc4random() % 255 / 255.0;
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+}
 //- (void)adjustHeightOfTableview
 //{
 //    CGFloat height = self.tableView.contentSize.height;
-//    
+//
 //    [UIView animateWithDuration:0.25 animations:^{
 //        CGRect frame = self.tableView.frame;
 //        frame.size.height = height;
