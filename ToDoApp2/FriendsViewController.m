@@ -70,9 +70,10 @@
     self.addTaskTextField.hidden = YES;
     
     // initArray
-    
-    self.arrayOfFriends = [[NSMutableArray alloc] initWithObjects:(NSString *)@"Kamil", (NSString *)@"Dawid", nil];
+   
+    self.arrayOfFriends = [[NSMutableArray alloc] initWithObjects:@"Kamil",@"Dawid", nil];
     self.delegate = self;
+        
     
 }
 
@@ -112,12 +113,10 @@
     return 78;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
-
-    if (!self.controller){
-    self.controller = [[FriendsToDoViewController alloc] init];
-    }
-    self.controller.titleName = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
-    [self.navigationController pushViewController:self.controller animated:YES];
+    
+    FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
+    friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
+    [self.navigationController pushViewController:friendsToDoView animated:YES];
     
 }
 
@@ -126,7 +125,7 @@
     [self.arrayOfFriends addObject:item];
     //    [self adjustHeightOfTableview];
     //    [self friendsListsButtonHeight];
-    [self.friendsTableView reloadData];
+//    [self.friendsTableView reloadData];
 }
 - (void)addFriend:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;

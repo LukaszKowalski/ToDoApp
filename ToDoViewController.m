@@ -11,6 +11,8 @@
 @interface ToDoViewController ()
 
 @property (strong, nonatomic) FriendsViewController *friendsController;
+@property (strong, nonatomic) NSString *dataFilePath;
+
 
 @end
 
@@ -24,6 +26,21 @@
     
     [super viewDidLoad];
     self.title = @"Add New Task";
+    
+   
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    self.dataFilePath = [documentsDirectory stringByAppendingPathComponent:@"data.plist"];
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    BOOL success = [fileManager fileExistsAtPath:self.dataFilePath];
+//    
+//    if (success) {
+//        // get data from plist file
+//        self.arrayOfTasks = [[NSMutableArray alloc] initWithContentsOfFile:self.dataFilePath];
+//
+//    }
+    
+   
     self.tableView = [[UITableView alloc] init];
     self.tableView.frame = CGRectMake(0, 75, 320, 400);
     self.tableView.delegate = self;
