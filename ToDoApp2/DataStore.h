@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DataSource : NSObject
+@interface DataStore : NSObject
 
  +(instancetype) sharedInstance;
+
+-(NSArray *)loadData:(NSString *)keyString;
+-(void)saveData:(NSArray *)array withKey:(NSString *)keyString;
 
 @end

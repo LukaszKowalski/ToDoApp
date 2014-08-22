@@ -10,6 +10,6 @@
 
 @interface NewTaskTableViewCell : UITableViewCell
 @property (nonatomic, strong) UIButton *newestTask;
--( UIColor *)randomColor;
+
 
 @end

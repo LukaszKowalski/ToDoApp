@@ -7,6 +7,8 @@
 //
 
 #import "FriendsViewController.h"
+#import "DataStore.h"
+#import "DoUser.h"
 
 
 @interface FriendsViewController ()
@@ -70,8 +72,14 @@
     self.addTaskTextField.hidden = YES;
     
     // initArray
-   
-    self.arrayOfFriends = [[NSMutableArray alloc] initWithObjects:@"Kamil",@"Dawid", nil];
+    
+    NSArray *array = [[DataStore sharedInstance] loadData:@"friendsArray"];
+    if(array != nil) {
+        
+        self.arrayOfFriends = [array mutableCopy];
+    }else{
+        self.arrayOfFriends = [NSMutableArray new];
+    }
     self.delegate = self;
         
     
@@ -89,7 +97,12 @@
     if (cell == nil) {
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
-    cell.newestFriend.text = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
+    
+    
+    DoUser *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
+    
+    cell.newestFriend.backgroundColor = user.userColor;
+    cell.newestFriend.text = [NSString stringWithFormat:@"%@", user.username];
     
     return cell;
 }
@@ -99,14 +112,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-//-(void)friendsListsButtonHeight{
-//    if (self.arrayOfTasks.count > 4) {
-//        NSLog(@"shit;/");
-//
-//        [self.friendsLists setFrame:CGRectMake(self.friendsLists.frame.origin.x, self.friendsLists.frame.origin.y, self.friendsLists.frame.size.width, self.tableView.frame.size.height)];
-//        NSLog(@"%f", CGRectGetHeight(self.friendsLists.frame));
-//    }
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -115,6 +120,7 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
+    
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     
@@ -122,10 +128,14 @@
 
 -(void)addItem:(NSString *)item {
     NSLog(@"%@", item);
-    [self.arrayOfFriends addObject:item];
-    //    [self adjustHeightOfTableview];
-    //    [self friendsListsButtonHeight];
-//    [self.friendsTableView reloadData];
+    DoUser *user = [DoUser new];
+    user.userIdNumber = [self getRandomId];
+    user.username = item;
+    user.userColor = [self randomColor];
+    [self.arrayOfFriends addObject:user];
+    [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
+    [self.friendsTableView reloadData];
+    
 }
 - (void)addFriend:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
@@ -150,17 +160,19 @@
     
     return YES;
 }
-//- (void)adjustHeightOfTableview
-//{
-//    CGFloat height = self.tableView.contentSize.height;
-//
-//    [UIView animateWithDuration:0.25 animations:^{
-//        CGRect frame = self.tableView.frame;
-//        frame.size.height = height;
-//        self.tableView.frame = frame;
-//
-//    }];
-//}
+-(NSString *)getRandomId
+{
+    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
+    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
+    CFRelease(newUniqueId);
+    return uuidString;
+}
+-( UIColor *)randomColor{
+    CGFloat red = arc4random() % 255 / 255.0;
+    CGFloat blue = arc4random() % 255 / 255.0;
+    CGFloat green = arc4random() % 255 / 255.0;
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+}
 
 
 

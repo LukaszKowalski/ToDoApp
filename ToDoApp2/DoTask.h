@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class DoUser;
+@interface DoTask : NSObject <NSCoding>
 
-@interface DoTask : NSObject
+-(void)debugDump;
 
-@property (nonatomic, strong) NSString* idNumber;
-@property (nonatomic, strong) NSString* taskString;
-@property (nonatomic, strong) DoUser* user;
+@property (nonatomic, strong) NSString *idNumber;
+@property (nonatomic, strong) NSString *userIdNumber;
+@property (nonatomic, strong) NSString *taskString;
+@property (nonatomic, strong) UIColor *taskColor;
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "ToDoAppDelegate.h"
+#import "DoTask.h"
+#import "DoUser.h"
+#import "DataStore.h"
 
 @implementation ToDoAppDelegate
 
@@ -23,6 +26,7 @@
     NSLog(@"%d", navCon.viewControllers.count );
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -52,5 +56,43 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+//    DoUser *user = [DoUser new];
+//    user.userIdNumber = [self getRandomId];
+//    user.username =@"Lucasz";
+//
+//    DoUser *user2 = [DoUser new];
+//    user2.userIdNumber = [self getRandomId];
+//    user2.username =@"Phil";
+//
+//    DoTask *task = [DoTask new];
+//    task.idNumber = [self getRandomId];
+//    task.userIdNumber = user.userIdNumber;
+//    task.taskString =@"Task One";
+//
+//    DoTask *task2 = [DoTask new];
+//    task2.idNumber = [self getRandomId];
+//    task2.userIdNumber = user2.userIdNumber;
+//    task2.taskString =@"Task One";
+//
+//    NSArray *userArray = @[user,user2];
+//    NSArray *tasksArray = @[task,task2];
+//
+//    [[DataStore sharedInstance] saveData:userArray withKey:@"userArray"];
+//    [[DataStore sharedInstance] saveData:tasksArray withKey:@"tasksArray"];
+//
+//
+
+
+
+-(NSString *)getRandomId
+{
+    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
+    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
+    CFRelease(newUniqueId);
+    return uuidString;
+}
+
 
 @end

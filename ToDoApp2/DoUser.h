@@ -10,11 +10,12 @@
 
 @class DoTask;
 
-@interface DoUser : NSObject
+@interface DoUser : NSObject <NSCoding>
+
+-(void)debugDump;
 
 @property (nonatomic, strong) NSString* userIdNumber;
 @property (nonatomic, strong) NSString* username;
-@property (nonatomic, strong) NSMutableArray* friendsArray;
-@property (nonatomic, strong) DoTask *arrayofTasks;
+@property (nonatomic, strong) UIColor *userColor;
 
 @end

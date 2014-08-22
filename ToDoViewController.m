@@ -7,6 +7,8 @@
 //
 
 #import "ToDoViewController.h"
+#import "DataStore.h"
+#import "DoTask.h"
 
 @interface ToDoViewController ()
 
@@ -25,24 +27,10 @@
     // adding tableView
     
     [super viewDidLoad];
+    self.view.backgroundColor = [self randomColor];
     self.title = @"Add New Task";
-    
-   
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    self.dataFilePath = [documentsDirectory stringByAppendingPathComponent:@"data.plist"];
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    BOOL success = [fileManager fileExistsAtPath:self.dataFilePath];
-//    
-//    if (success) {
-//        // get data from plist file
-//        self.arrayOfTasks = [[NSMutableArray alloc] initWithContentsOfFile:self.dataFilePath];
-//
-//    }
-    
-   
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(0, 75, 320, 400);
+    self.tableView.frame = CGRectMake(0, 75, 320, 410);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -94,7 +82,13 @@
     
     // initArray
     
-    self.arrayOfTasks = [[NSMutableArray alloc] init];
+    NSArray *array = [[DataStore sharedInstance] loadData:@"tasksArray"];
+    if(array != nil) {
+    
+        self.arrayOfTasks = [array mutableCopy];
+    }else{
+        self.arrayOfTasks = [NSMutableArray new];
+    }
     self.delegate = self;
 
 }
@@ -109,26 +103,17 @@
     if (cell == nil) {
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
-    
-    [cell.newestTask setTitle:[NSString stringWithFormat:@"%@", [self.arrayOfTasks objectAtIndex:indexPath.row]]forState:UIControlStateNormal];
+    DoTask *task = [self.arrayOfTasks objectAtIndex:indexPath.row];
+    cell.newestTask.backgroundColor = task.taskColor;
+    [cell.newestTask setTitle:[NSString stringWithFormat:@"%@", task.taskString]forState:UIControlStateNormal];
 
     return cell;
 }
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+   [super didReceiveMemoryWarning];
 }
-//-(void)friendsListsButtonHeight{
-//    if (self.arrayOfTasks.count > 4) {
-//        NSLog(@"shit;/");
-//        
-//        [self.friendsLists setFrame:CGRectMake(self.friendsLists.frame.origin.x, self.friendsLists.frame.origin.y, self.friendsLists.frame.size.width, self.tableView.frame.size.height)];
-//        NSLog(@"%f", CGRectGetHeight(self.friendsLists.frame));
-//    }
-//}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 78;
@@ -139,9 +124,14 @@
 
 -(void)addItem:(NSString *)item {
     NSLog(@"%@", item);
-    [self.arrayOfTasks addObject:item];
-//    [self adjustHeightOfTableview];
-//    [self friendsListsButtonHeight];
+    DoTask *task = [DoTask new];
+    task.idNumber = [self getRandomId];
+    task.taskString = item;
+    [task debugDump];
+    task.taskColor = [self randomColor];
+    [self.arrayOfTasks addObject:task];
+    [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
+    
     [self.tableView reloadData];
 }
 - (void)addTask:(UIButton *)sender {
@@ -174,17 +164,19 @@
     
     return YES;
 }
-//- (void)adjustHeightOfTableview
-//{
-//    CGFloat height = self.tableView.contentSize.height;
-//    
-//    [UIView animateWithDuration:0.25 animations:^{
-//        CGRect frame = self.tableView.frame;
-//        frame.size.height = height;
-//        self.tableView.frame = frame;
-//
-//    }];
-//}
+-(NSString *)getRandomId
+{
+    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
+    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
+    CFRelease(newUniqueId);
+    return uuidString;
+}
+-( UIColor *)randomColor{
+    CGFloat red = arc4random() % 255 / 255.0;
+    CGFloat blue = arc4random() % 255 / 255.0;
+    CGFloat green = arc4random() % 255 / 255.0;
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+}
 
 
 

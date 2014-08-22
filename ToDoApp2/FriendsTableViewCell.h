@@ -12,6 +12,6 @@
 @interface FriendsTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *newestFriend;
--( UIColor *)randomColor;
+
 
 @end
