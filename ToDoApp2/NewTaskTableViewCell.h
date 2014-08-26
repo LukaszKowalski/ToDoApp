@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DoTask.h"
+#import "DataStore.h"
+
+@class ToDoViewController;
 
 @interface NewTaskTableViewCell : UITableViewCell
 @property (nonatomic, strong) UILabel *newestTask;
 @property (nonatomic, strong) UIButton *done;
 @property (nonatomic, strong) UIButton *no;
+@property (nonatomic, strong) DoTask *task;
+@property (nonatomic, weak) ToDoViewController *viewController;
 
-// -(void)reset;
 
 @end

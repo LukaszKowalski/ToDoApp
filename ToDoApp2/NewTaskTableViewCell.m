@@ -7,6 +7,7 @@
 //
 
 #import "NewTaskTableViewCell.h"
+#import "ToDoViewController.h"
 
 @implementation NewTaskTableViewCell
 
@@ -27,6 +28,14 @@
         self.no.backgroundColor = [UIColor redColor];
         self.done.hidden = YES;
         self.no.hidden = YES;
+        
+        [self.done addTarget:self action:@selector(doneFired:) forControlEvents:UIControlEventTouchUpInside];
+        [self.no addTarget:self action:@selector(noFired:) forControlEvents:UIControlEventTouchUpInside];
+        [self.no setTitle:@"No" forState:UIControlStateNormal];
+        [self.done setTitle:@"Done" forState:UIControlStateNormal];
+
+        
+        
         
         [self.contentView addSubview:self.no];
         [self.contentView addSubview:self.done];
@@ -65,6 +74,22 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+}
+-(void)noFired:(id)sender{
+
+    self.done.hidden = YES;
+    self.no.hidden = YES;
+    self.newestTask.hidden = NO;
+}
+
+-(void)doneFired:(id)sender{
+    
+    [[DataStore sharedInstance] deleteTask:self.task];
+//    [self.viewController reloadTableView];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+    self.done.hidden = YES;
+    self.no.hidden = YES;
+    self.newestTask.hidden = NO;
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DoTask.h"
 
 @interface DataStore : NSObject
 
@@ -14,6 +15,11 @@
 
 -(NSArray *)loadData:(NSString *)keyString;
 -(void)saveData:(NSArray *)array withKey:(NSString *)keyString;
+-(void)deleteTask:(DoTask *)task;
+-(void)addTask:(NSString *)item;
+
+@property (strong, nonatomic) NSMutableArray *arrayOfTasks; 
+@property (strong, nonatomic) NSMutableArray *arrayOfFriends;
 
 
 @end
