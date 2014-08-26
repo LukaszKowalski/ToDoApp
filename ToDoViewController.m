@@ -97,16 +97,27 @@
     NSLog(@"%d", self.arrayOfTasks.count);
     return self.arrayOfTasks.count;
 }
+
+
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
     
     if (cell == nil) {
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
+    
+//    [cell reset];
+    
     DoTask *task = [self.arrayOfTasks objectAtIndex:indexPath.row];
     cell.newestTask.backgroundColor = task.taskColor;
-    [cell.newestTask setTitle:[NSString stringWithFormat:@"%@", task.taskString]forState:UIControlStateNormal];
-
+    cell.newestTask.text = [NSString stringWithFormat:@"%@", task.taskString];
+    cell.newestTask.textAlignment = NSTextAlignmentCenter;
+    [cell.done addTarget:self action:@selector(doneFired:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.no addTarget:self action:@selector(noFired:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.no setTitle:@"No" forState:UIControlStateNormal];
+    [cell.done setTitle:@"Done" forState:UIControlStateNormal];
+    [cell.done setTag:indexPath.row];
+    [cell.no setTag:indexPath.row];
     return cell;
 }
 
@@ -120,17 +131,47 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
+    NSLog(@"%d", indexPath.row);
+    UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
+    UIView *content = [customcell.subviews objectAtIndex:1];
+    
+    for (UIView *subview in content.subviews) {
+        
+        if ([subview isMemberOfClass:[UIButton class]] ) {
+            NSLog(@"UIButton set hidden to NO");
+            subview.hidden = NO;
+        }
+        
+        if ([subview isMemberOfClass:[UILabel class]] ) {
+            NSLog(@"UILabel set hidden to YES");
+            subview.hidden = YES;
+        }
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+        
+    }
+
+    
 }
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+
+}
+
 
 -(void)addItem:(NSString *)item {
     NSLog(@"%@", item);
     DoTask *task = [DoTask new];
     task.idNumber = [self getRandomId];
     task.taskString = item;
-    [task debugDump];
     task.taskColor = [self randomColor];
     [self.arrayOfTasks addObject:task];
     [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
+    [task debugDump];
     
     [self.tableView reloadData];
 }
@@ -178,7 +219,63 @@
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
 
+//-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer
+//{
+//    
+//    NSMutableArray *discardedItems = [NSMutableArray array];
+//    DoTask *item;
+//    
+//
+//        CGPoint location = [recognizer locationInView:self.tableView];
+//        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+//    for (item in self.arrayOfTasks) {
+//        if (indexPath != 0)
+//            [discardedItems addObject:item];
+//    }
+//    
+//    [self.arrayOfTasks removeObjectsInArray:discardedItems];
+//}
+-(void)noFired:(id)sender{
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sender tag] inSection:0];
+    UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
+    UIView *content = [customcell.subviews objectAtIndex:1];
+    
+    for (UIView *subview in content.subviews) {
+        
+        if ([subview isMemberOfClass:[UIButton class]] ) {
+            NSLog(@"UIButton set hidden to NO");
+            subview.hidden = YES;
+        }
+        
+        if ([subview isMemberOfClass:[UILabel class]] ) {
+            NSLog(@"UILabel set hidden to YES");
+            subview.hidden = NO;
+        }
 
 
+    }
+}
+
+-(void)doneFired:(id)sender{
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sender tag] inSection:0];
+
+    
+        NSMutableArray *discardedItems = [NSMutableArray array];
+        DoTask *item;
+        int i = 0;
+        for (item in self.arrayOfTasks) {
+            if (indexPath.row == i)
+                [discardedItems addObject:item];
+            i++;
+        }
+        [self.arrayOfTasks removeObjectsInArray:discardedItems];
+    
+
+    [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
+    [self.tableView reloadData];
+    
+}
 
 @end
