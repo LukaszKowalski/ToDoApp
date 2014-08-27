@@ -10,10 +10,12 @@
 #import "DataStore.h"
 #import "DoTask.h"
 
+
 @interface ToDoViewController ()
 
 @property (strong, nonatomic) FriendsViewController *friendsController;
 @property (strong, nonatomic) NSString *dataFilePath;
+
 
 
 @end
@@ -27,7 +29,9 @@
     // adding tableView
     
     [super viewDidLoad];
-    self.view.backgroundColor = [self randomColor];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
+    
     self.title = @"Add New Task";
     self.tableView = [[UITableView alloc] init];
     self.tableView.frame = CGRectMake(0, 75, 320, 410);
@@ -82,15 +86,20 @@
     
     // initArray
     
+    [self reloadTableView];
+    
+}
+
+- (void)reloadTableView{
     NSArray *array = [[DataStore sharedInstance] loadData:@"tasksArray"];
     if(array != nil) {
-    
+        
         self.arrayOfTasks = [array mutableCopy];
     }else{
         self.arrayOfTasks = [NSMutableArray new];
     }
     self.delegate = self;
-
+    [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -98,26 +107,20 @@
     return self.arrayOfTasks.count;
 }
 
-
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
     
     if (cell == nil) {
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
     
-//    [cell reset];
-    
     DoTask *task = [self.arrayOfTasks objectAtIndex:indexPath.row];
+    cell.viewController = self;
     cell.newestTask.backgroundColor = task.taskColor;
     cell.newestTask.text = [NSString stringWithFormat:@"%@", task.taskString];
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
-    [cell.done addTarget:self action:@selector(doneFired:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.no addTarget:self action:@selector(noFired:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.no setTitle:@"No" forState:UIControlStateNormal];
-    [cell.done setTitle:@"Done" forState:UIControlStateNormal];
-    [cell.done setTag:indexPath.row];
-    [cell.no setTag:indexPath.row];
+    cell.task = task;
     return cell;
 }
 
@@ -146,12 +149,8 @@
             NSLog(@"UILabel set hidden to YES");
             subview.hidden = YES;
         }
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-        
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
-
-    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,27 +158,13 @@
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
-}
-
-
--(void)addItem:(NSString *)item {
-    NSLog(@"%@", item);
-    DoTask *task = [DoTask new];
-    task.idNumber = [self getRandomId];
-    task.taskString = item;
-    task.taskColor = [self randomColor];
-    [self.arrayOfTasks addObject:task];
-    [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
-    [task debugDump];
-    
-    [self.tableView reloadData];
 }
 - (void)addTask:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
     self.friendsLists.hidden = YES;
     [self.addTaskTextField becomeFirstResponder];
     self.addTaskTextField.delegate = self;
+    
 }
 - (void)friendsButtonFired{
     
@@ -195,87 +180,14 @@
     
     NSString *newTask = textField.text;
    
+    [[DataStore sharedInstance] addTask:newTask];
     textField.text = @"";
-    [self.delegate addItem:newTask];
-    
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;
     self.friendsLists.hidden = NO;
-    
+    [self reloadTableView];
     
     return YES;
-}
--(NSString *)getRandomId
-{
-    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
-    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
-    CFRelease(newUniqueId);
-    return uuidString;
-}
--( UIColor *)randomColor{
-    CGFloat red = arc4random() % 255 / 255.0;
-    CGFloat blue = arc4random() % 255 / 255.0;
-    CGFloat green = arc4random() % 255 / 255.0;
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
-}
-
-//-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer
-//{
-//    
-//    NSMutableArray *discardedItems = [NSMutableArray array];
-//    DoTask *item;
-//    
-//
-//        CGPoint location = [recognizer locationInView:self.tableView];
-//        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-//    for (item in self.arrayOfTasks) {
-//        if (indexPath != 0)
-//            [discardedItems addObject:item];
-//    }
-//    
-//    [self.arrayOfTasks removeObjectsInArray:discardedItems];
-//}
--(void)noFired:(id)sender{
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sender tag] inSection:0];
-    UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
-    UIView *content = [customcell.subviews objectAtIndex:1];
-    
-    for (UIView *subview in content.subviews) {
-        
-        if ([subview isMemberOfClass:[UIButton class]] ) {
-            NSLog(@"UIButton set hidden to NO");
-            subview.hidden = YES;
-        }
-        
-        if ([subview isMemberOfClass:[UILabel class]] ) {
-            NSLog(@"UILabel set hidden to YES");
-            subview.hidden = NO;
-        }
-
-
-    }
-}
-
--(void)doneFired:(id)sender{
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sender tag] inSection:0];
-
-    
-        NSMutableArray *discardedItems = [NSMutableArray array];
-        DoTask *item;
-        int i = 0;
-        for (item in self.arrayOfTasks) {
-            if (indexPath.row == i)
-                [discardedItems addObject:item];
-            i++;
-        }
-        [self.arrayOfTasks removeObjectsInArray:discardedItems];
-    
-
-    [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
-    [self.tableView reloadData];
-    
 }
 
 @end

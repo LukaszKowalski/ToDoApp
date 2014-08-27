@@ -44,7 +44,7 @@
 }
 -(void)deleteTask:(DoTask *)task{
     
-        NSMutableArray *discardedItems = [NSMutableArray array];
+    NSMutableArray *discardedItems = [NSMutableArray array];
     
     DoTask *item;
     
@@ -55,6 +55,8 @@
     }
     [self.arrayOfTasks removeObjectsInArray:discardedItems];
     [self saveData:self.arrayOfTasks withKey:@"tasksArray"];
+    
+
 }
 -(void)addTask:(NSString *)item {
     
@@ -91,6 +93,7 @@
     CGFloat green = arc4random() % 255 / 255.0;
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
+
 
 
 @end

@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIButton *no;
 @property (nonatomic, strong) DoTask *task;
 @property (nonatomic, weak) ToDoViewController *viewController;
+@property (nonatomic, strong) UILabel *blinkLabel;
 
 
 @end

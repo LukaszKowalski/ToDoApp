@@ -20,12 +20,12 @@
         self.newestTask.textColor = [UIColor whiteColor];
         self.newestTask.font = [UIFont systemFontOfSize:26];
         [self.contentView addSubview:self.newestTask];
-        self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 160, 78))];
-        self.no = [[UIButton alloc] initWithFrame:(CGRectMake(160,0, 160, 78))];
+        self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 200, 78))];
+        self.no = [[UIButton alloc] initWithFrame:(CGRectMake(200,0, 120, 78))];
         self.done.titleLabel.text = @"Done";
-        self.done.backgroundColor = [UIColor greenColor];
+        self.done.backgroundColor  = [UIColor colorWithRed:49/255.0f green:151/255.0f blue:43/255.0f alpha:1.0f];
         self.no.titleLabel.text = @"No";
-        self.no.backgroundColor = [UIColor redColor];
+        self.no.backgroundColor =  [UIColor colorWithRed:227/255.0f green:4/255.0f blue:15/255.0f alpha:1.0f];
         self.done.hidden = YES;
         self.no.hidden = YES;
         
@@ -84,15 +84,42 @@
 
 -(void)doneFired:(id)sender{
     
-    [[DataStore sharedInstance] deleteTask:self.task];
-//    [self.viewController reloadTableView];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
-    self.done.hidden = YES;
-    self.no.hidden = YES;
-    self.newestTask.hidden = NO;
+
+    
+    [UITableViewCell animateWithDuration:0.2f
+                     animations:^
+     {
+         self.blinkLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 78)];
+         self.blinkLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+         self.blinkLabel.text = @"Task Done";
+         self.blinkLabel.textAlignment = NSTextAlignmentCenter;
+         self.blinkLabel.textColor = [UIColor whiteColor];
+         self.blinkLabel.font = [UIFont systemFontOfSize:26];
+         [self.contentView addSubview:self.blinkLabel];
+     }
+                     completion:^(BOOL finished)
+     {
+         [UITableViewCell animateWithDuration:1.0f
+                          animations:^
+          {
+              [self setBounds:CGRectMake(-320, 0, 320, 78)];
+          }
+                          completion:^(BOOL finished)
+          {
+              [[DataStore sharedInstance] deleteTask:self.task];
+              [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+              self.done.hidden = YES;
+              self.no.hidden = YES;
+              self.newestTask.hidden = NO;
+              self.blinkLabel.hidden = YES;
+              [self setBounds:CGRectMake(0, 0, 320, 78)];
+          }
+          ];
+     }
+     ];
+    
+    
+ 
 }
-
-
-
 
 @end
