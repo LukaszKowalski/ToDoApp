@@ -37,15 +37,16 @@
     self.tableView.frame = CGRectMake(0, 75, 320, 410);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc ] init];
     
-    // nav bar
-    
-    self.bar = [[UINavigationBar alloc] init];
-    [self.bar setFrame:CGRectMake(0, 20, 320, 44)];
-    self.bar.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:self.bar];
+//    // nav bar
+//    
+//    self.bar = [[UINavigationBar alloc] init];
+//    [self.bar setFrame:CGRectMake(0, 20, 320, 44)];
+//    self.bar.backgroundColor = [UIColor blackColor];
+//    [self.view addSubview:self.bar];
     
     // adding button
     
@@ -91,9 +92,9 @@
 }
 
 - (void)reloadTableView{
+    
     NSArray *array = [[DataStore sharedInstance] loadData:@"tasksArray"];
     if(array != nil) {
-        
         self.arrayOfTasks = [array mutableCopy];
     }else{
         self.arrayOfTasks = [NSMutableArray new];
@@ -181,6 +182,7 @@
     NSString *newTask = textField.text;
    
     [[DataStore sharedInstance] addTask:newTask];
+    NSLog(@"%d array of task count", self.arrayOfTasks.count);
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;

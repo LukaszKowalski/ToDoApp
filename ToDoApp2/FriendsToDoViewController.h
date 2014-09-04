@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "FriendsTableViewCell.h"
+#import "DataStore.h"
+#import "DoUser.h"
 
 @interface FriendsToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -20,6 +22,7 @@
 @property (strong, nonatomic) UINavigationBar *bar;
 @property (strong, nonatomic) NSString *titleName;
 @property (strong, nonatomic) UILabel *taskForFriend;
+@property (weak, nonatomic) DoUser *user;
 
 
 -(void)addItem:(NSString*)item;

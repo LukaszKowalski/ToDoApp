@@ -17,5 +17,6 @@
 @property (nonatomic, strong) NSString* userIdNumber;
 @property (nonatomic, strong) NSString* username;
 @property (nonatomic, strong) UIColor *userColor;
+@property (nonatomic, strong) NSMutableArray *arrayOfUserTasks;
 
 @end

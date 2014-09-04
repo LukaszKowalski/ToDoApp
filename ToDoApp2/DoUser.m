@@ -15,6 +15,7 @@
         self.userIdNumber = [decoder decodeObjectForKey:@"userIdNumber"];
         self.username = [decoder decodeObjectForKey:@"username"];
         self.userColor = [decoder decodeObjectForKey:@"userColor"];
+        self.arrayOfUserTasks = [decoder decodeObjectForKey:@"arrayOfUserTasks"];
     }
     return self;
 }
@@ -23,12 +24,14 @@
     [encoder encodeObject:self.userIdNumber forKey:@"userIdNumber"];
     [encoder encodeObject:self.username forKey:@"username"];
     [encoder encodeObject:self.userColor forKey:@"userColor"];
+    [encoder encodeObject:self.arrayOfUserTasks forKey:@"arrayOfUserTasks"];
 }
 
 -(void)debugDump
 {
     NSLog(@"User userIdNumber: %@",self.userIdNumber);
     NSLog(@"User username: %@",self.username);
+    NSLog(@"%d", self.arrayOfUserTasks.count);
 }
 
 @end

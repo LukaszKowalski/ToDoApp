@@ -25,7 +25,7 @@
     
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
-    self.title = @"Friend's lists";
+    self.title = @"Friends list";
     self.friendsTableView = [[UITableView alloc] init];
     self.friendsTableView.frame = CGRectMake(0, 75, 320, 400);
     self.friendsTableView.delegate = self;
@@ -85,6 +85,18 @@
     
 }
 
+- (void)reloadTableView{
+    
+    NSArray *array = [[DataStore sharedInstance] loadData:@"friendsArray"];
+    if(array != nil) {
+        self.arrayOfFriends = [array mutableCopy];
+    }else{
+        self.arrayOfFriends = [NSMutableArray new];
+    }
+    self.delegate = self;
+    [self.friendsTableView reloadData];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSLog(@"%d", self.arrayOfFriends.count);
     return self.arrayOfFriends.count;
@@ -98,11 +110,12 @@
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
     
-    
     DoUser *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
-    
     cell.newestFriend.backgroundColor = user.userColor;
     cell.newestFriend.text = [NSString stringWithFormat:@"%@", user.username];
+    
+    UILongPressGestureRecognizer* gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
+    [cell addGestureRecognizer:gestureRecognizer];
     
     return cell;
 }
@@ -121,9 +134,13 @@
     
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
-    friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.arrayOfFriends objectAtIndex:indexPath.row]];
-    [self.navigationController pushViewController:friendsToDoView animated:YES];
+    DoUser *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
     
+    friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [user username]];
+    friendsToDoView.user = user;
+    [self.navigationController pushViewController:friendsToDoView animated:YES];
+    [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
+
 }
 
 -(void)addItem:(NSString *)item {
@@ -135,7 +152,6 @@
     [self.arrayOfFriends addObject:user];
     [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
     [self.friendsTableView reloadData];
-    
 }
 - (void)addFriend:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
@@ -171,9 +187,14 @@
     CGFloat red = arc4random() % 255 / 255.0;
     CGFloat blue = arc4random() % 255 / 255.0;
     CGFloat green = arc4random() % 255 / 255.0;
+    NSLog(@"%f, %f, %f", red, blue, green );
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
-
+-(void)longPressed:(UILongPressGestureRecognizer *)sender{
+    NSLog(@"longPressed");
+    [[DataStore sharedInstance] deleteUser:[self.arrayOfFriends objectAtIndex:1]];
+    [self.friendsTableView reloadData];
+}
 
 
 

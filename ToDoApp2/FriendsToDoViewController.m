@@ -121,9 +121,10 @@
 
 -(void)addItem:(NSString *)item {
     NSLog(@"%@", item);
+    
+    
     [self.arrayOfFriendsTask addObject:item];
-    //    [self adjustHeightOfTableview];
-    //    [self friendsListsButtonHeight];
+//    [[DataStore sharedInstance] saveData:self.arrayOfFriendsTask withKey:@"%@ arrayOfFriendsTasks", self.user.userIdNumber];
     [self.tableView reloadData];
 }
 - (void)addTask:(UIButton *)sender {

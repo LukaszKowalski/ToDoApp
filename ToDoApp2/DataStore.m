@@ -32,6 +32,10 @@
     NSLog(@"loading data for keyString: %@",keyString);
     NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
     self.arrayOfTasks = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
+    if (self.arrayOfTasks == nil) {
+        self.arrayOfTasks = [NSMutableArray new];
+    }
+    
     return self.arrayOfTasks;
 }
 
@@ -58,10 +62,28 @@
     
 
 }
+-(void)deleteUser:(DoUser *)user{
+    
+    NSMutableArray *discardedItems = [NSMutableArray array];
+    
+    DoUser *item;
+    
+    for (item in self.arrayOfFriends) {
+        if ([item.username isEqualToString:user.username]){
+            NSLog(@"%@ - %@", item.username, user.username);
+            [discardedItems addObject:item];
+        }
+    }
+    [self.arrayOfFriends removeObjectsInArray:discardedItems];
+    [self saveData:self.arrayOfFriends withKey:@"friendsArray"];
+    
+    
+}
+
 -(void)addTask:(NSString *)item {
     
    
-    NSLog(@"%@", item);
+    NSLog(@"%@ item", item);
     DoTask *task = [DoTask new];
     task.idNumber = [self getRandomId];
     task.taskString = item;

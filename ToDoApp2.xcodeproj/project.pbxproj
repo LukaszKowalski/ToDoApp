@@ -179,10 +179,10 @@
 		C3DF846019A7451700701980 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */,
-				C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */,
 				C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */,
 				C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */,
+				C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */,
+				C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
