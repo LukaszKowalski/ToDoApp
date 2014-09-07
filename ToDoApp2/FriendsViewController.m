@@ -98,7 +98,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d", self.arrayOfFriends.count);
+    NSLog(@"%lu", (unsigned long)self.arrayOfFriends.count);
     return self.arrayOfFriends.count;
 
 }

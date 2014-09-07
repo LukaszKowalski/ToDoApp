@@ -7,19 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewTaskTableViewCell.h"
-#import "FriendsViewController.h"
 
-@interface ToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface ToDoViewController : UIViewController
 
-@property  (strong, nonatomic) ToDoViewController *delegate;
-@property (nonatomic, strong) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
-@property (strong, nonatomic) UIButton *addTaskButton;
-@property (strong, nonatomic) UITextField *addTaskTextField;
-@property (strong, nonatomic) UIButton *friendsLists;
-@property (strong, nonatomic) UINavigationBar *bar;
-
-- (void)reloadTableView;
 
 @end

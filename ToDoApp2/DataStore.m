@@ -90,7 +90,7 @@
     task.taskColor = [self randomColor];
     [self.arrayOfTasks addObject:task];
     [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
-    NSLog(@"%d array of task count", self.arrayOfTasks.count);
+    NSLog(@"%lu array of task count", (unsigned long)self.arrayOfTasks.count);
     [task debugDump];
     
 }

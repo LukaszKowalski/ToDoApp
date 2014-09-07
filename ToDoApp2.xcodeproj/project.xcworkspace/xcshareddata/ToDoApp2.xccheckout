@@ -12,22 +12,34 @@
 	<dict>
 		<key>05E748D1-E5A2-439B-8093-299D965BB402</key>
 		<string>ssh://github.com/LukaszKowalski/ToDoApp.git</string>
+		<key>88BACBBA4767D4FFE8A17F33F877291A09A361E9</key>
+		<string>https://github.com/LukaszKowalski/ToDoApp.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ToDoApp2.xcodeproj/project.xcworkspace</string>
+	<string>ToDoApp2.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>05E748D1-E5A2-439B-8093-299D965BB402</key>
+		<string>../../../ToDoApp2</string>
+		<key>88BACBBA4767D4FFE8A17F33F877291A09A361E9</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/LukaszKowalski/ToDoApp.git</string>
+	<string>https://github.com/LukaszKowalski/ToDoApp.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>05E748D1-E5A2-439B-8093-299D965BB402</string>
+	<string>88BACBBA4767D4FFE8A17F33F877291A09A361E9</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>88BACBBA4767D4FFE8A17F33F877291A09A361E9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ToDoApp</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

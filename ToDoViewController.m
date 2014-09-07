@@ -7,16 +7,26 @@
 //
 
 #import "ToDoViewController.h"
+#import "FriendsViewController.h"
+#import "NewTaskTableViewCell.h"
 #import "DataStore.h"
 #import "DoTask.h"
 
 
-@interface ToDoViewController ()
+@interface ToDoViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+
+- (void)reloadTableView;
+
+@property  (strong, nonatomic) ToDoViewController *delegate;
+@property (nonatomic, strong) UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
+@property (strong, nonatomic) UIButton *addTaskButton;
+@property (strong, nonatomic) UITextField *addTaskTextField;
+@property (strong, nonatomic) UIButton *friendsLists;
+@property (strong, nonatomic) UINavigationBar *bar;
 
 @property (strong, nonatomic) FriendsViewController *friendsController;
 @property (strong, nonatomic) NSString *dataFilePath;
-
-
 
 @end
 
@@ -91,20 +101,23 @@
     
 }
 
-- (void)reloadTableView{
-    
+- (void)reloadTableView
+{
     NSArray *array = [[DataStore sharedInstance] loadData:@"tasksArray"];
+    
     if(array != nil) {
         self.arrayOfTasks = [array mutableCopy];
-    }else{
+    }
+    else {
         self.arrayOfTasks = [NSMutableArray new];
     }
     self.delegate = self;
+    
     [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d", self.arrayOfTasks.count);
+    NSLog(@"%lu", (unsigned long)self.arrayOfTasks.count);
     return self.arrayOfTasks.count;
 }
 
@@ -135,7 +148,7 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    NSLog(@"%d", indexPath.row);
+    NSLog(@"%ld", (long)indexPath.row);
     UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
     UIView *content = [customcell.subviews objectAtIndex:1];
     
@@ -182,7 +195,7 @@
     NSString *newTask = textField.text;
    
     [[DataStore sharedInstance] addTask:newTask];
-    NSLog(@"%d array of task count", self.arrayOfTasks.count);
+    NSLog(@"%lu array of task count", (unsigned long)self.arrayOfTasks.count);
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;
