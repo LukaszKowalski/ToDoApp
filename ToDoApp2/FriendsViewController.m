@@ -105,8 +105,8 @@
     cell.newestFriend.text = [NSString stringWithFormat:@"%@", user.username];
     cell.user = user;
     
-    UILongPressGestureRecognizer* gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
-    [cell addGestureRecognizer:gestureRecognizer];
+//    UILongPressGestureRecognizer* gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
+//    [cell addGestureRecognizer:gestureRecognizer];
     
     return cell;
 }
@@ -176,13 +176,13 @@
     NSLog(@"%f, %f, %f", red, blue, green );
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
--(void)longPressed:(UILongPressGestureRecognizer *)sender{
-    NSLog(@"longPressed");
-    FriendsTableViewCell *cell = (FriendsTableViewCell *)sender.view;
-    DoUser *user = cell.user;
-    [[DataStore sharedInstance] deleteUser:user];
-    [self.friendsTableView reloadData];
-}
+//-(void)longPressed:(UILongPressGestureRecognizer *)sender{
+//    NSLog(@"longPressed");
+//    FriendsTableViewCell *cell = (FriendsTableViewCell *)sender.view;
+//    DoUser *user = cell.user;
+//    [[DataStore sharedInstance] deleteUser:user];
+//    [self.friendsTableView reloadData];
+//}
 
 
 
