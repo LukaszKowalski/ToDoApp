@@ -115,7 +115,7 @@
     
 }
 -(void)addTaskForUser:(DoUser *)user item:(NSString *)item
-{    
+{
     if ( user.arrayOfUserTasks == nil){
         user.arrayOfUserTasks = [NSMutableArray new];
     }
