@@ -78,7 +78,7 @@
     
     // initArray
     
-    [[DataStore sharedInstance] loadUserTasks:[NSString stringWithFormat:@"Data_%@", self.user.userIdNumber]];
+//    [[DataStore sharedInstance] loadUserTasks:[NSString stringWithFormat:@"Data_%@", self.user.userIdNumber]];
     self.delegate = self;
     
 }

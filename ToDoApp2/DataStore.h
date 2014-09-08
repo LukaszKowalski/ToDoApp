@@ -24,12 +24,12 @@
 -(void)addFriend:(NSString *)item;
 -(DoUser *)findFriendByID:(NSString *)idNumber;
 -(void)addTaskForUser:(DoUser *)user item:(NSString *)item;
--(void)loadUserTasks:(NSString *)keyString;
+//-(void)loadUserTasks:(NSString *)keyString;
 -(void)addUser:(NSString *)item;
 
-@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
-@property (strong, nonatomic) NSMutableArray *arrayOfFriends;
 @property (strong, nonatomic) NSMutableArray *arrayOfUsers;
+@property (strong, nonatomic) NSMutableArray *arrayOfFriends;
+@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
 
 
 

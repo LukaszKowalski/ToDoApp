@@ -10,13 +10,14 @@
 #import "DoTask.h"
 #import "DoUser.h"
 #import "DataStore.h"
+#import "LoginViewController.h"
 
 @implementation ToDoAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    ToDoViewController *viewController = [[ToDoViewController alloc] init];
+    LoginViewController *viewController = [[LoginViewController alloc] init];
     UINavigationController *navCon = [[UINavigationController alloc] init];
     
 //    [navCon pushViewController:friendsView animated:NO];
@@ -26,6 +27,10 @@
     NSLog(@"%d", navCon.viewControllers.count );
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    [Parse setApplicationId:@"PJt6c9KbdOPePbHoekH29GP0IdoAoUWvmzmcP0fJ"
+                  clientKey:@"A7Jfs6Fxa7z3S1UXlCk32dIzqtrECEWq3JJ6Eqfl"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     return YES;
 }

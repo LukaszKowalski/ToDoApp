@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ToDoViewController.h"
 #import "FriendsViewController.h"
+#import <Parse/Parse.h>
 
 @interface ToDoAppDelegate : UIResponder <UIApplicationDelegate>
 
