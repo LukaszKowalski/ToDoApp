@@ -20,13 +20,6 @@
     return sharedInstance;
 }
 
--(instancetype)init {
-    
-    if ( (self = [super init])) {
-    }
-    return self;
-}
-
 -(void)loadData:(NSString *)keyString
 {
     NSLog(@"loading data for keyString: %@",keyString);
@@ -48,25 +41,24 @@
     
 
 }
--(void)addUser:(NSString *)item{
-    
+-(void)addUser:(NSString *)item
+{
     DoUser *user = [DoUser new];
     user.userIdNumber = [self getRandomId];
     user.username = item;
     [self.arrayOfUsers addObject:user];
     [[DataStore sharedInstance] saveData:self.arrayOfUsers withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
-
 }
 
-//-(void)loadUserTasks:(NSString *)keyString
-//{
-//    NSLog(@"loading data for keyString: %@",keyString);
+-(void)loadUserTasks:(NSString *)keyString
+{
+    NSLog(@"loading data for keyString: %@",keyString);
 //    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
 //    self.user.arrayOfUserTasks = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
 //    if (self.arrayOfUserTasks == nil) {
 //        self.arrayOfFriends = [NSMutableArray new];
 //    }
-//}
+}
 
 -(void)addFriend:(NSString *)item{
     
@@ -122,32 +114,38 @@
     
     
 }
--(void)addTaskForUser:(DoUser *)user item:(NSString *)item{
-    
+-(void)addTaskForUser:(DoUser *)user item:(NSString *)item
+{
     if ( user.arrayOfUserTasks == nil){
         user.arrayOfUserTasks = [NSMutableArray new];
     }
+    
     [user.arrayOfUserTasks addObject:item];
     NSLog(@"%@ id John'a", user.userIdNumber);
-    NSLog(@"%d taski dla usera", user.arrayOfUserTasks.count);
+    NSLog(@"%lu taski dla usera", (unsigned long)user.arrayOfUserTasks.count);
     [[DataStore sharedInstance] saveData:user.arrayOfUserTasks withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
     
 }
--(void)addTask:(NSString *)item {
+
+-(void)addTask:(NSString *)taskString
+{
+    NSLog(@"%@ taskString", taskString);
     
-    NSLog(@"%@ item", item);
     DoTask *task = [DoTask new];
     task.idNumber = [self getRandomId];
-    task.taskString = item;
+    task.taskString = taskString;
     task.taskColor = [self randomColor];
     [self.arrayOfTasks addObject:task];
+    
     [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
-    NSLog(@"%d array of task count", self.arrayOfTasks.count);
+    
+    NSLog(@"%lu array of task count", (unsigned long)self.arrayOfTasks.count);
+    
     [task debugDump];
     
 }
--(DoTask *)findTaskByID:(NSString *)idNumber{
-   
+-(DoTask *)findTaskByID:(NSString *)idNumber
+{
     for (DoTask *task in self.arrayOfTasks){
         if ([task.idNumber isEqualToString:idNumber]){
             return task;
@@ -155,8 +153,8 @@
     }return nil;
 }
 
--(DoUser *)findFriendByID:(NSString *)idNumber{
-    
+-(DoUser *)findFriendByID:(NSString *)idNumber
+{
     for (DoUser *user in self.arrayOfFriends){
         if ([user.userIdNumber isEqualToString:idNumber]){
             return user;
@@ -171,6 +169,7 @@
     CFRelease(newUniqueId);
     return uuidString;
 }
+
 -(UIColor *)randomColor{
     CGFloat red = arc4random() % 255 / 255.0;
     CGFloat blue = arc4random() % 255 / 255.0;

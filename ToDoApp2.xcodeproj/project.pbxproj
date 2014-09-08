@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C6DD70219BE05DD00ED6BFB /* ToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6DD70119BE05DD00ED6BFB /* ToDoViewController.m */; };
 		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
 		C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */; };
 		C325E9EE19A68F0900668291 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9ED19A68F0900668291 /* DataStore.m */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C6DD70019BE05DD00ED6BFB /* ToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoViewController.h; sourceTree = "<group>"; };
+		6C6DD70119BE05DD00ED6BFB /* ToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoViewController.m; sourceTree = "<group>"; };
 		C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewCell.h; sourceTree = "<group>"; };
 		C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewCell.m; sourceTree = "<group>"; };
 		C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsToDoViewController.h; sourceTree = "<group>"; };
@@ -354,11 +357,11 @@
 			files = (
 				C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */,
 				C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */,
+				6C6DD70219BE05DD00ED6BFB /* ToDoViewController.m in Sources */,
 				C3C4FBDD198FC84100F36830 /* ToDoAppDelegate.m in Sources */,
 				C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */,
 				C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */,
 				C325E9EE19A68F0900668291 /* DataStore.m in Sources */,
-				C3C4FC06198FCA1C00F36830 /* ToDoViewController.m in Sources */,
 				C325E9F319A6961300668291 /* DoTask.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
 				C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */,

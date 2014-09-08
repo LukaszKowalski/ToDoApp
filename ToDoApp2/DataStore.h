@@ -10,18 +10,19 @@
 #import "DoTask.h"
 #import "DoUser.h"
 
-
 @interface DataStore : NSObject
 
- +(instancetype) sharedInstance;
++(instancetype)sharedInstance;
 
 -(void)loadData:(NSString *)keyString;
 -(void)saveData:(NSArray *)array withKey:(NSString *)keyString;
+
+-(void)addTask:(NSString *)taskString;
 -(void)deleteTask:(DoTask *)task;
--(void)addTask:(NSString *)item;
--(void)deleteUser:(DoUser *)user;
+
 -(void)loadFriends:(NSString *)keyString;
 -(void)addFriend:(NSString *)item;
+
 -(DoUser *)findFriendByID:(NSString *)idNumber;
 -(void)addTaskForUser:(DoUser *)user item:(NSString *)item;
 //-(void)loadUserTasks:(NSString *)keyString;
