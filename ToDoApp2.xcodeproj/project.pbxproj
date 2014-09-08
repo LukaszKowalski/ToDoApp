@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C6DD70219BE05DD00ED6BFB /* ToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C6DD70119BE05DD00ED6BFB /* ToDoViewController.m */; };
 		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
 		C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */; };
 		C325E9EE19A68F0900668291 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9ED19A68F0900668291 /* DataStore.m */; };
@@ -26,7 +27,6 @@
 		C3C4FBF0198FC84100F36830 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C3C4FBEE198FC84100F36830 /* InfoPlist.strings */; };
 		C3C4FBF2198FC84100F36830 /* ToDoApp2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */; };
 		C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */; };
-		C3C4FC06198FCA1C00F36830 /* ToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FC05198FCA1C00F36830 /* ToDoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C6DD70019BE05DD00ED6BFB /* ToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoViewController.h; sourceTree = "<group>"; };
+		6C6DD70119BE05DD00ED6BFB /* ToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoViewController.m; sourceTree = "<group>"; };
 		C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewCell.h; sourceTree = "<group>"; };
 		C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewCell.m; sourceTree = "<group>"; };
 		C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsToDoViewController.h; sourceTree = "<group>"; };
@@ -70,8 +72,6 @@
 		C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToDoApp2Tests.m; sourceTree = "<group>"; };
 		C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTaskTableViewCell.h; sourceTree = "<group>"; };
 		C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTaskTableViewCell.m; sourceTree = "<group>"; };
-		C3C4FC04198FCA1C00F36830 /* ToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToDoViewController.h; path = ../ToDoViewController.h; sourceTree = "<group>"; };
-		C3C4FC05198FCA1C00F36830 /* ToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ToDoViewController.m; path = ../ToDoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,8 +190,8 @@
 		C3DF846119A7453100701980 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C3C4FC04198FCA1C00F36830 /* ToDoViewController.h */,
-				C3C4FC05198FCA1C00F36830 /* ToDoViewController.m */,
+				6C6DD70019BE05DD00ED6BFB /* ToDoViewController.h */,
+				6C6DD70119BE05DD00ED6BFB /* ToDoViewController.m */,
 				C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */,
 				C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */,
 				C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */,
@@ -301,11 +301,11 @@
 			files = (
 				C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */,
 				C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */,
+				6C6DD70219BE05DD00ED6BFB /* ToDoViewController.m in Sources */,
 				C3C4FBDD198FC84100F36830 /* ToDoAppDelegate.m in Sources */,
 				C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */,
 				C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */,
 				C325E9EE19A68F0900668291 /* DataStore.m in Sources */,
-				C3C4FC06198FCA1C00F36830 /* ToDoViewController.m in Sources */,
 				C325E9F319A6961300668291 /* DoTask.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
 				C325E9F419A6961300668291 /* DoUser.m in Sources */,

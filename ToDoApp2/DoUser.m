@@ -31,7 +31,7 @@
 {
     NSLog(@"User userIdNumber: %@",self.userIdNumber);
     NSLog(@"User username: %@",self.username);
-    NSLog(@"%d", self.arrayOfUserTasks.count);
+    NSLog(@"%lu", (unsigned long)self.arrayOfUserTasks.count);
 }
 
 @end

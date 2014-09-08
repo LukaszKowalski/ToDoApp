@@ -24,7 +24,6 @@
 @property (strong, nonatomic) UILabel *taskForFriend;
 @property (weak, nonatomic) DoUser *user;
 
-
 -(void)addItem:(NSString*)item;
 
 @end

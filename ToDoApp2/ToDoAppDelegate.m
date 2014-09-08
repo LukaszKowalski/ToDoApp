@@ -23,7 +23,7 @@
     [navCon pushViewController:viewController animated:NO];
     
     self.window.rootViewController = navCon;
-    NSLog(@"%d", navCon.viewControllers.count );
+    NSLog(@"%lu", (unsigned long)navCon.viewControllers.count );
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     

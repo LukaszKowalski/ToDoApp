@@ -84,7 +84,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d", self.arrayOfFriendsTask.count);
+    NSLog(@"%lu", (unsigned long)self.arrayOfFriendsTask.count);
     return self.arrayOfFriendsTask.count;
 }
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

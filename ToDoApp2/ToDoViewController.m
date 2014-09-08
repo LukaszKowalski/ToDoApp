@@ -130,7 +130,7 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    NSLog(@"%d", indexPath.row);
+    NSLog(@"%ld", (long)indexPath.row);
     UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
     UIView *content = [customcell.subviews objectAtIndex:1];
     
