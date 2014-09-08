@@ -27,7 +27,7 @@
     return self;
 }
 
--(NSArray *)loadData:(NSString *)keyString
+-(void)loadData:(NSString *)keyString
 {
     NSLog(@"loading data for keyString: %@",keyString);
     NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
@@ -36,16 +36,59 @@
         self.arrayOfTasks = [NSMutableArray new];
     }
     
-    return self.arrayOfTasks;
+}
+-(void)loadFriends:(NSString *)keyString
+{
+    NSLog(@"loading data for keyString: %@",keyString);
+    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
+    self.arrayOfFriends = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
+    if (self.arrayOfFriends == nil) {
+        self.arrayOfFriends = [NSMutableArray new];
+    }
+    
+
+}
+-(void)addUser:(NSString *)item{
+    
+    DoUser *user = [DoUser new];
+    user.userIdNumber = [self getRandomId];
+    user.username = item;
+    [self.arrayOfUsers addObject:user];
+    [[DataStore sharedInstance] saveData:self.arrayOfUsers withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
+
+}
+
+//-(void)loadUserTasks:(NSString *)keyString
+//{
+//    NSLog(@"loading data for keyString: %@",keyString);
+//    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
+//    self.user.arrayOfUserTasks = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
+//    if (self.arrayOfUserTasks == nil) {
+//        self.arrayOfFriends = [NSMutableArray new];
+//    }
+//}
+
+-(void)addFriend:(NSString *)item{
+    
+    NSLog(@"%@ item", item);
+    DoUser *user = [DoUser new];
+    user.userIdNumber = [self getRandomId];
+    user.username = item;
+    user.userColor = [self randomColor];
+    [self.arrayOfFriends addObject:user];
+    [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
+
 }
 
 -(void)saveData:(NSArray *)array withKey:(NSString *)keyString
+
 {
     NSLog(@"saving data");
     NSData *encodedArray = [NSKeyedArchiver archivedDataWithRootObject:array];
     [[NSUserDefaults standardUserDefaults] setObject:encodedArray forKey:keyString];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 -(void)deleteTask:(DoTask *)task{
     
     NSMutableArray *discardedItems = [NSMutableArray array];
@@ -79,10 +122,19 @@
     
     
 }
-
+-(void)addTaskForUser:(DoUser *)user item:(NSString *)item{
+    
+    if ( user.arrayOfUserTasks == nil){
+        user.arrayOfUserTasks = [NSMutableArray new];
+    }
+    [user.arrayOfUserTasks addObject:item];
+    NSLog(@"%@ id John'a", user.userIdNumber);
+    NSLog(@"%d taski dla usera", user.arrayOfUserTasks.count);
+    [[DataStore sharedInstance] saveData:user.arrayOfUserTasks withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
+    
+}
 -(void)addTask:(NSString *)item {
     
-   
     NSLog(@"%@ item", item);
     DoTask *task = [DoTask new];
     task.idNumber = [self getRandomId];
@@ -99,6 +151,15 @@
     for (DoTask *task in self.arrayOfTasks){
         if ([task.idNumber isEqualToString:idNumber]){
             return task;
+        }
+    }return nil;
+}
+
+-(DoUser *)findFriendByID:(NSString *)idNumber{
+    
+    for (DoUser *user in self.arrayOfFriends){
+        if ([user.userIdNumber isEqualToString:idNumber]){
+            return user;
         }
     }return nil;
 }

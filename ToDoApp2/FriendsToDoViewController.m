@@ -78,7 +78,7 @@
     
     // initArray
     
-    self.arrayOfFriendsTask = [[NSMutableArray alloc] init];
+    [[DataStore sharedInstance] loadUserTasks:[NSString stringWithFormat:@"Data_%@", self.user.userIdNumber]];
     self.delegate = self;
     
 }
@@ -120,22 +120,23 @@
 }
 
 -(void)addItem:(NSString *)item {
-    NSLog(@"%@", item);
     
-    
-    [self.arrayOfFriendsTask addObject:item];
-//    [[DataStore sharedInstance] saveData:self.arrayOfFriendsTask withKey:@"%@ arrayOfFriendsTasks", self.user.userIdNumber];
+    [[DataStore sharedInstance] addTaskForUser:self.user item:item];
     [self.tableView reloadData];
+    
 }
 - (void)addTask:(UIButton *)sender {
+    
     self.addTaskTextField.hidden = NO;
     self.friendsLists.hidden = YES;
     [self.addTaskTextField becomeFirstResponder];
     self.addTaskTextField.delegate = self;
+    
 }
 - (void)friendsButtonFired{
     
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

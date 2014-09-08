@@ -93,19 +93,14 @@
 
 - (void)reloadTableView{
     
-    NSArray *array = [[DataStore sharedInstance] loadData:@"tasksArray"];
-    if(array != nil) {
-        self.arrayOfTasks = [array mutableCopy];
-    }else{
-        self.arrayOfTasks = [NSMutableArray new];
-    }
+    [[DataStore sharedInstance] loadData:@"tasksArray"];
     self.delegate = self;
     [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d", self.arrayOfTasks.count);
-    return self.arrayOfTasks.count;
+
+    return [[[DataStore sharedInstance] arrayOfTasks] count];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -116,7 +111,7 @@
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
     
-    DoTask *task = [self.arrayOfTasks objectAtIndex:indexPath.row];
+    DoTask *task = [[[DataStore sharedInstance] arrayOfTasks] objectAtIndex:indexPath.row];
     cell.viewController = self;
     cell.newestTask.backgroundColor = task.taskColor;
     cell.newestTask.text = [NSString stringWithFormat:@"%@", task.taskString];
@@ -182,7 +177,6 @@
     NSString *newTask = textField.text;
    
     [[DataStore sharedInstance] addTask:newTask];
-    NSLog(@"%d array of task count", self.arrayOfTasks.count);
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;

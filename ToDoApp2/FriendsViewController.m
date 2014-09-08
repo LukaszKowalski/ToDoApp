@@ -73,33 +73,23 @@
     
     // initArray
     
-    NSArray *array = [[DataStore sharedInstance] loadData:@"friendsArray"];
-    if(array != nil) {
-        
-        self.arrayOfFriends = [array mutableCopy];
-    }else{
-        self.arrayOfFriends = [NSMutableArray new];
-    }
+    [[DataStore sharedInstance] loadFriends:@"friendsArray"];
+
     self.delegate = self;
-        
+    
+
     
 }
 
 - (void)reloadTableView{
     
-    NSArray *array = [[DataStore sharedInstance] loadData:@"friendsArray"];
-    if(array != nil) {
-        self.arrayOfFriends = [array mutableCopy];
-    }else{
-        self.arrayOfFriends = [NSMutableArray new];
-    }
+    [[DataStore sharedInstance] loadData:@"friendsArray"];
     self.delegate = self;
     [self.friendsTableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%d", self.arrayOfFriends.count);
-    return self.arrayOfFriends.count;
+    return [[[DataStore sharedInstance] arrayOfFriends] count];
 
 }
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -110,9 +100,10 @@
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
     
-    DoUser *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
+    DoUser *user = [[[DataStore sharedInstance] arrayOfFriends] objectAtIndex:indexPath.row];
     cell.newestFriend.backgroundColor = user.userColor;
     cell.newestFriend.text = [NSString stringWithFormat:@"%@", user.username];
+    cell.user = user;
     
     UILongPressGestureRecognizer* gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
     [cell addGestureRecognizer:gestureRecognizer];
@@ -134,7 +125,7 @@
     
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
-    DoUser *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
+    DoUser *user = [[[DataStore sharedInstance] arrayOfFriends] objectAtIndex:indexPath.row];
     
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [user username]];
     friendsToDoView.user = user;
@@ -144,13 +135,8 @@
 }
 
 -(void)addItem:(NSString *)item {
-    NSLog(@"%@", item);
-    DoUser *user = [DoUser new];
-    user.userIdNumber = [self getRandomId];
-    user.username = item;
-    user.userColor = [self randomColor];
-    [self.arrayOfFriends addObject:user];
-    [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
+    [[DataStore sharedInstance] addUser:item];
+    [[DataStore sharedInstance] addFriend:item];
     [self.friendsTableView reloadData];
 }
 - (void)addFriend:(UIButton *)sender {
@@ -192,7 +178,9 @@
 }
 -(void)longPressed:(UILongPressGestureRecognizer *)sender{
     NSLog(@"longPressed");
-    [[DataStore sharedInstance] deleteUser:[self.arrayOfFriends objectAtIndex:1]];
+    FriendsTableViewCell *cell = (FriendsTableViewCell *)sender.view;
+    DoUser *user = cell.user;
+    [[DataStore sharedInstance] deleteUser:user];
     [self.friendsTableView reloadData];
 }
 

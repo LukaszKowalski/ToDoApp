@@ -12,6 +12,7 @@
 @interface FriendsTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *newestFriend;
+@property (nonatomic, strong) DoUser *user;
 
 
 @end
