@@ -10,6 +10,9 @@
 
 @interface LoginViewController ()
 
+@property (nonatomic, strong) ToDoViewController *toDo;
+@property (nonatomic, strong) SignUpViewController *signUp;
+
 @end
 
 @implementation LoginViewController
@@ -17,22 +20,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-    testObject[@"foo"] = @"bar";
-    [testObject saveInBackground];
     
     self.getLogin = [[UITextField alloc] init];
     self.getPassword = [[UITextField alloc] init];
     self.loginText = [[UILabel alloc] init];
     self.passwordText = [[UILabel alloc] init];
-    self.createAccount = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
-    [self.createAccount setTitle:@"Create Account" forState:UIControlStateNormal];
-    [self.createAccount setBackgroundColor:[UIColor grayColor]];
+    self.signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
+    [self.signUpButton setTitle:@"Create Account" forState:UIControlStateNormal];
+    [self.signUpButton setBackgroundColor:[UIColor grayColor]];
+    [self.signUpButton addTarget:self action:@selector(createUserAccount) forControlEvents:UIControlEventTouchUpInside];
     
     self.login = [[UIButton alloc] initWithFrame:CGRectMake(120, 280, 100, 40)];
     
     [self.login setTitle:@"Login" forState:UIControlStateNormal];
     [self.login setBackgroundColor:[UIColor grayColor]];
+    [self.login addTarget:self action:@selector(loginFired:) forControlEvents:UIControlEventTouchUpInside];
     
     
     self.getLogin.frame = CGRectMake(100, 150, 200, 50);
@@ -52,6 +54,7 @@
     self.getPassword.layer.masksToBounds=YES;
     self.getPassword.layer.borderColor=[[UIColor redColor]CGColor];
     self.getPassword.layer.borderWidth= 1.0f;
+    self.getPassword.secureTextEntry=YES;
 
     
     
@@ -59,7 +62,7 @@
     [self.view addSubview:self.getPassword];
     [self.view addSubview:self.loginText];
     [self.view addSubview:self.passwordText];
-    [self.view addSubview:self.createAccount];
+    [self.view addSubview:self.signUpButton];
     [self.view addSubview:self.login];
     
     }
@@ -68,5 +71,25 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)createUserAccount{
+    
+    self.signUp = [[SignUpViewController alloc] init];
+    [self.navigationController pushViewController:self.signUp animated:YES];
+}
+- (void)loginFired:(id)sender{
+    [PFUser logInWithUsernameInBackground:self.getLogin.text password:self.getPassword.text block:^(PFUser *user, NSError *error) {
+        if (user) {
+            //Open the wall
+             self.toDo = [[ToDoViewController alloc] init];
+             [self.navigationController pushViewController:self.toDo animated:YES];
+            
+        } else {
+            //Something bad has ocurred
+            NSString *errorString = [[error userInfo] objectForKey:@"error"];
+            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [errorAlertView show];
+        }
+    }];
+}
 
 @end

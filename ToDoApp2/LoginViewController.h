@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
+#import "SignUpViewController.h"
+#import "ToDoViewController.h"
 
 @interface LoginViewController : UIViewController
 
 @property (strong, nonatomic) UITextField *getLogin;
 @property (strong, nonatomic) UITextField *getPassword;
 @property (strong, nonatomic) UIButton *login;
-@property (strong, nonatomic) UIButton *createAccount;
+@property (strong, nonatomic) UIButton *signUpButton;
 @property (strong, nonatomic) UILabel *loginText;
 @property (strong, nonatomic) UILabel *passwordText; 
 
