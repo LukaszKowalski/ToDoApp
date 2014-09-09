@@ -14,7 +14,9 @@
 
 @property (strong, nonatomic) UITextField *getLogin;
 @property (strong, nonatomic) UITextField *getPassword;
+@property (strong, nonatomic) UITextField *getEmail;
 @property (strong, nonatomic) UIButton *createAccount;
+@property (strong, nonatomic) UILabel *signUpLabel;
 
 
 
