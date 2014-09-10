@@ -88,6 +88,7 @@
     //2
     user.username = self.getLogin.text;
     user.password = self.getPassword.text;
+    user.email = self.getEmail.text;
     //3
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {

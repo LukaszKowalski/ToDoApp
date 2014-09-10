@@ -63,6 +63,15 @@
     [self.view addSubview:self.login];
     
     }
+- (void)viewDidAppear:(BOOL)animated{
+    PFUser *user = [PFUser currentUser];
+    
+    if (user.username == nil) {
+        NSLog(@"%@", user.username);
+    }else{
+        [self.navigationController pushViewController:self.toDo animated:YES];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -77,6 +86,7 @@
     [PFUser logInWithUsernameInBackground:self.getLogin.text password:self.getPassword.text block:^(PFUser *user, NSError *error) {
         if (user) {
             //Open the wall
+            user = [PFUser currentUser];
              self.toDo = [[ToDoViewController alloc] init];
              [self.navigationController pushViewController:self.toDo animated:YES];
             

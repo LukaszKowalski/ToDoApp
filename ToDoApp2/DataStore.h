@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DoTask.h"
 #import "DoUser.h"
+#import <Parse/Parse.h>
 
 @interface DataStore : NSObject
 

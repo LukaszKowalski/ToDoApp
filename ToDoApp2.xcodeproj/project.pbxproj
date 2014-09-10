@@ -137,6 +137,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C37D37F419C07ECC00CEAC31 /* Login and SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				C3DBD5D919BDC35A000F4EB0 /* LoginViewController.h */,
+				C3DBD5DA19BDC35A000F4EB0 /* LoginViewController.m */,
+				C37D37F119BF02B500CEAC31 /* SignUpViewController.h */,
+				C37D37F219BF02B500CEAC31 /* SignUpViewController.m */,
+			);
+			name = "Login and SignUp";
+			sourceTree = "<group>";
+		};
 		C3C4FBC0198FC84100F36830 = {
 			isa = PBXGroup;
 			children = (
@@ -240,12 +251,9 @@
 		C3DF846119A7453100701980 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C37D37F419C07ECC00CEAC31 /* Login and SignUp */,
 				C3D1D97519BE2E8F00120D55 /* ToDoViewController.h */,
 				C3D1D97619BE2E8F00120D55 /* ToDoViewController.m */,
-				C3DBD5D919BDC35A000F4EB0 /* LoginViewController.h */,
-				C3DBD5DA19BDC35A000F4EB0 /* LoginViewController.m */,
-				C37D37F119BF02B500CEAC31 /* SignUpViewController.h */,
-				C37D37F219BF02B500CEAC31 /* SignUpViewController.m */,
 				C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */,
 				C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */,
 				C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */,

@@ -79,6 +79,7 @@
     NSData *encodedArray = [NSKeyedArchiver archivedDataWithRootObject:array];
     [[NSUserDefaults standardUserDefaults] setObject:encodedArray forKey:keyString];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 -(void)deleteTask:(DoTask *)task{
