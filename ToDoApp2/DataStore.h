@@ -31,7 +31,7 @@
 
 @property (strong, nonatomic) NSMutableArray *arrayOfUsers;
 @property (strong, nonatomic) NSMutableArray *arrayOfFriends;
-@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
+ @property (strong, nonatomic) NSMutableArray *arrayOfTasks;
 
 
 
