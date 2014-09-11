@@ -64,13 +64,16 @@
     
     }
 - (void)viewDidAppear:(BOOL)animated{
-    PFUser *user = [PFUser currentUser];
-    
-    if (user.username == nil) {
-        NSLog(@"%@", user.username);
-    }else{
-        [self.navigationController pushViewController:self.toDo animated:YES];
-    }
+        if ([NSUserDefaults standardUserDefaults]) {
+            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
+                                            block:^(PFUser *user, NSError *error) {
+                if (user) {
+                    
+                    self.toDo = [[ToDoViewController alloc] init];
+                    [self.navigationController pushViewController:self.toDo animated:YES];
+                }}];
+        }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,7 +89,8 @@
     [PFUser logInWithUsernameInBackground:self.getLogin.text password:self.getPassword.text block:^(PFUser *user, NSError *error) {
         if (user) {
             //Open the wall
-            user = [PFUser currentUser];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getLogin.text] forKey:@"username"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getPassword.text] forKey:@"password"];
              self.toDo = [[ToDoViewController alloc] init];
              [self.navigationController pushViewController:self.toDo animated:YES];
             

@@ -9,7 +9,7 @@
 #import "ToDoViewController.h"
 #import "DataStore.h"
 #import "DoTask.h"
-
+#import "ParseStore.h"
 
 @interface ToDoViewController ()
 
@@ -182,6 +182,7 @@
     self.addTaskTextField.hidden = YES;
     self.friendsLists.hidden = NO;
     [self reloadTableView];
+    [[ParseStore sharedInstance] addTask:newTask];
     
     return YES;
 }
