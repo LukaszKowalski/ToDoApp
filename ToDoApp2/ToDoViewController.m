@@ -94,6 +94,7 @@
 - (void)reloadTableView{
     
     [[DataStore sharedInstance] loadData:@"tasksArray"];
+    [[ParseStore sharedInstance] loadTasks];
     self.delegate = self;
     [self.tableView reloadData];
 }

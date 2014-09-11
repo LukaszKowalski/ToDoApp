@@ -20,9 +20,12 @@
 }
 
 -(void)addTask:(NSString *)taskString{
-
+    
+    PFUser *user = [PFUser currentUser];
+    
     PFObject *task = [PFObject objectWithClassName:@"Tasks"];
     task[@"taskString"] = taskString;
+    task[@"taskUsernameId"] = user.objectId;
     [task saveInBackground];
     
 }
@@ -37,6 +40,18 @@
 
 -(void)deleteFriend:(NSString *)username{
     
+}
+- (void)loadTasks{
+    PFUser *user = [PFUser currentUser];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %d task.", objects.count);
+            }
+    }];
 }
 
 @end
