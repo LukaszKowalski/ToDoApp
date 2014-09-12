@@ -15,7 +15,7 @@
         self.userIdNumber = [decoder decodeObjectForKey:@"userIdName"];
         self.idNumber = [decoder decodeObjectForKey:@"IdNumber"];
         self.taskString = [decoder decodeObjectForKey:@"taskString"];
-        self.taskColor = [decoder decodeObjectForKey:@"taskColor"];
+//        self.taskColor = [decoder decodeObjectForKey:@"taskColor"];
     }
     return self;
 }
@@ -24,7 +24,7 @@
     [encoder encodeObject:self.userIdNumber forKey:@"userIdName"];
     [encoder encodeObject:self.idNumber forKey:@"IdNumber"];
     [encoder encodeObject:self.taskString forKey:@"taskString"];
-    [encoder encodeObject:self.taskColor forKey:@"taskColor"];
+//    [encoder encodeObject:self.taskColor forKey:@"taskColor"];
 }
 
 -(void)debugDump
@@ -32,7 +32,7 @@
     NSLog(@"Task IdNumber: %@",self.idNumber);
     NSLog(@"Task userIdNumber: %@",self.userIdNumber);
     NSLog(@"Task taskString: %@",self.taskString);
-    NSLog(@"Task color: %@", self.taskColor);
+//    NSLog(@"Task color: %@", self.taskColor);
 }
 
 @end

@@ -18,7 +18,7 @@
         
         self.newestTask = [[UILabel alloc] init];
         self.newestTask.frame = CGRectMake(0, 0, 320, 78);
-        self.newestTask.textColor = [UIColor whiteColor];
+        self.newestTask.textColor = [UIColor orangeColor];
         self.newestTask.font = [UIFont systemFontOfSize:26];
         [self.contentView addSubview:self.newestTask];
         self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 200, 78))];

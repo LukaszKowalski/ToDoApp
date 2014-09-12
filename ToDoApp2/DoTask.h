@@ -15,6 +15,6 @@
 @property (nonatomic, strong) NSString *idNumber;
 @property (nonatomic, strong) NSString *userIdNumber;
 @property (nonatomic, strong) NSString *taskString;
-@property (nonatomic, strong) UIColor *taskColor;
+//@property (nonatomic, strong) UIColor *taskColor;
 
 @end

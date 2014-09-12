@@ -95,7 +95,7 @@
 
 - (void)reloadTableView{
     
-    [[DataStore sharedInstance] loadData:@"tasksArray"];
+//    [[DataStore sharedInstance] loadData:@"tasksArray"];
     [[ParseStore sharedInstance] loadTasks:self];
     self.delegate = self;
     [self.tableView reloadData];
@@ -105,11 +105,13 @@
     self.arrayOfParseTasks = array;
     [self.tableView reloadData];
     NSLog(@"ArrayOfParseTasks has %d tasks", self.arrayOfParseTasks.count);
+    NSLog(@"%@", [self.arrayOfParseTasks objectAtIndex:0]);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return [[[DataStore sharedInstance] arrayOfTasks] count];
+//    return [[[DataStore sharedInstance] arrayOfTasks] count];
+    return [self.arrayOfParseTasks count];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -120,10 +122,14 @@
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
     
-    DoTask *task = [[[DataStore sharedInstance] arrayOfTasks] objectAtIndex:indexPath.row];
+    PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
+//    DoTask *task = [[[DataStore sharedInstance] arrayOfTasks] objectAtIndex:indexPath.row];
     cell.viewController = self;
-    cell.newestTask.backgroundColor = task.taskColor;
-    cell.newestTask.text = [NSString stringWithFormat:@"%@", task.taskString];
+//    cell.newestTask.backgroundColor = task.taskColor;
+
+    cell.newestTask.text =  [task objectForKey:@"taskString"];
+    NSLog(@"%@", cell.newestTask.text);
+
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
     cell.task = task;
     return cell;
@@ -185,14 +191,13 @@
     
     NSString *newTask = textField.text;
    
-    [[DataStore sharedInstance] addTask:newTask];
+//    [[DataStore sharedInstance] addTask:newTask];
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;
     self.friendsLists.hidden = NO;
-    [self reloadTableView];
     [[ParseStore sharedInstance] addTask:newTask];
-    
+    [self reloadTableView];
     return YES;
 }
 

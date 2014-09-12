@@ -135,7 +135,7 @@
     DoTask *task = [DoTask new];
     task.idNumber = [self getRandomId];
     task.taskString = taskString;
-    task.taskColor = [self randomColor];
+//    task.taskColor = [self randomColor];
     [self.arrayOfTasks addObject:task];
     
     [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
