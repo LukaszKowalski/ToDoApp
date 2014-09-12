@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
     self.view.backgroundColor = [UIColor orangeColor];
     self.signUpLabel = [[UILabel alloc] init];
     self.getLogin = [[UITextField alloc] init];
@@ -28,43 +29,72 @@
     
     self.createAccount = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
     [self.createAccount setTitle:@"Create Account" forState:UIControlStateNormal];
-    [self.createAccount setBackgroundColor:[UIColor grayColor]];
+    [self.createAccount setBackgroundColor:[UIColor whiteColor]];
     [self.createAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
+    [self.createAccount setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [self.createAccount setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
     
     
     self.getLogin.frame = CGRectMake(70, 150, 200, 50);
     self.getPassword.frame  = CGRectMake(70, 205, 200, 50);
     self.getEmail.frame = CGRectMake(70, 260, 200, 50);
     
+    // textfields
+    
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    self.getLogin.leftView = paddingView;
+    self.getLogin.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIView *paddingViewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    self.getPassword.leftView = paddingViewOne;
+    self.getPassword.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIView *paddingViewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    self.getEmail.leftView = paddingViewTwo;
+    self.getEmail.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIColor *color= [UIColor whiteColor];
+    
+    
     // Login TextField
     
     self.getLogin.layer.cornerRadius=8.0f;
     self.getLogin.layer.masksToBounds=YES;
-    self.getLogin.layer.borderColor=[[UIColor grayColor]CGColor];
-    self.getLogin.layer.borderWidth= 1.0f;
-    self.getLogin.placeholder = @"  Enter your Username";
+    self.getLogin.layer.borderColor=[[UIColor whiteColor]CGColor];
+    self.getLogin.layer.borderWidth= 2.5f;
+    self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Login" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getLogin.textColor = [UIColor whiteColor];
+
     
     // Password TextField
     
     self.getPassword.layer.cornerRadius=8.0f;
     self.getPassword.layer.masksToBounds=YES;
-    self.getPassword.layer.borderColor=[[UIColor grayColor]CGColor];
-    self.getPassword.layer.borderWidth= 1.0f;
+    self.getPassword.layer.borderColor=[[UIColor whiteColor]CGColor];
+    self.getPassword.layer.borderWidth= 2.5f;
     self.getPassword.secureTextEntry = YES;
-    self.getPassword.placeholder = @"  Enter your Password";
-    self.getEmail.placeholder = @"  Enter your E-mail";
-    
-    // Email TextField
+    self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Password" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getPassword.textColor = [UIColor whiteColor];
+
+        // Email TextField
     
     self.getEmail.layer.cornerRadius=8.0f;
     self.getEmail.layer.masksToBounds=YES;
-    self.getEmail.layer.borderColor=[[UIColor grayColor]CGColor];
-    self.getEmail.layer.borderWidth= 1.0f;
+    self.getEmail.layer.borderColor=[[UIColor whiteColor]CGColor];
+    self.getEmail.layer.borderWidth= 2.5f;
+    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Email" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getEmail.textColor = [UIColor whiteColor];
+
     
     // Label
     
-    self.signUpLabel.text = @"Create Your Account";
-    self.signUpLabel.frame = CGRectMake(70, 100, 200, 50);
+    self.signUpLabel.text = @"Create Your \"Do\" Account";
+    self.signUpLabel.frame = CGRectMake(15, 100, 300, 50);
+    
+    self.signUpLabel.textColor = [UIColor whiteColor];
+    self.signUpLabel.font = [UIFont systemFontOfSize:25];
+    self.signUpLabel.textAlignment = NSTextAlignmentCenter;
+    
     
     [self.view addSubview:self.getLogin];
     [self.view addSubview:self.getPassword];

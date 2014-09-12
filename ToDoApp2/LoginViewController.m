@@ -31,7 +31,7 @@
     [self.signUpButton addTarget:self action:@selector(createUserAccount) forControlEvents:UIControlEventTouchUpInside];
     [self.signUpButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [self.signUpButton setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
-    [self.signUpButton setTitleColor:[UIColor greenColor] forState:UIControlStateSelected];
+    
     
     self.login = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
     [self.login setTitle:@"Login" forState:UIControlStateNormal];
@@ -39,7 +39,7 @@
     [self.login addTarget:self action:@selector(loginFired:) forControlEvents:UIControlEventTouchUpInside];
     [self.login setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [self.login setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
-    [self.login setTitleColor:[UIColor greenColor] forState:UIControlStateSelected];
+    
     
     // UITextFields
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
