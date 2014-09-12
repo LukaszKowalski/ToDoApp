@@ -44,7 +44,7 @@
 - (void)loadTasks:(ToDoViewController *)delegate{
     PFUser *user = [PFUser currentUser];
     
-    __block NSMutableArray *arrayOfTasks = [NSMutableArray new];
+    __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
@@ -53,17 +53,17 @@
             NSLog(@"Successfully retrieved %d task.", objects.count);
             
             for (id object in objects) {
-                [arrayOfTasks addObject:object];
+                [arrayOfParseTasks addObject:object];
             }
             
             dispatch_async(dispatch_get_main_queue(),^{
-                [delegate loadArrayOfTasks:arrayOfTasks];
+                [delegate loadArrayOfTasks:arrayOfParseTasks];
             });
             
             
             }
     }];
-    NSLog(@"tasks outside the block: %d", arrayOfTasks.count);
+    NSLog(@"tasks outside the block: %d", arrayOfParseTasks.count);
 }
 
 @end

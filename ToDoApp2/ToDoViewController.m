@@ -102,9 +102,9 @@
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
-    self.arrayOfTasks = array;
+    self.arrayOfParseTasks = array;
     [self.tableView reloadData];
-    NSLog(@"ArrayOfParseTasks has %d tasks", self.arrayOfTasks.count); 
+    NSLog(@"ArrayOfParseTasks has %d tasks", self.arrayOfParseTasks.count);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

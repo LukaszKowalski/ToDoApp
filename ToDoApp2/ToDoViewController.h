@@ -14,7 +14,7 @@
 
 @property  (strong, nonatomic) ToDoViewController *delegate;
 @property (nonatomic, strong) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
+@property (strong, nonatomic) NSMutableArray *arrayOfParseTasks;
 @property (strong, nonatomic) UIButton *addTaskButton;
 @property (strong, nonatomic) UITextField *addTaskTextField;
 @property (strong, nonatomic) UIButton *friendsLists;
