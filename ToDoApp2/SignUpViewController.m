@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
+    self.view.backgroundColor = [UIColor orangeColor];
     self.signUpLabel = [[UILabel alloc] init];
     self.getLogin = [[UITextField alloc] init];
     self.getPassword = [[UITextField alloc] init];

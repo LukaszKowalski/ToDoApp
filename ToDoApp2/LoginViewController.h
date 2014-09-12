@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UITextField *getPassword;
 @property (strong, nonatomic) UIButton *login;
 @property (strong, nonatomic) UIButton *signUpButton;
+@property (strong, nonatomic) UILabel *doSign;
 
 
 

@@ -32,7 +32,8 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
     
-    self.title = @"Add New Task";
+    //self.navigationItem.hidesBackButton = YES;
+    self.title = @"My \"Do\" list";
     self.tableView = [[UITableView alloc] init];
     self.tableView.frame = CGRectMake(0, 75, 320, 410);
     self.tableView.delegate = self;
@@ -64,7 +65,8 @@
     
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
     self.friendsLists.frame = CGRectMake(159, 64, 161, 75);
-    [self.friendsLists setTitle:@"Friend's lists" forState:UIControlStateNormal];
+    [self.friendsLists setTitle:@"Friends list" forState:UIControlStateNormal];
+    self.friendsLists.titleLabel.font = [UIFont systemFontOfSize:25];
     self.friendsLists.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
@@ -73,7 +75,7 @@
     
     [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
     self.addTaskButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
-    self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:40];
+    self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:45];
     
     // conf textfield
     

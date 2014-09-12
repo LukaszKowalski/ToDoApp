@@ -44,6 +44,8 @@
 - (void)loadTasks{
     PFUser *user = [PFUser currentUser];
     
+    __block NSMutableArray *arrayOfTasks = [NSMutableArray new];
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -51,6 +53,7 @@
             NSLog(@"Successfully retrieved %d task.", objects.count);
             }
     }];
+    NSLog(@"tasks outside the block: %d", arrayOfTasks.count);
 }
 
 @end
