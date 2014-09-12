@@ -41,7 +41,7 @@
 -(void)deleteFriend:(NSString *)username{
     
 }
-- (void)loadTasks{
+- (void)loadTasks:(ToDoViewController *)delegate{
     PFUser *user = [PFUser currentUser];
     
     __block NSMutableArray *arrayOfTasks = [NSMutableArray new];
@@ -51,6 +51,16 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSLog(@"Successfully retrieved %d task.", objects.count);
+            
+            for (id object in objects) {
+                [arrayOfTasks addObject:object];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                [delegate loadArrayOfTasks:arrayOfTasks];
+            });
+            
+            
             }
     }];
     NSLog(@"tasks outside the block: %d", arrayOfTasks.count);

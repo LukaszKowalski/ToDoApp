@@ -96,9 +96,15 @@
 - (void)reloadTableView{
     
     [[DataStore sharedInstance] loadData:@"tasksArray"];
-    [[ParseStore sharedInstance] loadTasks];
+    [[ParseStore sharedInstance] loadTasks:self];
     self.delegate = self;
     [self.tableView reloadData];
+}
+
+-(void)loadArrayOfTasks:(NSMutableArray *)array {
+    self.arrayOfTasks = array;
+    [self.tableView reloadData];
+    NSLog(@"ArrayOfParseTasks has %d tasks", self.arrayOfTasks.count); 
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

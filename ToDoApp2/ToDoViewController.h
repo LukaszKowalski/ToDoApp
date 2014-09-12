@@ -21,5 +21,6 @@
 @property (strong, nonatomic) UINavigationBar *bar;
 
 - (void)reloadTableView;
+-(void)loadArrayOfTasks:(NSMutableArray *)array;
 
 @end

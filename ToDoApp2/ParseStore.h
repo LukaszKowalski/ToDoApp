@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "ToDoViewController.h"
 
 @interface ParseStore : NSObject
 
@@ -16,6 +17,6 @@
 -(void)addFriend:(NSString *)username;
 -(void)deleteTask:(NSString *)taskString;
 -(void)deleteFriend:(NSString *)username;
--(void)loadTasks;
+-(void)loadTasks:(ToDoViewController *)delegate;
 
 @end
