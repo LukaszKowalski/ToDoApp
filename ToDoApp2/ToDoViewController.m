@@ -96,6 +96,7 @@
 - (void)reloadTableView{
     
 //    [[DataStore sharedInstance] loadData:@"tasksArray"];
+    
     [[ParseStore sharedInstance] loadTasks:self];
     self.delegate = self;
     [self.tableView reloadData];
@@ -116,6 +117,7 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    
     NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
     
     if (cell == nil) {
@@ -125,7 +127,7 @@
     PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
 //    DoTask *task = [[[DataStore sharedInstance] arrayOfTasks] objectAtIndex:indexPath.row];
     cell.viewController = self;
-//    cell.newestTask.backgroundColor = task.taskColor;
+    cell.newestTask.backgroundColor = [self randomColor];
 
     cell.newestTask.text =  [task objectForKey:@"taskString"];
     NSLog(@"%@", cell.newestTask.text);
@@ -199,6 +201,12 @@
     [[ParseStore sharedInstance] addTask:newTask];
     [self reloadTableView];
     return YES;
+}
+-(UIColor *)randomColor{
+    CGFloat red = arc4random() % 255 / 255.0;
+    CGFloat blue = arc4random() % 255 / 255.0;
+    CGFloat green = arc4random() % 255 / 255.0;
+    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
 
 @end

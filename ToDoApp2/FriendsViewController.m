@@ -9,6 +9,7 @@
 #import "FriendsViewController.h"
 #import "DataStore.h"
 #import "DoUser.h"
+#import "ParseStore.h"
 
 
 @interface FriendsViewController ()
@@ -74,7 +75,8 @@
     // initArray
     
     [[DataStore sharedInstance] loadFriends:@"friendsArray"];
-
+    
+    [self reloadTableView];
     self.delegate = self;
     
 
@@ -86,10 +88,19 @@
     [[DataStore sharedInstance] loadData:@"friendsArray"];
     self.delegate = self;
     [self.friendsTableView reloadData];
+    [[ParseStore sharedInstance] loadFriends:self];
 }
 
+-(void)loadArrayOfFriends:(NSMutableArray *)array {
+    self.arrayOfFriends = array;
+    [self.friendsTableView reloadData];
+    NSLog(@"ArrayOfFriends has %d friends", self.arrayOfFriends.count);
+    NSLog(@"%@", [self.arrayOfFriends objectAtIndex:0]);
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[[DataStore sharedInstance] arrayOfFriends] count];
+    return [self.arrayOfFriends count];
 
 }
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -100,10 +111,11 @@
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
     
-    DoUser *user = [[[DataStore sharedInstance] arrayOfFriends] objectAtIndex:indexPath.row];
-    cell.newestFriend.backgroundColor = user.userColor;
-    cell.newestFriend.text = [NSString stringWithFormat:@"%@", user.username];
-    cell.user = user;
+//  DoUser *user = [[[DataStore sharedInstance] arrayOfFriends] objectAtIndex:indexPath.row];
+    NSString *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
+    NSLog(@"co to jest %@", user);
+    cell.newestFriend.text = user;
+//    cell.user = user;
     
 //    UILongPressGestureRecognizer* gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
 //    [cell addGestureRecognizer:gestureRecognizer];

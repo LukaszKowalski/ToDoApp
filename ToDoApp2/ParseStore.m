@@ -32,6 +32,7 @@
 
 -(void)addFriend:(NSString *)username{
     
+    
 }
 
 -(void)deleteTask:(NSString *)taskString{
@@ -64,6 +65,14 @@
             }
     }];
     NSLog(@"tasks outside the block: %d", arrayOfParseTasks.count);
+}
+- (void)loadFriends:(FriendsViewController *)delegate{
+    PFUser *user = [PFUser currentUser];
+    
+    NSMutableArray *arrayOfUserFriends = [NSMutableArray new];
+    arrayOfUserFriends = [user objectForKey:@"friendsArray"];
+    NSLog(@"licza ziomków: %d", arrayOfUserFriends.count);
+    [delegate loadArrayOfFriends:arrayOfUserFriends];
 }
 
 @end

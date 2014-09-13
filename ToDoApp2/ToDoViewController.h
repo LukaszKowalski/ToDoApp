@@ -20,7 +20,8 @@
 @property (strong, nonatomic) UIButton *friendsLists;
 @property (strong, nonatomic) UINavigationBar *bar;
 
-- (void)reloadTableView;
+-(void)reloadTableView;
 -(void)loadArrayOfTasks:(NSMutableArray *)array;
+-(UIColor *)randomColor;
 
 @end
