@@ -147,9 +147,9 @@
 }
 
 -(void)addItem:(NSString *)item {
-    [[DataStore sharedInstance] addUser:item];
-    [[DataStore sharedInstance] addFriend:item];
+    [[ParseStore sharedInstance] addFriend:item];
     [self.friendsTableView reloadData];
+    [self reloadTableView];
 }
 - (void)addFriend:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;

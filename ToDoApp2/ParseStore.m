@@ -32,7 +32,13 @@
 
 -(void)addFriend:(NSString *)username{
     
+    // Check if User exists. 
     
+//    PFQuery *query = [PFUser query];
+//    [query whereKey:@"username" equalTo:username];
+    
+    [[PFUser currentUser] addObject:username forKey:@"friendsArray"];
+    [[PFUser currentUser] saveInBackground];
 }
 
 -(void)deleteTask:(NSString *)taskString{
