@@ -57,7 +57,7 @@
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"Successfully retrieved %d task.", objects.count);
+            NSLog(@"Successfully retrieved %lu task.", (unsigned long)objects.count);
             
             for (id object in objects) {
                 [arrayOfParseTasks addObject:object];
@@ -70,14 +70,14 @@
             
             }
     }];
-    NSLog(@"tasks outside the block: %d", arrayOfParseTasks.count);
+    NSLog(@"tasks outside the block: %lu", (unsigned long)arrayOfParseTasks.count);
 }
 - (void)loadFriends:(FriendsViewController *)delegate{
     PFUser *user = [PFUser currentUser];
     
     NSMutableArray *arrayOfUserFriends = [NSMutableArray new];
     arrayOfUserFriends = [user objectForKey:@"friendsArray"];
-    NSLog(@"licza ziomków: %d", arrayOfUserFriends.count);
+    NSLog(@"licza ziomków: %lu", (unsigned long)arrayOfUserFriends.count);
     [delegate loadArrayOfFriends:arrayOfUserFriends];
 }
 

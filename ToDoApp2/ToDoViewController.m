@@ -53,6 +53,7 @@
     
     self.addTaskButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.addTaskButton.frame = CGRectMake(0, 64, 159, 75);
+    self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:25];
     [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addTaskButton];
     
@@ -105,8 +106,6 @@
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
     self.arrayOfParseTasks = array;
     [self.tableView reloadData];
-    NSLog(@"ArrayOfParseTasks has %d tasks", self.arrayOfParseTasks.count);
-    NSLog(@"%@", [self.arrayOfParseTasks objectAtIndex:0]);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -133,7 +132,7 @@
     NSLog(@"%@", cell.newestTask.text);
 
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
-    cell.task = task;
+//    cell.task = task;
     return cell;
 }
 
@@ -149,21 +148,15 @@
     
     NSLog(@"%ld", (long)indexPath.row);
     UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
-    UIView *content = [customcell.subviews objectAtIndex:1];
+    NSLog(@"%@", customcell.subviews);
     
-    for (UIView *subview in content.subviews) {
-        
-        if ([subview isMemberOfClass:[UIButton class]] ) {
-            NSLog(@"UIButton set hidden to NO");
-            subview.hidden = NO;
-        }
-        
-        if ([subview isMemberOfClass:[UILabel class]] ) {
-            NSLog(@"UILabel set hidden to YES");
-            subview.hidden = YES;
-        }
-        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    }
+    UIButton *done = (UIButton *)[customcell viewWithTag:10000];
+    [done setHidden:NO];
+    UIButton *no = (UIButton *)[customcell viewWithTag:10001];
+    [no setHidden:NO];
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

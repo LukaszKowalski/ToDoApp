@@ -38,6 +38,7 @@
     
     self.addFriendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.addFriendButton.frame = CGRectMake(0, 64, 159, 75);
+    self.addFriendButton.titleLabel.font = [UIFont systemFontOfSize:25];
     [self.addFriendButton addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addFriendButton];
     
@@ -51,6 +52,7 @@
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.backButton.frame = CGRectMake(159, 64, 161, 75);
     [self.backButton setTitle:@"Task list" forState:UIControlStateNormal];
+    self.backButton.titleLabel.font = [UIFont systemFontOfSize:25];
     self.backButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
     [self.backButton addTarget:self action:@selector(backButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
@@ -94,7 +96,7 @@
 -(void)loadArrayOfFriends:(NSMutableArray *)array {
     self.arrayOfFriends = array;
     [self.friendsTableView reloadData];
-    NSLog(@"ArrayOfFriends has %d friends", self.arrayOfFriends.count);
+    NSLog(@"ArrayOfFriends has %lu friends", (unsigned long)self.arrayOfFriends.count);
     NSLog(@"%@", [self.arrayOfFriends objectAtIndex:0]);
 }
 
@@ -182,6 +184,7 @@
     return uuidString;
 }
 -( UIColor *)randomColor{
+    
     CGFloat red = arc4random() % 255 / 255.0;
     CGFloat blue = arc4random() % 255 / 255.0;
     CGFloat green = arc4random() % 255 / 255.0;

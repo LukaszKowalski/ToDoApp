@@ -21,6 +21,12 @@
         self.newestTask.textColor = [UIColor whiteColor];
         self.newestTask.font = [UIFont systemFontOfSize:26];
         [self.contentView addSubview:self.newestTask];
+        self.blinkLabel = [[UILabel alloc] initWithFrame:self.frame];
+        self.blinkLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+        self.blinkLabel.text = @"Task Done";
+        self.blinkLabel.textAlignment = NSTextAlignmentCenter;
+        self.blinkLabel.textColor = [UIColor whiteColor];
+        self.blinkLabel.font = [UIFont systemFontOfSize:26];
         self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 200, 78))];
         self.no = [[UIButton alloc] initWithFrame:(CGRectMake(200,0, 120, 78))];
         self.done.titleLabel.text = @"Done";
@@ -37,33 +43,17 @@
         [self.no addTarget:self action:@selector(noFired:) forControlEvents:UIControlEventTouchUpInside];
         [self.no setTitle:@"No" forState:UIControlStateNormal];
         [self.done setTitle:@"Done" forState:UIControlStateNormal];
+        
+        
+        self.done.tag = 10000;
+        self.no.tag = 10001;
 
         [self.contentView addSubview:self.no];
         [self.contentView addSubview:self.done];
+        NSLog(@"contentView komorki %@", self.contentView.subviews);
     }
     return self;
 }
-
-//-(void)reset {
-//    
-//    self.newestTask = [[UILabel alloc] init];
-//    self.newestTask.frame = CGRectMake(0, 0, 320, 78);
-//    self.newestTask.textColor = [UIColor whiteColor];
-//    self.newestTask.font = [UIFont systemFontOfSize:26];
-//    [self.contentView addSubview:self.newestTask];
-//    self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 160, 78))];
-//    self.no = [[UIButton alloc] initWithFrame:(CGRectMake(160,0, 160, 78))];
-//    self.done.titleLabel.text = @"Done";
-//    self.done.backgroundColor = [UIColor greenColor];
-//    self.no.titleLabel.text = @"No";
-//    self.no.backgroundColor = [UIColor redColor];
-//    self.done.hidden = YES;
-//    self.no.hidden = YES;
-//    
-//    [self.contentView addSubview:self.no];
-//    [self.contentView addSubview:self.done];
-//
-//}
 
 - (void)awakeFromNib
 {
@@ -85,37 +75,16 @@
 
 -(void)doneFired:(id)sender{
     
-    self.blinkLabel = [[UILabel alloc] initWithFrame:self.frame];
-    self.blinkLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
-    self.blinkLabel.text = @"Task Done";
-    self.blinkLabel.textAlignment = NSTextAlignmentCenter;
-    self.blinkLabel.textColor = [UIColor whiteColor];
-    self.blinkLabel.font = [UIFont systemFontOfSize:26];
-    
-    
+
     CGRect cellFrame = self.frame;
     self.blinkLabel.frame = CGRectMake(cellFrame.origin.x, cellFrame.origin.y+self.superview.superview.frame.origin.y+64, cellFrame.size.width, cellFrame.size.height);
     NSLog(@"%@, %@", self.superview.superview , self.superview);
     
-    UIView *view = [[[[self.contentView superview] superview] superview] superview];
+    UIView *view = self.contentView;
     [view addSubview:self.blinkLabel];
     [view sendSubviewToBack:self.blinkLabel];
     
 
-//    
-//    [UITableViewCell animateWithDuration:1.f
-//                     animations:^
-//     {
-//
-//         UIView *view = [[self.contentView superview] superview];
-//         [view addSubview:self.blinkLabel];
-//         [self.contentView bringSubviewToFront:self.blinkLabel];
-//         self.blinkLabel.alpha = 0;
-//
-//        
-//     }
-//                     completion:^(BOOL finished)
-//     {
          [UITableViewCell animateWithDuration:1.0f
                           animations:^
           {
