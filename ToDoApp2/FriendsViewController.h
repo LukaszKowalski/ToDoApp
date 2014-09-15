@@ -10,6 +10,7 @@
 #import "ToDoAppDelegate.h"
 #import "FriendsTableViewCell.h"
 #import "FriendsToDoViewController.h"
+#import "ParseStore.h"
 
 @interface FriendsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 

@@ -57,8 +57,7 @@
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"Successfully retrieved %lu task.", (unsigned long)objects.count);
-            
+                        
             for (id object in objects) {
                 [arrayOfParseTasks addObject:object];
             }
@@ -70,15 +69,55 @@
             
             }
     }];
-    NSLog(@"tasks outside the block: %lu", (unsigned long)arrayOfParseTasks.count);
 }
+- (void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username{
+    
+    PFQuery *queryAboutUser = [PFUser query];
+    [queryAboutUser whereKey:@"username" equalTo:username];
+    PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
+    
+    __block NSMutableArray *arrayOfUserTasks = [NSMutableArray new];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            for (id object in objects) {
+                [arrayOfUserTasks addObject:object];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                [delegate loadArrayOfTaskss:arrayOfUserTasks];
+            });
+            
+            
+        }
+    }];
+}
+
+
 - (void)loadFriends:(FriendsViewController *)delegate{
     PFUser *user = [PFUser currentUser];
     
     NSMutableArray *arrayOfUserFriends = [NSMutableArray new];
     arrayOfUserFriends = [user objectForKey:@"friendsArray"];
-    NSLog(@"licza ziomków: %lu", (unsigned long)arrayOfUserFriends.count);
+    NSLog(@"number of %@ friends: %lu", user.username,(unsigned long)arrayOfUserFriends.count);
     [delegate loadArrayOfFriends:arrayOfUserFriends];
 }
+
+-(void)addTask:(NSString *)taskString forUser:(NSString *)username{
+    
+    PFQuery *queryAboutUser = [PFUser query];
+    [queryAboutUser whereKey:@"username" equalTo:username];
+    PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
+    
+    PFObject *task = [PFObject objectWithClassName:@"Tasks"];
+    task[@"taskString"] = taskString;
+    task[@"taskUsernameId"] = user.objectId;
+    [task saveInBackground];
+    
+}
+
 
 @end

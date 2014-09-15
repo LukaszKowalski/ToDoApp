@@ -10,6 +10,10 @@
 #import <Parse/Parse.h>
 #import "ToDoViewController.h"
 
+@class FriendsToDoViewController;
+@class FriendsViewController;
+
+
 @interface ParseStore : NSObject
 
 +(instancetype)sharedInstance;
@@ -19,5 +23,7 @@
 -(void)deleteFriend:(NSString *)username;
 -(void)loadFriends:(FriendsViewController *)delegate;
 -(void)loadTasks:(ToDoViewController *)delegate;
+-(void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username;
+-(void)addTask:(NSString *)taskString forUser:(NSString *)username;
 
 @end

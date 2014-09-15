@@ -100,7 +100,7 @@
     
     [[ParseStore sharedInstance] loadTasks:self];
     self.delegate = self;
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
@@ -124,13 +124,9 @@
     }
     
     PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
-//    DoTask *task = [[[DataStore sharedInstance] arrayOfTasks] objectAtIndex:indexPath.row];
     cell.viewController = self;
     cell.newestTask.backgroundColor = [self randomColor];
-
     cell.newestTask.text =  [task objectForKey:@"taskString"];
-    NSLog(@"%@", cell.newestTask.text);
-
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
 //    cell.task = task;
     return cell;
@@ -146,9 +142,7 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    NSLog(@"%ld", (long)indexPath.row);
     UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%@", customcell.subviews);
     
     UIButton *done = (UIButton *)[customcell viewWithTag:10000];
     [done setHidden:NO];

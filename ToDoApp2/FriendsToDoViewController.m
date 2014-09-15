@@ -78,14 +78,25 @@
     
     // initArray
     
-//    [[DataStore sharedInstance] loadUserTasks:[NSString stringWithFormat:@"Data_%@", self.user.userIdNumber]];
+    [self reloadTableView];
     self.delegate = self;
     
 }
+- (void)reloadTableView{
+    
+    self.delegate = self;
+    [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:self.titleName]];
+    [self.tableView reloadData];
+}
+-(void)loadArrayOfTaskss:(NSMutableArray *)array {
+    
+    self.arrayOfUserTasks = array;
+    [self.tableView reloadData];
 
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"%lu", (unsigned long)self.arrayOfFriendsTask.count);
-    return self.arrayOfFriendsTask.count;
+    
+    return self.arrayOfUserTasks.count;
 }
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
@@ -94,12 +105,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
     // init Label
-    
+    PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
     self.taskForFriend = [[UILabel alloc] init];
     self.taskForFriend.frame = CGRectMake(0, 0, 320, 78);
     self.taskForFriend.backgroundColor = [self randomColor];
+    self.taskForFriend.textColor = [UIColor whiteColor];
+    self.taskForFriend.font = [UIFont systemFontOfSize:26];
     self.taskForFriend.textAlignment = NSTextAlignmentCenter;
-    self.taskForFriend.text = [NSString stringWithFormat:@"%@", [self.arrayOfFriendsTask objectAtIndex:indexPath.row]];
+    self.taskForFriend.text = [task objectForKey:@"taskString"];
     [cell.contentView addSubview:self.taskForFriend];
     
     return cell;
@@ -121,8 +134,9 @@
 
 -(void)addItem:(NSString *)item {
     
-    [[DataStore sharedInstance] addTaskForUser:self.user item:item];
+    [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:self.titleName]];
     [self.tableView reloadData];
+    [self reloadTableView];
     
 }
 - (void)addTask:(UIButton *)sender {

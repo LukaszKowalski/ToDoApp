@@ -18,6 +18,4 @@
 @property (strong, nonatomic) UIButton *createAccount;
 @property (strong, nonatomic) UILabel *signUpLabel;
 
-
-
 @end

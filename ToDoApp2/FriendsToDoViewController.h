@@ -10,6 +10,7 @@
 #import "FriendsTableViewCell.h"
 #import "DataStore.h"
 #import "DoUser.h"
+#import "ParseStore.h"
 
 @interface FriendsToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -23,7 +24,9 @@
 @property (strong, nonatomic) NSString *titleName;
 @property (strong, nonatomic) UILabel *taskForFriend;
 @property (weak, nonatomic) DoUser *user;
+@property (strong, nonatomic) NSMutableArray *arrayOfUserTasks;
 
 -(void)addItem:(NSString*)item;
+-(void)loadArrayOfTaskss:(NSMutableArray *)array;
 
 @end

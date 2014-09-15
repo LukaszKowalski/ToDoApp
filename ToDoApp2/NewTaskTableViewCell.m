@@ -21,12 +21,6 @@
         self.newestTask.textColor = [UIColor whiteColor];
         self.newestTask.font = [UIFont systemFontOfSize:26];
         [self.contentView addSubview:self.newestTask];
-        self.blinkLabel = [[UILabel alloc] initWithFrame:self.frame];
-        self.blinkLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
-        self.blinkLabel.text = @"Task Done";
-        self.blinkLabel.textAlignment = NSTextAlignmentCenter;
-        self.blinkLabel.textColor = [UIColor whiteColor];
-        self.blinkLabel.font = [UIFont systemFontOfSize:26];
         self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 200, 78))];
         self.no = [[UIButton alloc] initWithFrame:(CGRectMake(200,0, 120, 78))];
         self.done.titleLabel.text = @"Done";
@@ -55,6 +49,7 @@
     return self;
 }
 
+
 - (void)awakeFromNib
 {
     // Initialization code
@@ -75,16 +70,24 @@
 
 -(void)doneFired:(id)sender{
     
-
+    self.blinkLabel = [[UILabel alloc] initWithFrame:self.frame];
+    self.blinkLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+    self.blinkLabel.text = @"Task Done";
+    self.blinkLabel.textAlignment = NSTextAlignmentCenter;
+    self.blinkLabel.textColor = [UIColor whiteColor];
+    self.blinkLabel.font = [UIFont systemFontOfSize:26];
+    
+    
     CGRect cellFrame = self.frame;
     self.blinkLabel.frame = CGRectMake(cellFrame.origin.x, cellFrame.origin.y+self.superview.superview.frame.origin.y+64, cellFrame.size.width, cellFrame.size.height);
     NSLog(@"%@, %@", self.superview.superview , self.superview);
     
-    UIView *view = self.contentView;
+    UIView *view = [[[[self.contentView superview] superview] superview] superview];
     [view addSubview:self.blinkLabel];
     [view sendSubviewToBack:self.blinkLabel];
     
-
+    NSLog(@"what superview is that :%@", [[[[self.contentView superview] superview] superview] superview] ); //when running on simiulator it is UIView
+    
          [UITableViewCell animateWithDuration:1.0f
                           animations:^
           {

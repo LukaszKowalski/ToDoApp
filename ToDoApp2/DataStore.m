@@ -22,7 +22,7 @@
 
 -(void)loadData:(NSString *)keyString
 {
-    NSLog(@"loading data for keyString: %@",keyString);
+    
     NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
     self.arrayOfTasks = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
     if (self.arrayOfTasks == nil) {
@@ -32,7 +32,7 @@
 }
 -(void)loadFriends:(NSString *)keyString
 {
-    NSLog(@"loading data for keyString: %@",keyString);
+    
     NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
     self.arrayOfFriends = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
     if (self.arrayOfFriends == nil) {
@@ -52,7 +52,7 @@
 
 -(void)loadUserTasks:(NSString *)keyString
 {
-    NSLog(@"loading data for keyString: %@",keyString);
+    
 //    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
 //    self.user.arrayOfUserTasks = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
 //    if (self.arrayOfUserTasks == nil) {
@@ -62,7 +62,7 @@
 
 -(void)addFriend:(NSString *)item{
     
-    NSLog(@"%@ item", item);
+    
     DoUser *user = [DoUser new];
     user.userIdNumber = [self getRandomId];
     user.username = item;
@@ -75,7 +75,7 @@
 -(void)saveData:(NSArray *)array withKey:(NSString *)keyString
 
 {
-    NSLog(@"saving data");
+    
     NSData *encodedArray = [NSKeyedArchiver archivedDataWithRootObject:array];
     [[NSUserDefaults standardUserDefaults] setObject:encodedArray forKey:keyString];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -106,7 +106,7 @@
     
     for (item in self.arrayOfFriends) {
         if ([item.username isEqualToString:user.username]){
-            NSLog(@"%@ - %@", item.username, user.username);
+            
             [discardedItems addObject:item];
         }
     }
@@ -122,15 +122,14 @@
     }
     
     [user.arrayOfUserTasks addObject:item];
-    NSLog(@"%@ id John'a", user.userIdNumber);
-    NSLog(@"%lu taski dla usera", (unsigned long)user.arrayOfUserTasks.count);
-    [[DataStore sharedInstance] saveData:user.arrayOfUserTasks withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
+    
+        [[DataStore sharedInstance] saveData:user.arrayOfUserTasks withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
     
 }
 
 -(void)addTask:(NSString *)taskString
 {
-    NSLog(@"%@ taskString", taskString);
+   ;
     
     DoTask *task = [DoTask new];
     task.idNumber = [self getRandomId];
@@ -140,7 +139,7 @@
     
     [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
     
-    NSLog(@"%lu array of task count", (unsigned long)self.arrayOfTasks.count);
+    
     
     [task debugDump];
     

@@ -29,10 +29,8 @@
 
 -(void)debugDump
 {
-    NSLog(@"Task IdNumber: %@",self.idNumber);
-    NSLog(@"Task userIdNumber: %@",self.userIdNumber);
-    NSLog(@"Task taskString: %@",self.taskString);
-//    NSLog(@"Task color: %@", self.taskColor);
+
+
 }
 
 @end

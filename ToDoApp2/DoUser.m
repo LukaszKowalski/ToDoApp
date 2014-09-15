@@ -29,9 +29,6 @@
 
 -(void)debugDump
 {
-    NSLog(@"User userIdNumber: %@",self.userIdNumber);
-    NSLog(@"User username: %@",self.username);
-    NSLog(@"%lu", (unsigned long)self.arrayOfUserTasks.count);
-}
+    }
 
 @end
