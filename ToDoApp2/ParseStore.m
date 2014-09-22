@@ -205,5 +205,19 @@
     UIColor *color = [UIColor colorWithRed:r green:g blue:b alpha:a];
     return color;
 }
+- (void)registerUserForPushNotification{
+    
+    PFUser *user = [PFUser currentUser];
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setObject:user forKey:@"Owner"];
+//    [[PFUser currentUser] setObject:CurrentUserFacebookId forKey:@"fbId"];
+    [currentInstallation saveInBackground];
+}
+-(void)asignWhosViewControllerItIs:(PFUser *)user{
+    self.usersViewController = user;
+};
+-(PFUser *)whosViewControllerItIs{
+    return self.usersViewController;
+};
 
 @end

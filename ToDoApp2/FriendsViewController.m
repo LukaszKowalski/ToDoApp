@@ -18,6 +18,7 @@
 
 @property (strong, nonatomic) FriendsToDoViewController *controller;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
+@property (strong, nonatomic) PFUser *userCell;
 
 @end
 
@@ -119,10 +120,10 @@
 //    cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
 //  cell.newestFriend.backgroundColor = [self randomColor];
 //    cell.newestFriend.text = username;
-    PFUser *user = [ self.arrayOfFriends objectAtIndex:indexPath.row];
-   [user fetch];
-    cell.newestFriend.text = [user objectForKey:@"username"];
-    NSString *colorInString = [user objectForKey:@"color"];
+    self.userCell = [ self.arrayOfFriends objectAtIndex:indexPath.row];
+   [self.userCell fetch];
+    cell.newestFriend.text = [self.userCell objectForKey:@"username"];
+    NSString *colorInString = [self.userCell objectForKey:@"color"];
     cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     return cell;
     
@@ -143,7 +144,8 @@
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
     NSString *user = [[self.arrayOfFriends objectAtIndex:indexPath.row] objectForKey:@"username"];
-    
+    NSLog(@" self.userCell = %@", self.userCell);
+    [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", user];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];

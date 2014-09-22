@@ -97,13 +97,13 @@
         [PFUser currentUser][@"color"] = colorAsString;
         [[PFUser currentUser] saveInBackground];
     }
-
     
     // initArray
     
     [self reloadTableView];
     
 }
+
 
 - (void)reloadTableView{
 

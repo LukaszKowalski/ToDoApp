@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UILabel *taskForFriend;
 @property (weak, nonatomic) DoUser *user;
 @property (strong, nonatomic) NSMutableArray *arrayOfUserTasks;
+@property (strong, nonatomic) PFUser *friendsToDoList;
 
 -(void)addItem:(NSString*)item;
 -(void)loadArrayOfTaskss:(NSMutableArray *)array;

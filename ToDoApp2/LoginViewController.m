@@ -122,6 +122,7 @@
                 self.getPassword.text = nil;
                 [self.getLogin resignFirstResponder];
                 [self.getPassword resignFirstResponder];
+                [[ParseStore sharedInstance] registerUserForPushNotification];
                 
             } else {
                 //Something bad has ocurred

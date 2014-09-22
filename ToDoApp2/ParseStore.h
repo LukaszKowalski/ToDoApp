@@ -27,5 +27,10 @@
 -(void)addTask:(NSString *)taskString forUser:(NSString *)username;
 -(UIColor *)randomColor;
 -(UIColor *)giveColorfromStringColor:(NSString *)colorAsString;
+- (void)registerUserForPushNotification;
+-(PFUser *)whosViewControllerItIs;
+-(void)asignWhosViewControllerItIs:(PFUser *)user;
+
+@property (strong, nonatomic) PFUser *usersViewController;
 
 @end

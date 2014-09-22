@@ -21,7 +21,6 @@
 @property (strong, nonatomic) FriendsViewController *delegate;
 @property (strong, nonatomic) UIButton *backButton;
 
-
 -(void)reloadTableView;
 -(void)loadArrayOfFriends:(NSMutableArray *)array;
 
