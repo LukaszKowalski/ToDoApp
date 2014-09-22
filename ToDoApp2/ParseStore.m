@@ -212,6 +212,10 @@
     [currentInstallation setObject:user forKey:@"Owner"];
 //    [[PFUser currentUser] setObject:CurrentUserFacebookId forKey:@"fbId"];
     [currentInstallation saveInBackground];
+    [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
+    [[PFInstallation currentInstallation] saveEventually:^(BOOL succeeded, NSError *error) {
+        //NSLog(@"saveeventually bool: %hhd error: %@", succeeded, error);
+    }];
 }
 -(void)asignWhosViewControllerItIs:(PFUser *)user{
     self.usersViewController = user;

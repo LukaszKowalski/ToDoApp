@@ -141,12 +141,14 @@
     // send push notification to the user
     PFQuery *pushQuery = [PFInstallation query];
     [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+    NSLog(@" pushQuery = %@", pushQuery);
     PFPush *push = [PFPush new];
     [push setQuery: pushQuery];
     PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
     NSString *message= [NSString stringWithFormat:@"zrób taska %@", [task objectForKey:@"taskString"]];
     [push setData: @{ @"alert":message}];
     [push sendPushInBackground];
+    NSLog(@" push = %@", push);
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
