@@ -44,7 +44,7 @@
 
         [self.contentView addSubview:self.no];
         [self.contentView addSubview:self.done];
-        NSLog(@"contentView komorki %@", self.contentView.subviews);
+       
     }
     return self;
 }
@@ -80,14 +80,12 @@
     
     CGRect cellFrame = self.frame;
     self.blinkLabel.frame = CGRectMake(cellFrame.origin.x, cellFrame.origin.y+self.superview.superview.frame.origin.y+64, cellFrame.size.width, cellFrame.size.height);
-    NSLog(@"%@, %@", self.superview.superview , self.superview);
     
     UIView *view = [[[[self.contentView superview] superview] superview] superview];
     [view addSubview:self.blinkLabel];
     [view sendSubviewToBack:self.blinkLabel];
     
-    NSLog(@"what superview is that :%@", [[[[self.contentView superview] superview] superview] superview] ); //when running on simiulator it is UIView
-    
+
          [UITableViewCell animateWithDuration:1.0f
                           animations:^
           {
@@ -97,7 +95,7 @@
                           completion:^(BOOL finished)
           {
               
-              [[DataStore sharedInstance] deleteTask:self.task];
+              [[ParseStore sharedInstance] deleteTask:@""];
               [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
               self.done.hidden = YES;
               self.no.hidden = YES;

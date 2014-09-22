@@ -11,9 +11,13 @@
 #import "DoUser.h"
 
 
+
+
+
 @interface FriendsViewController ()
 
 @property (strong, nonatomic) FriendsToDoViewController *controller;
+@property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 
 @end
 
@@ -21,6 +25,7 @@
 
 - (void)viewDidLoad
 {
+ 
     // adding tableView
     
     [super viewDidLoad];
@@ -32,6 +37,8 @@
     self.friendsTableView.dataSource = self;
     [self.view addSubview:self.friendsTableView];
     self.friendsTableView.tableFooterView = [[UIView alloc ] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
     
     // adding button
     
@@ -74,21 +81,16 @@
     
     // initArray
     
-//    [[DataStore sharedInstance] loadFriends:@"friendsArray"];
-    
     [self reloadTableView];
     self.delegate = self;
-    
-
-    
 }
 
 - (void)reloadTableView{
-    
-//  [[DataStore sharedInstance] loadData:@"friendsArray"];
+
     self.delegate = self;
-    [self.friendsTableView reloadData];
     [[ParseStore sharedInstance] loadFriends:self];
+    [self.friendsTableView reloadData];
+
 }
 
 -(void)loadArrayOfFriends:(NSMutableArray *)array {
@@ -109,12 +111,21 @@
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
     
-//  DoUser *user = [[[DataStore sharedInstance] arrayOfFriends] objectAtIndex:indexPath.row];
-    NSString *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
-    cell.newestFriend.text = user;
-//    cell.user = user;
-    
+//    NSString *username = [self.arrayOfFriends objectAtIndex:indexPath.row];
+//    PFQuery *queryAboutUser = [PFUser query];
+//    [queryAboutUser whereKey:@"username" equalTo:username];
+//    PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
+//    NSString *colorInString = [user objectForKey:@"color"];
+//    cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
+//  cell.newestFriend.backgroundColor = [self randomColor];
+//    cell.newestFriend.text = username;
+    PFUser *user = [ self.arrayOfFriends objectAtIndex:indexPath.row];
+   [user fetch];
+    cell.newestFriend.text = [user objectForKey:@"username"];
+    NSString *colorInString = [user objectForKey:@"color"];
+    cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     return cell;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,7 +142,7 @@
     
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
-    NSString *user = [self.arrayOfFriends objectAtIndex:indexPath.row];
+    NSString *user = [[self.arrayOfFriends objectAtIndex:indexPath.row] objectForKey:@"username"];
     
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", user];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
@@ -140,10 +151,21 @@
 }
 
 -(void)addItem:(NSString *)item {
+    
+    if (!self.loginIndicator) {
+        self.loginIndicator=  [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+
+    }
+    [self.view addSubview:self.loginIndicator];
+    [self.view bringSubviewToFront:self.loginIndicator];
+    self.loginIndicator.frame = CGRectMake(100, 200, 44, 44);
+    [self.loginIndicator startAnimating];
     [[ParseStore sharedInstance] addFriend:item];
     [self.friendsTableView reloadData];
     [self reloadTableView];
+    [self.loginIndicator stopAnimating];
 }
+    
 - (void)addFriend:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
     self.backButton.hidden = YES;
@@ -164,22 +186,9 @@
     self.addTaskTextField.hidden = YES;
     self.backButton.hidden = NO;
     
-    
     return YES;
 }
--(NSString *)getRandomId
-{
-    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
-    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
-    CFRelease(newUniqueId);
-    return uuidString;
-}
--( UIColor *)randomColor{
-    
-    CGFloat red = arc4random() % 255 / 255.0;
-    CGFloat blue = arc4random() % 255 / 255.0;
-    CGFloat green = arc4random() % 255 / 255.0;
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
-}
+
+
 
 @end

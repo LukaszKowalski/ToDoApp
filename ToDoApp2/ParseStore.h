@@ -25,5 +25,7 @@
 -(void)loadTasks:(ToDoViewController *)delegate;
 -(void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username;
 -(void)addTask:(NSString *)taskString forUser:(NSString *)username;
+-(UIColor *)randomColor;
+-(UIColor *)giveColorfromStringColor:(NSString *)colorAsString;
 
 @end

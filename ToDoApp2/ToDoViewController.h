@@ -19,9 +19,10 @@
 @property (strong, nonatomic) UITextField *addTaskTextField;
 @property (strong, nonatomic) UIButton *friendsLists;
 @property (strong, nonatomic) UINavigationBar *bar;
+@property (strong, nonatomic) UILabel *doSign;
 
 -(void)reloadTableView;
 -(void)loadArrayOfTasks:(NSMutableArray *)array;
--(UIColor *)randomColor;
+
 
 @end

@@ -85,8 +85,9 @@
 - (void)reloadTableView{
     
     self.delegate = self;
-    [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:self.titleName]];
+    [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     [self.tableView reloadData];
+    
 }
 -(void)loadArrayOfTaskss:(NSMutableArray *)array {
     
@@ -105,10 +106,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
     // init Label
+    
     PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
+    NSString *colorInString = [task objectForKey:@"color"];
+    
     self.taskForFriend = [[UILabel alloc] init];
     self.taskForFriend.frame = CGRectMake(0, 0, 320, 78);
-    self.taskForFriend.backgroundColor = [self randomColor];
+    self.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     self.taskForFriend.textColor = [UIColor whiteColor];
     self.taskForFriend.font = [UIFont systemFontOfSize:26];
     self.taskForFriend.textAlignment = NSTextAlignmentCenter;
@@ -129,12 +133,12 @@
     return 78;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
-    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 -(void)addItem:(NSString *)item {
     
-    [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:self.titleName]];
+    [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     [self.tableView reloadData];
     [self reloadTableView];
     
@@ -168,23 +172,7 @@
     return YES;
 }
 
--( UIColor *)randomColor{
-    CGFloat red = arc4random() % 255 / 255.0;
-    CGFloat blue = arc4random() % 255 / 255.0;
-    CGFloat green = arc4random() % 255 / 255.0;
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
-}
-//- (void)adjustHeightOfTableview
-//{
-//    CGFloat height = self.tableView.contentSize.height;
-//
-//    [UIView animateWithDuration:0.25 animations:^{
-//        CGRect frame = self.tableView.frame;
-//        frame.size.height = height;
-//        self.tableView.frame = frame;
-//
-//    }];
-//}
+
 
 
 

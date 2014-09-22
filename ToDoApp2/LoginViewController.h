@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UIButton *login;
 @property (strong, nonatomic) UIButton *signUpButton;
 @property (strong, nonatomic) UILabel *doSign;
+@property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 
 
 

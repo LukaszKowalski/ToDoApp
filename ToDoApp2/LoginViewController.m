@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+
+
     self.view.backgroundColor = [UIColor orangeColor];
     self.getLogin = [[UITextField alloc] init];
     self.getPassword = [[UITextField alloc] init];
@@ -85,18 +87,18 @@
 
     // Auto-login
 
-- (void)viewDidAppear:(BOOL)animated{
-        if ([NSUserDefaults standardUserDefaults]) {
-            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
-                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
-                                            block:^(PFUser *user, NSError *error) {
-                if (user) {
-                    
-                    self.toDo = [[ToDoViewController alloc] init];
-                    [self.navigationController pushViewController:self.toDo animated:YES];
-                }}];
-        }
-}
+//- (void)viewDidAppear:(BOOL)animated{
+//        if ([NSUserDefaults standardUserDefaults]) {
+//            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+//                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
+//                                            block:^(PFUser *user, NSError *error) {
+//                if (user) {
+//                    
+//                    self.toDo = [[ToDoViewController alloc] init];
+//                    [self.navigationController pushViewController:self.toDo animated:YES];
+//                }}];
+//        }
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -108,25 +110,30 @@
     [self.navigationController pushViewController:self.signUp animated:YES];
 }
 - (void)loginFired:(id)sender{
-    [PFUser logInWithUsernameInBackground:self.getLogin.text password:self.getPassword.text block:^(PFUser *user, NSError *error) {
-        if (user) {
-            //Open the wall
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getLogin.text] forKey:@"username"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getPassword.text] forKey:@"password"];
-             self.toDo = [[ToDoViewController alloc] init];
-             [self.navigationController pushViewController:self.toDo animated:YES];
-            self.getLogin.text = nil;
-            self.getPassword.text = nil;
-            [self.getLogin resignFirstResponder];
-            [self.getPassword resignFirstResponder];
-            
-        } else {
-            //Something bad has ocurred
-            NSString *errorString = [[error userInfo] objectForKey:@"error"];
-            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [errorAlertView show];
-        }
-    }];
+    
+        [PFUser logInWithUsernameInBackground:self.getLogin.text password:self.getPassword.text block:^(PFUser *user, NSError *error) {
+            if (user) {
+                //Open the wall
+                [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getLogin.text] forKey:@"username"];
+                [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getPassword.text] forKey:@"password"];
+                self.toDo = [[ToDoViewController alloc] init];
+                [self.navigationController pushViewController:self.toDo animated:YES];
+                self.getLogin.text = nil;
+                self.getPassword.text = nil;
+                [self.getLogin resignFirstResponder];
+                [self.getPassword resignFirstResponder];
+                
+            } else {
+                //Something bad has ocurred
+                NSString *errorString = [[error userInfo] objectForKey:@"error"];
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [errorAlertView show];
+            }
+        }];
+    }
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
 }
 
 @end

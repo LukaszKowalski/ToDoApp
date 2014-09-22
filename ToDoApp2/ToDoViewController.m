@@ -11,10 +11,12 @@
 #import "DoTask.h"
 #import "ParseStore.h"
 
+
 @interface ToDoViewController ()
 
 @property (strong, nonatomic) FriendsViewController *friendsController;
 @property (strong, nonatomic) NSString *dataFilePath;
+@property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 
 
 
@@ -32,7 +34,7 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
     
-    //self.navigationItem.hidesBackButton = YES;
+        //self.navigationItem.hidesBackButton = YES;
     self.title = @"My \"Do\" list";
     self.tableView = [[UITableView alloc] init];
     self.tableView.frame = CGRectMake(0, 75, 320, 410);
@@ -88,6 +90,15 @@
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
     
+    if ([[PFUser currentUser] objectForKey:@"color" ] == nil) {
+        UIColor *color = [[ParseStore sharedInstance] randomColor];
+        const CGFloat *components = CGColorGetComponents(color.CGColor);
+        NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
+        [PFUser currentUser][@"color"] = colorAsString;
+        [[PFUser currentUser] saveInBackground];
+    }
+
+    
     // initArray
     
     [self reloadTableView];
@@ -95,12 +106,10 @@
 }
 
 - (void)reloadTableView{
-    
-//    [[DataStore sharedInstance] loadData:@"tasksArray"];
-    
+
     [[ParseStore sharedInstance] loadTasks:self];
     self.delegate = self;
-//    [self.tableView reloadData];
+
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
@@ -110,7 +119,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-//    return [[[DataStore sharedInstance] arrayOfTasks] count];
     return [self.arrayOfParseTasks count];
 }
 
@@ -125,10 +133,11 @@
     
     PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
     cell.viewController = self;
-    cell.newestTask.backgroundColor = [self randomColor];
-    cell.newestTask.text =  [task objectForKey:@"taskString"];
+    
+    NSString *colorInString = [task objectForKey:@"color"]; 
+    cell.newestTask.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
+    cell.newestTask.text =   [task objectForKey:@"taskString"];
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
-//    cell.task = task;
     return cell;
 }
 
@@ -156,9 +165,6 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-
-}
 - (void)addTask:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
     self.friendsLists.hidden = YES;
@@ -167,20 +173,17 @@
     
 }
 - (void)friendsButtonFired{
-    
+    [self.loginIndicator startAnimating];
     if (!self.friendsController){
     self.friendsController = [[FriendsViewController alloc] init];
     }
     [self.navigationController pushViewController:self.friendsController animated:YES];
-    
-    //[self.navigationController popViewControllerAnimated:NO];
+    [self.loginIndicator stopAnimating];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     NSString *newTask = textField.text;
-   
-//    [[DataStore sharedInstance] addTask:newTask];
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;
@@ -189,11 +192,6 @@
     [self reloadTableView];
     return YES;
 }
--(UIColor *)randomColor{
-    CGFloat red = arc4random() % 255 / 255.0;
-    CGFloat blue = arc4random() % 255 / 255.0;
-    CGFloat green = arc4random() % 255 / 255.0;
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
-}
+
 
 @end
