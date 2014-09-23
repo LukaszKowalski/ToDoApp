@@ -207,16 +207,13 @@
 }
 - (void)registerUserForPushNotification{
     
-    PFUser *user = [PFUser currentUser];
+    PFUser *currentUser = [PFUser currentUser];
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation setObject:user forKey:@"Owner"];
-//    [[PFUser currentUser] setObject:CurrentUserFacebookId forKey:@"fbId"];
+    [currentInstallation setObject:currentUser forKey:@"Owner"];
     [currentInstallation saveInBackground];
-    [[PFInstallation currentInstallation] setObject:[PFUser currentUser] forKey:@"user"];
-    [[PFInstallation currentInstallation] saveEventually:^(BOOL succeeded, NSError *error) {
-        //NSLog(@"saveeventually bool: %hhd error: %@", succeeded, error);
-    }];
-}
+    
+};
+
 -(void)asignWhosViewControllerItIs:(PFUser *)user{
     self.usersViewController = user;
 };

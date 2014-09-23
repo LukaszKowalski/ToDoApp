@@ -87,18 +87,18 @@
 
     // Auto-login
 
-//- (void)viewDidAppear:(BOOL)animated{
-//        if ([NSUserDefaults standardUserDefaults]) {
-//            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
-//                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
-//                                            block:^(PFUser *user, NSError *error) {
-//                if (user) {
-//                    
-//                    self.toDo = [[ToDoViewController alloc] init];
-//                    [self.navigationController pushViewController:self.toDo animated:YES];
-//                }}];
-//        }
-//}
+- (void)viewDidAppear:(BOOL)animated{
+        if ([NSUserDefaults standardUserDefaults]) {
+            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
+                                            block:^(PFUser *user, NSError *error) {
+                if (user) {
+                    
+                    self.toDo = [[ToDoViewController alloc] init];
+                    [self.navigationController pushViewController:self.toDo animated:YES];
+                }}];
+        }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -111,7 +111,13 @@
 }
 - (void)loginFired:(id)sender{
     
-        [PFUser logInWithUsernameInBackground:self.getLogin.text password:self.getPassword.text block:^(PFUser *user, NSError *error) {
+    NSString *loginWithLowerCase = self.getLogin.text;
+    NSString *passwordWithLowerCase = self.getPassword.text;
+    
+    [loginWithLowerCase lowercaseString];
+    [passwordWithLowerCase lowercaseString];
+    
+        [PFUser logInWithUsernameInBackground:loginWithLowerCase password:passwordWithLowerCase block:^(PFUser *user, NSError *error) {
             if (user) {
                 //Open the wall
                 [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getLogin.text] forKey:@"username"];

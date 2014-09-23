@@ -138,6 +138,8 @@
     NSLog(@"user = %@", [[ParseStore sharedInstance] whosViewControllerItIs].objectId);
     [userQuery whereKey:@"objectId" equalTo:[[ParseStore sharedInstance] whosViewControllerItIs].objectId];
     NSLog(@"userQuery = %@", userQuery);
+//    [userQuery whereKey:@"objectId" equalTo:@"AJWL7dFEAq"];
+
     // send push notification to the user
     PFQuery *pushQuery = [PFInstallation query];
     [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
@@ -145,7 +147,7 @@
     PFPush *push = [PFPush new];
     [push setQuery: pushQuery];
     PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
-    NSString *message= [NSString stringWithFormat:@"zrób taska %@", [task objectForKey:@"taskString"]];
+    NSString *message= [NSString stringWithFormat:@"%@ przypomina Ci o %@",[PFUser currentUser].username ,[task objectForKey:@"taskString"]];
     [push setData: @{ @"alert":message}];
     [push sendPushInBackground];
     NSLog(@" push = %@", push);

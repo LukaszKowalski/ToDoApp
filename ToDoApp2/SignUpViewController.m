@@ -116,8 +116,14 @@
     
     PFUser *user = [PFUser user];
     //2
-    user.username = self.getLogin.text;
-    user.password = self.getPassword.text;
+    NSString *usernameLowerCase = self.getLogin.text;
+    usernameLowerCase = [usernameLowerCase lowercaseString];
+    user.username = usernameLowerCase;
+    
+    NSString *passwordLowerCase = self.getPassword.text;
+    passwordLowerCase = [passwordLowerCase lowercaseString];
+    user.password = passwordLowerCase;
+    
     user.email = self.getEmail.text;
     //3
 

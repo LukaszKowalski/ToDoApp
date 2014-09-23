@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) FriendsToDoViewController *controller;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
-@property (strong, nonatomic) PFUser *userCell;
+@property (weak, nonatomic) PFUser *userCell;
 
 @end
 
@@ -144,6 +144,7 @@
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
     NSString *user = [[self.arrayOfFriends objectAtIndex:indexPath.row] objectForKey:@"username"];
+    self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
     NSLog(@" self.userCell = %@", self.userCell);
     [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", user];
