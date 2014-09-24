@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C300552519D31009000EBA8B /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = C300551A19D31009000EBA8B /* NSMutableArray+SWUtilityButtons.m */; };
+		C300552619D31009000EBA8B /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C300551C19D31009000EBA8B /* SWCellScrollView.m */; };
+		C300552719D31009000EBA8B /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C300551E19D31009000EBA8B /* SWLongPressGestureRecognizer.m */; };
+		C300552819D31009000EBA8B /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C300552019D31009000EBA8B /* SWTableViewCell.m */; };
+		C300552919D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C300552219D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.m */; };
+		C300552A19D31009000EBA8B /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = C300552419D31009000EBA8B /* SWUtilityButtonView.m */; };
 		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
 		C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */; };
 		C325E9EE19A68F0900668291 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9ED19A68F0900668291 /* DataStore.m */; };
@@ -54,6 +60,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C300551919D31009000EBA8B /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		C300551A19D31009000EBA8B /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		C300551B19D31009000EBA8B /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
+		C300551C19D31009000EBA8B /* SWCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCellScrollView.m; sourceTree = "<group>"; };
+		C300551D19D31009000EBA8B /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		C300551E19D31009000EBA8B /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLongPressGestureRecognizer.m; sourceTree = "<group>"; };
+		C300551F19D31009000EBA8B /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
+		C300552019D31009000EBA8B /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWTableViewCell.m; sourceTree = "<group>"; };
+		C300552119D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonTapGestureRecognizer.h; sourceTree = "<group>"; };
+		C300552219D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
+		C300552319D31009000EBA8B /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
+		C300552419D31009000EBA8B /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewCell.h; sourceTree = "<group>"; };
 		C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewCell.m; sourceTree = "<group>"; };
 		C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsToDoViewController.h; sourceTree = "<group>"; };
@@ -140,6 +158,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C300551819D31009000EBA8B /* PodFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C300551919D31009000EBA8B /* NSMutableArray+SWUtilityButtons.h */,
+				C300551A19D31009000EBA8B /* NSMutableArray+SWUtilityButtons.m */,
+				C300551B19D31009000EBA8B /* SWCellScrollView.h */,
+				C300551C19D31009000EBA8B /* SWCellScrollView.m */,
+				C300551D19D31009000EBA8B /* SWLongPressGestureRecognizer.h */,
+				C300551E19D31009000EBA8B /* SWLongPressGestureRecognizer.m */,
+				C300551F19D31009000EBA8B /* SWTableViewCell.h */,
+				C300552019D31009000EBA8B /* SWTableViewCell.m */,
+				C300552119D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.h */,
+				C300552219D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.m */,
+				C300552319D31009000EBA8B /* SWUtilityButtonView.h */,
+				C300552419D31009000EBA8B /* SWUtilityButtonView.m */,
+			);
+			path = PodFiles;
+			sourceTree = "<group>";
+		};
 		C37D37F419C07ECC00CEAC31 /* Login and SignUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +248,7 @@
 				C3C4FBDB198FC84100F36830 /* ToDoAppDelegate.h */,
 				C3C4FBDC198FC84100F36830 /* ToDoAppDelegate.m */,
 				C3DF846119A7453100701980 /* ViewControllers */,
+				C300551819D31009000EBA8B /* PodFiles */,
 				C3DF846019A7451700701980 /* TableViewCells */,
 				C38E1E1319CA1A08008DF0BE /* DataStore */,
 				C37D37F519C08E7600CEAC31 /* ParseStore.h */,
@@ -381,11 +419,17 @@
 				C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */,
 				C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */,
 				C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */,
+				C300552719D31009000EBA8B /* SWLongPressGestureRecognizer.m in Sources */,
 				C325E9EE19A68F0900668291 /* DataStore.m in Sources */,
+				C300552819D31009000EBA8B /* SWTableViewCell.m in Sources */,
 				C325E9F319A6961300668291 /* DoTask.m in Sources */,
 				C3D1D97719BE2E8F00120D55 /* ToDoViewController.m in Sources */,
+				C300552519D31009000EBA8B /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
+				C300552A19D31009000EBA8B /* SWUtilityButtonView.m in Sources */,
+				C300552619D31009000EBA8B /* SWCellScrollView.m in Sources */,
 				C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */,
+				C300552919D31009000EBA8B /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				C325E9F419A6961300668291 /* DoUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,6 +557,7 @@
 				GCC_PREFIX_HEADER = "ToDoApp2/ToDoApp2-Prefix.pch";
 				INFOPLIST_FILE = "ToDoApp2/ToDoApp2-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

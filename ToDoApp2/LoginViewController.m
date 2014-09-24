@@ -16,7 +16,9 @@
 @end
 
 @implementation LoginViewController
-
+- (void)viewWillAppear:(BOOL)animated{
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
