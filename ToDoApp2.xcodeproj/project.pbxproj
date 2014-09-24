@@ -158,7 +158,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C300551819D31009000EBA8B /* PodFiles */ = {
+		C300551819D31009000EBA8B /* Handle Swipe */ = {
 			isa = PBXGroup;
 			children = (
 				C300551919D31009000EBA8B /* NSMutableArray+SWUtilityButtons.h */,
@@ -174,6 +174,7 @@
 				C300552319D31009000EBA8B /* SWUtilityButtonView.h */,
 				C300552419D31009000EBA8B /* SWUtilityButtonView.m */,
 			);
+			name = "Handle Swipe";
 			path = PodFiles;
 			sourceTree = "<group>";
 		};
@@ -248,7 +249,6 @@
 				C3C4FBDB198FC84100F36830 /* ToDoAppDelegate.h */,
 				C3C4FBDC198FC84100F36830 /* ToDoAppDelegate.m */,
 				C3DF846119A7453100701980 /* ViewControllers */,
-				C300551819D31009000EBA8B /* PodFiles */,
 				C3DF846019A7451700701980 /* TableViewCells */,
 				C38E1E1319CA1A08008DF0BE /* DataStore */,
 				C37D37F519C08E7600CEAC31 /* ParseStore.h */,
@@ -291,6 +291,7 @@
 		C3DF846019A7451700701980 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				C300551819D31009000EBA8B /* Handle Swipe */,
 				C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */,
 				C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */,
 				C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */,

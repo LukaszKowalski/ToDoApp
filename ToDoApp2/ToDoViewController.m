@@ -10,6 +10,7 @@
 #import "DataStore.h"
 #import "DoTask.h"
 #import "ParseStore.h"
+#import "NewTaskTableViewCell.h"
 
 
 @interface ToDoViewController ()
@@ -124,20 +125,63 @@
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
-    NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
+    NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (cell == nil) {
-        cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
+        cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
-    cell.viewController = self;
     
-    NSString *colorInString = [task objectForKey:@"color"]; 
-    cell.newestTask.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
-    cell.newestTask.text =   [task objectForKey:@"taskString"];
-    cell.newestTask.textAlignment = NSTextAlignmentCenter;
+    // new "swipe" cell
+    
+    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:0.7]
+                                                icon:[UIImage imageNamed:@"like.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:0.7]
+                                                icon:[UIImage imageNamed:@"message.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:0.7]
+                                                icon:[UIImage imageNamed:@"facebook.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:1.0f blue:0.35f alpha:0.7]
+                                                icon:[UIImage imageNamed:@"twitter.png"]];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                                title:@"More"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                title:@"Delete"];
+    
+    PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
+  //  cell.viewController = self;
+
+    
+    cell.leftUtilityButtons = leftUtilityButtons;
+    cell.rightUtilityButtons = rightUtilityButtons;
+    cell.delegate = self;
+    
+    // Configure the cell...
+    cell.patternLabel.text = [task objectForKey:@"taskString"];
+   // cell.patternImageView.image = [UIImage imageNamed:[patternImages objectAtIndex:indexPath.row]];
+    
+    
+    // Old cell
+    
+    
+
+    
+//    PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
+ //   cell.viewController = self;
+    
+//    NSString *colorInString = [task objectForKey:@"color"];
+// cell.newestTask.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
+//    cell.newestTask.text =   [task objectForKey:@"taskString"];
+//    cell.newestTask.textAlignment = NSTextAlignmentCenter;
     return cell;
 }
 

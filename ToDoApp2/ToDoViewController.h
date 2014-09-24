@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "NewTaskTableViewCell.h"
 #import "FriendsViewController.h"
+#import "SWTableViewCell.h"
 
-@interface ToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface ToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, SWTableViewCellDelegate>
+
 
 @property  (strong, nonatomic) ToDoViewController *delegate;
 @property (nonatomic, strong) UITableView *tableView;
