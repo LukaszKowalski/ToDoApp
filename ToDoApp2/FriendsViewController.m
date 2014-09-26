@@ -89,7 +89,7 @@
 - (void)reloadTableView{
 
     self.delegate = self;
-    [[ParseStore sharedInstance] loadFriends:self];
+    [[ParseStore sharedInstance] loadFriends:self withObjectId:[PFUser currentUser].objectId];
     [self.friendsTableView reloadData];
 
 }
@@ -121,7 +121,7 @@
 //  cell.newestFriend.backgroundColor = [self randomColor];
 //    cell.newestFriend.text = username;
     self.userCell = [ self.arrayOfFriends objectAtIndex:indexPath.row];
-   [self.userCell fetch];
+   //[self.userCell fetch];
     cell.newestFriend.text = [self.userCell objectForKey:@"username"];
     NSString *colorInString = [self.userCell objectForKey:@"color"];
     cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
@@ -137,7 +137,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 78;
+    return 70;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     

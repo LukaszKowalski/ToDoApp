@@ -31,6 +31,7 @@
     task[@"taskString"] = taskString;
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
+    task[@"principal"] = user.username;
     [task saveInBackground];
     
 }
@@ -50,7 +51,7 @@
                 PFUser *user = [objects firstObject];
                 [user fetch];
                 NSLog(@"user %@", user);
-                [[PFUser currentUser] addObject:user forKey:@"friendsArray"];
+                [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[PFUser currentUser] save];
 //                NSArray *friends = [[PFUser currentUser] objectForKey:@"friendsArray"];
 //                for (NSString *friend in friends) {
@@ -149,19 +150,33 @@
 }
 
 
-- (void)loadFriends:(FriendsViewController *)delegate{
+- (void)loadFriends:(FriendsViewController *)delegate withObjectId:(NSString *)objectID{
     
-    PFUser *user = [PFUser currentUser];
+    PFUser *user = [self userFromObjectId:objectID];
     
-    NSLog(@"load user %@", user);
-    [user objectForKey:@"friendsArray"];
-    [user fetch];
     
     NSMutableArray *arrayOfUserFriends = [NSMutableArray new];
     arrayOfUserFriends = [user objectForKey:@"friendsArray"];
+    //
+    NSMutableArray *friendsArray = [NSMutableArray new];
+    for (NSString *friendId in arrayOfUserFriends) {
+        PFUser *friend = [self userFromObjectId:friendId];
+        [friendsArray addObject:friend];
+    }
     NSLog(@"load user array of friends %@", arrayOfUserFriends); 
-    [delegate loadArrayOfFriends:arrayOfUserFriends];
+    [delegate loadArrayOfFriends:friendsArray];
     
+}
+-(PFUser *)userFromObjectId:(NSString *)objectId {
+ 
+    PFQuery *queryAboutUser = [PFUser query];
+    [queryAboutUser whereKey:@"objectId" equalTo:objectId];
+    PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
+    
+    if (user) {
+        [user fetch];
+    }
+    return user;
 }
 
 -(void)addTask:(NSString *)taskString forUser:(NSString *)username{
@@ -178,6 +193,7 @@
     task[@"taskString"] = taskString;
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
+    task[@"principal"] = user.username;
     [task saveInBackground];
     
 }
@@ -220,5 +236,31 @@
 -(PFUser *)whosViewControllerItIs{
     return self.usersViewController;
 };
+
+//- (void)loadUserData:(NSString *)objectId{
+//    
+//    PFUser *user = [PFUser currentUser];
+//    
+//    __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
+//    
+//    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+//    query.cachePolicy = kPFCachePolicyNetworkElseCache;
+//    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if (!error) {
+//            
+//            for (id object in objects) {
+//                [arrayOfParseTasks addObject:object];
+//            }
+//            
+//            dispatch_async(dispatch_get_main_queue(),^{
+//                [delegate loadArrayOfTasks:arrayOfParseTasks];
+//            });
+//            
+//            
+//        }
+//    }];
+//
+//
 
 @end

@@ -98,6 +98,8 @@
         [[PFUser currentUser] saveInBackground];
     }
     
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    
     // initArray
     
     [self reloadTableView];
@@ -138,6 +140,9 @@
     cell.newestTask.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     cell.newestTask.text =   [task objectForKey:@"taskString"];
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
+    cell.whoAddedTask.text = [task objectForKey:@"principal"];
+    cell.whoAddedTask.textAlignment = NSTextAlignmentCenter;
+    cell.whoAddedTask.textColor = cell.newestTask.backgroundColor;
     return cell;
 }
 
@@ -147,18 +152,18 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 78;
+    return 70;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    UIButton *done = (UIButton *)[customcell viewWithTag:10000];
-    [done setHidden:NO];
-    UIButton *no = (UIButton *)[customcell viewWithTag:10001];
-    [no setHidden:NO];
-    
-    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+//    UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
+//    
+//    UIButton *done = (UIButton *)[customcell viewWithTag:10000];
+//    [done setHidden:NO];
+//    UIButton *no = (UIButton *)[customcell viewWithTag:10001];
+//    [no setHidden:NO];
+//    
+//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
 

@@ -14,11 +14,13 @@
 
 @interface NewTaskTableViewCell : UITableViewCell
 @property (nonatomic, strong) UILabel *newestTask;
+@property (nonatomic, strong) UILabel *whoAddedTask;
 @property (nonatomic, strong) UIButton *done;
 @property (nonatomic, strong) UIButton *no;
 @property (nonatomic, strong) DoTask *task;
 @property (nonatomic, weak) ToDoViewController *viewController;
 @property (nonatomic, strong) UILabel *blinkLabel;
-
+@property CGPoint _originalCenter;
+@property BOOL _deleteOnDragRelease;
 
 @end

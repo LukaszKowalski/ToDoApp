@@ -50,7 +50,8 @@
                                                          UIRemoteNotificationTypeSound)];
     }
     
-    
+    PFUser * user = [[ParseStore sharedInstance] userFromObjectId:@"1WBcXRsLlR" ];
+    NSLog(@"user works %@", user);
     return YES;
 }
 
