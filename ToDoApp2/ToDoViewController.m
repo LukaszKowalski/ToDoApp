@@ -34,15 +34,16 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
     
-        //self.navigationItem.hidesBackButton = YES;
-    self.title = @"My \"Do\" list";
+    self.navigationItem.hidesBackButton = YES;
+    self.title = @"My Tasks";
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(0, 75, 320, 410);
+    self.tableView.frame = CGRectMake(10, 75, 300, 410);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc ] init];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
 //    // nav bar
 //    
@@ -66,23 +67,28 @@
     
     // adding friendsList Button
     
+    UIImage *btnImage = [UIImage imageNamed:@"IcoFriends.png"];
+    NSLog(@"obrazek %@", btnImage);
+    [self.friendsLists setImage:btnImage forState:UIControlStateNormal];
+    
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
     self.friendsLists.frame = CGRectMake(159, 64, 161, 75);
+//    [self.friendsLists setImage:btnImage forState:UIControlStateNormal];
     [self.friendsLists setTitle:@"Friends list" forState:UIControlStateNormal];
     self.friendsLists.titleLabel.font = [UIFont systemFontOfSize:25];
-    self.friendsLists.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
+    self.friendsLists.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
     
     // conf button
     
     [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
-    self.addTaskButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+    self.addTaskButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:45];
     
     // conf textfield
     
-    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [UIColor whiteColor];
     self.addTaskTextField.font = [UIFont systemFontOfSize:28];
@@ -105,7 +111,10 @@
     [self reloadTableView];
     
 }
-
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
+}
 
 - (void)reloadTableView{
 

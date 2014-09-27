@@ -21,7 +21,7 @@
     [super viewDidLoad];
 
     
-    self.view.backgroundColor = [UIColor orangeColor];
+    self.view.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.signUpLabel = [[UILabel alloc] init];
     self.getLogin = [[UITextField alloc] init];
     self.getPassword = [[UITextField alloc] init];

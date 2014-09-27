@@ -38,7 +38,8 @@
     self.friendsTableView.dataSource = self;
     [self.view addSubview:self.friendsTableView];
     self.friendsTableView.tableFooterView = [[UIView alloc ] init];
-    
+    [self.friendsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.friendsTableView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
     
     // adding button
@@ -60,19 +61,19 @@
     self.backButton.frame = CGRectMake(159, 64, 161, 75);
     [self.backButton setTitle:@"Task list" forState:UIControlStateNormal];
     self.backButton.titleLabel.font = [UIFont systemFontOfSize:25];
-    self.backButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
+    self.backButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.backButton addTarget:self action:@selector(backButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
     
     // conf button
     
     [self.addFriendButton setTitle:@"+" forState:UIControlStateNormal];
-        self.addFriendButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+        self.addFriendButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addFriendButton.titleLabel.font = [UIFont systemFontOfSize:40];
     
     // conf textfield
     
-    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];;
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [UIColor whiteColor];
     self.addTaskTextField.font = [UIFont systemFontOfSize:28];
@@ -151,6 +152,13 @@
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
 
+}
+
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
 }
 
 -(void)addItem:(NSString *)item {

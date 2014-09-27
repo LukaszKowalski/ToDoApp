@@ -22,7 +22,7 @@
     
 
 
-    self.view.backgroundColor = [UIColor orangeColor];
+    self.view.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.getLogin = [[UITextField alloc] init];
     self.getPassword = [[UITextField alloc] init];
     self.doSign = [[UILabel alloc]initWithFrame:CGRectMake(60, 30, 200, 200)];
@@ -31,16 +31,16 @@
     [self.signUpButton setTitle:@"Create Account" forState:UIControlStateNormal];
     [self.signUpButton setBackgroundColor:[UIColor whiteColor]];
     [self.signUpButton addTarget:self action:@selector(createUserAccount) forControlEvents:UIControlEventTouchUpInside];
-    [self.signUpButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    [self.signUpButton setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
+    [self.signUpButton setTitleColor:[UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [self.signUpButton setTitleColor:[UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f] forState:UIControlStateHighlighted];
     
     
     self.login = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
     [self.login setTitle:@"Login" forState:UIControlStateNormal];
     [self.login setBackgroundColor:[UIColor whiteColor]];
     [self.login addTarget:self action:@selector(loginFired:) forControlEvents:UIControlEventTouchUpInside];
-    [self.login setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    [self.login setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
+    [self.login setTitleColor:[UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [self.login setTitleColor:[UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f] forState:UIControlStateHighlighted];
     
     
     // UITextFields
@@ -59,6 +59,17 @@
     self.getPassword.frame  = CGRectMake(70, 250, 200, 50);
     self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
     self.getPassword.textColor = [UIColor whiteColor];
+    
+    
+    
+//    UIImageView *doImage=[ [UIImageView alloc] initWithImage:[UIImage imageNamed:@"DoLogo.png"]];
+//    [self.view addSubview:doImage];
+//    CGRect myFrame = doImage.frame;
+//    myFrame.origin.x = 60;
+//    myFrame.origin.y = 60;
+//    doImage.frame = myFrame;
+    
+    
     
     self.doSign.text = @"Do";
     self.doSign.textColor = [UIColor whiteColor];

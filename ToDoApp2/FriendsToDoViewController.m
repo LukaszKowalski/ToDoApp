@@ -31,7 +31,8 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc ] init];
-    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.tableView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     // nav bar
     
     self.bar = [[UINavigationBar alloc] init];
@@ -56,19 +57,19 @@
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
     self.friendsLists.frame = CGRectMake(159, 64, 161, 75);
     [self.friendsLists setTitle:@"Friend's lists" forState:UIControlStateNormal];
-    self.friendsLists.backgroundColor = [UIColor colorWithRed:255/255.0f green:90/255.0f blue:0/255.0f alpha:1];
+    self.friendsLists.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
     
     // conf button
     
     [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
-    self.addTaskButton.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+    self.addTaskButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:40];
     
     // conf textfield
     
-    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
+    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [UIColor whiteColor];
     self.addTaskTextField.font = [UIFont systemFontOfSize:28];
@@ -189,6 +190,10 @@
     
     
     return YES;
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
 }
 
 

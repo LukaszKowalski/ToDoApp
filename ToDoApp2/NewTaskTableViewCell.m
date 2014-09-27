@@ -17,7 +17,7 @@
     if (self) {
         
         self.newestTask = [[UILabel alloc] init];
-        self.newestTask.frame = CGRectMake(0, 0, 320, 70);
+        self.newestTask.frame = CGRectMake(0, 0, 300, 70);
         self.newestTask.textColor = [UIColor whiteColor];
         self.newestTask.font = [UIFont systemFontOfSize:26];
         [self.newestTask setUserInteractionEnabled:YES];
@@ -123,7 +123,7 @@
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     
     [UIView animateWithDuration:0.3 animations:^{
-        [self.newestTask setFrame:CGRectMake(-280, 0, self.contentView.frame.size.width, 70)];
+        [self.newestTask setFrame:CGRectMake(-270, 0, self.contentView.frame.size.width, 70)];
     }
 //                     completion:^(BOOL finished) {
 //        [UIView animateWithDuration:0.15 animations:^{
