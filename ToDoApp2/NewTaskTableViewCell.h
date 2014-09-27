@@ -20,6 +20,7 @@
 @property (nonatomic, strong) DoTask *task;
 @property (nonatomic, weak) ToDoViewController *viewController;
 @property (nonatomic, strong) UILabel *blinkLabel;
+@property (nonatomic, strong) UILabel *background;
 @property CGPoint _originalCenter;
 @property BOOL _deleteOnDragRelease;
 

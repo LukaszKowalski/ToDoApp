@@ -37,7 +37,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.title = @"My Tasks";
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(10, 75, 300, 410);
+    self.tableView.frame = CGRectMake(0, 75, 320, 410);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor clearColor];
