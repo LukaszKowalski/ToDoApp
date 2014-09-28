@@ -8,7 +8,7 @@
 
 #import "ToDoViewController.h"
 #import "DataStore.h"
-#import "DoTask.h"
+
 #import "ParseStore.h"
 
 
@@ -176,9 +176,7 @@
     
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
+
 - (void)addTask:(UIButton *)sender {
     self.addTaskTextField.hidden = NO;
     self.friendsLists.hidden = YES;
@@ -187,12 +185,12 @@
     
 }
 - (void)friendsButtonFired{
-    [self.loginIndicator startAnimating];
+    
     if (!self.friendsController){
     self.friendsController = [[FriendsViewController alloc] init];
     }
     [self.navigationController pushViewController:self.friendsController animated:YES];
-    [self.loginIndicator stopAnimating];
+
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

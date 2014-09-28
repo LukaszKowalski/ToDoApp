@@ -9,6 +9,8 @@
 
 #import "DataStore.h"
 
+@class ParseStore;
+
 @implementation DataStore
 
 + (instancetype) sharedInstance {
@@ -28,138 +30,37 @@
     if (self.arrayOfTasks == nil) {
         self.arrayOfTasks = [NSMutableArray new];
     }
+    NSLog(@"loaded");
     
 }
--(void)loadFriends:(NSString *)keyString
+-(NSMutableArray *)loadFriends:(NSString *)keyString
 {
-    
-    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
-    self.arrayOfFriends = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
-    if (self.arrayOfFriends == nil) {
-        self.arrayOfFriends = [NSMutableArray new];
-    }
-    
 
-}
--(void)addUser:(NSString *)item
-{
-    DoUser *user = [DoUser new];
-    user.userIdNumber = [self getRandomId];
-    user.username = item;
-    [self.arrayOfUsers addObject:user];
-    [[DataStore sharedInstance] saveData:self.arrayOfUsers withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
-}
-
--(void)loadUserTasks:(NSString *)keyString
-{
-    
-//    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
-//    self.user.arrayOfUserTasks = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
-//    if (self.arrayOfUserTasks == nil) {
+    NSMutableDictionary *dictionary = [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
+    [self.arrayOfFriends addObject:dictionary];
+//    if (self.arrayOfFriends == nil) {
 //        self.arrayOfFriends = [NSMutableArray new];
 //    }
+    NSLog(@"loaded");
+    return self.arrayOfFriends;
+
 }
 
--(void)addFriend:(NSString *)item{
+-(void)addFriend:(PFUser *)friend{
     
-    
-    DoUser *user = [DoUser new];
-    user.userIdNumber = [self getRandomId];
-    user.username = item;
-    user.userColor = [self randomColor];
+    PFUser *user = [PFUser new];
+    user = friend;
     [self.arrayOfFriends addObject:user];
-    [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
+//    [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
 
 }
 
--(void)saveData:(NSArray *)array withKey:(NSString *)keyString
+-(void)saveData:(NSMutableDictionary *)myDictionary withKey:(NSString *)keyString
 
 {
-    
-    NSData *encodedArray = [NSKeyedArchiver archivedDataWithRootObject:array];
-    [[NSUserDefaults standardUserDefaults] setObject:encodedArray forKey:keyString];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-}
+    [[NSUserDefaults standardUserDefaults] setObject:myDictionary forKey:keyString];
 
--(void)deleteTask:(DoTask *)task{
-    
-    NSMutableArray *discardedItems = [NSMutableArray array];
-    
-    DoTask *item;
-    
-    for (item in self.arrayOfTasks) {
-        if ([item.idNumber isEqualToString:task.idNumber]){
-            [discardedItems addObject:item];
-        }
-    }
-    [self.arrayOfTasks removeObjectsInArray:discardedItems];
-    [self saveData:self.arrayOfTasks withKey:@"tasksArray"];
-    
-
-}
--(void)deleteUser:(DoUser *)user{
-    
-    NSMutableArray *discardedItems = [NSMutableArray array];
-    
-    DoUser *item;
-    
-    for (item in self.arrayOfFriends) {
-        if ([item.username isEqualToString:user.username]){
-            
-            [discardedItems addObject:item];
-        }
-    }
-    [self.arrayOfFriends removeObjectsInArray:discardedItems];
-    [self saveData:self.arrayOfFriends withKey:@"friendsArray"];
-    
-    
-}
--(void)addTaskForUser:(DoUser *)user item:(NSString *)item
-{
-    if ( user.arrayOfUserTasks == nil){
-        user.arrayOfUserTasks = [NSMutableArray new];
-    }
-    
-    [user.arrayOfUserTasks addObject:item];
-    
-        [[DataStore sharedInstance] saveData:user.arrayOfUserTasks withKey:[NSString stringWithFormat:@"Data_%@", user.userIdNumber]];
-    
-}
-
--(void)addTask:(NSString *)taskString
-{
-   ;
-    
-    DoTask *task = [DoTask new];
-    task.idNumber = [self getRandomId];
-    task.taskString = taskString;
-//    task.taskColor = [self randomColor];
-    [self.arrayOfTasks addObject:task];
-    
-    [[DataStore sharedInstance] saveData:self.arrayOfTasks withKey:@"tasksArray"];
-    
-    
-    
-    [task debugDump];
-    
-}
--(DoTask *)findTaskByID:(NSString *)idNumber
-{
-    for (DoTask *task in self.arrayOfTasks){
-        if ([task.idNumber isEqualToString:idNumber]){
-            return task;
-        }
-    }return nil;
-}
-
--(DoUser *)findFriendByID:(NSString *)idNumber
-{
-    for (DoUser *user in self.arrayOfFriends){
-        if ([user.userIdNumber isEqualToString:idNumber]){
-            return user;
-        }
-    }return nil;
 }
 
 -(NSString *)getRandomId

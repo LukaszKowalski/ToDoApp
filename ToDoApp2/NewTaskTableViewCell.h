@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DoTask.h"
+
 #import "DataStore.h"
 
 @class ToDoViewController;
@@ -17,7 +17,7 @@
 @property (nonatomic, strong) UILabel *whoAddedTask;
 @property (nonatomic, strong) UIButton *done;
 @property (nonatomic, strong) UIButton *no;
-@property (nonatomic, strong) DoTask *task;
+
 @property (nonatomic, weak) ToDoViewController *viewController;
 @property (nonatomic, strong) UILabel *blinkLabel;
 @property (nonatomic, strong) UILabel *background;

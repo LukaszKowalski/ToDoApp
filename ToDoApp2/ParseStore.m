@@ -40,7 +40,6 @@
     
     // Check if User exists.
 
-
     PFQuery *query = [PFUser query];
     [query whereKey:@"username" equalTo:username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -50,24 +49,47 @@
             {
                 PFUser *user = [objects firstObject];
                 [user fetch];
-                NSLog(@"user %@", user);
-                [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
-                [[PFUser currentUser] save];
-//                NSArray *friends = [[PFUser currentUser] objectForKey:@"friendsArray"];
-//                for (NSString *friend in friends) {
-//                    PFQuery *query = [PFUser query];
-//                    [query whereKey:@"objectId" equalTo:friend];
-
+               
+                NSArray *allKeys = [user allKeys];
+                NSLog(@"allKeys %@",allKeys);
+                NSMutableDictionary *userData = [[NSMutableDictionary alloc] init];
+                for (NSString * key in allKeys) {
+                    [userData setValue:[user objectForKey:key] forKey:key];
+                }
+               
+                NSMutableArray *array2 = [[NSMutableArray alloc] initWithObjects:userData, nil];
+                // Create a dictionary from the JSON string
+                
+                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                NSString *documentsDirectory = [paths objectAtIndex:0];
+                NSString *path = [documentsDirectory stringByAppendingPathComponent:@"friends.plist"];
+                
+                NSLog(@"the path is %@, the array is %@", path, array2);
+        
+                NSMutableArray *friend = [NSMutableArray arrayWithContentsOfFile:path];
+                
+                if (nil == friend) {
+                    friend = [[NSMutableArray alloc] initWithCapacity:0];
                 }
                 
+                NSMutableDictionary *array = [[NSMutableDictionary alloc]initWithDictionary:userData];
+            
+                [friend addObject:array];
+                
+                [friend writeToFile:path atomically: TRUE];
+                
+                
+                NSMutableArray *test = [[NSMutableArray alloc ]initWithContentsOfFile:path];
+                NSLog(@"the test is %@", test);
+                
+                [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
+                [[PFUser currentUser] saveEventually];
+                }
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
             }
             
             }}];
-            
-        
-//    
-//    
+    
 //            if (user) {
 //            [[PFUser currentUser] addObject:user forKey:@"friendsArray"];
 //            [[PFUser currentUser] saveInBackground];
@@ -164,7 +186,7 @@
         [friendsArray addObject:friend];
     }
     NSLog(@"load user array of friends %@", arrayOfUserFriends); 
-    [delegate loadArrayOfFriends:friendsArray];
+      [delegate loadArrayOfFriends:friendsArray];
     
 }
 -(PFUser *)userFromObjectId:(NSString *)objectId {
@@ -230,10 +252,10 @@
     
 };
 
--(void)asignWhosViewControllerItIs:(PFUser *)user{
+-(void)asignWhosViewControllerItIs:(NSDictionary *)user{
     self.usersViewController = user;
 };
--(PFUser *)whosViewControllerItIs{
+-(NSDictionary *)whosViewControllerItIs{
     return self.usersViewController;
 };
 

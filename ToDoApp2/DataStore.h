@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DoTask.h"
-#import "DoUser.h"
+
 #import <Parse/Parse.h>
 
 @interface DataStore : NSObject
@@ -16,23 +15,16 @@
 +(instancetype)sharedInstance;
 
 -(void)loadData:(NSString *)keyString;
--(void)saveData:(NSArray *)array withKey:(NSString *)keyString;
+-(void)saveData:(NSData *)myDictionary withKey:(NSString *)keyString;
 
--(void)addTask:(NSString *)taskString;
--(void)deleteTask:(DoTask *)task;
+-(NSMutableArray *)loadFriends:(NSString *)keyString;
+-(void)addFriend:(PFUser *)friend;
 
--(void)loadFriends:(NSString *)keyString;
--(void)addFriend:(NSString *)item;
-
--(DoUser *)findFriendByID:(NSString *)idNumber;
--(void)addTaskForUser:(DoUser *)user item:(NSString *)item;
-//-(void)loadUserTasks:(NSString *)keyString;
 -(void)addUser:(NSString *)item;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfUsers;
 @property (strong, nonatomic) NSMutableArray *arrayOfFriends;
- @property (strong, nonatomic) NSMutableArray *arrayOfTasks;
-
+@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
 
 
 @end

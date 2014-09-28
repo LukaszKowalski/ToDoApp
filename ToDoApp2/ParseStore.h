@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "ToDoViewController.h"
 
+
 @class FriendsToDoViewController;
 @class FriendsViewController;
 
@@ -28,10 +29,10 @@
 -(UIColor *)randomColor;
 -(UIColor *)giveColorfromStringColor:(NSString *)colorAsString;
 - (void)registerUserForPushNotification;
--(PFUser *)whosViewControllerItIs;
--(void)asignWhosViewControllerItIs:(PFUser *)user;
+-(NSDictionary *)whosViewControllerItIs;
+-(void)asignWhosViewControllerItIs:(NSDictionary *)user;
 -(PFUser *)userFromObjectId:(NSString *)objectId;
 
-@property (strong, nonatomic) PFUser *usersViewController;
+@property (strong, nonatomic) NSDictionary *usersViewController;
 
 @end

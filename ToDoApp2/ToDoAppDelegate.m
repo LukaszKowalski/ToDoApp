@@ -7,8 +7,7 @@
 //
 
 #import "ToDoAppDelegate.h"
-#import "DoTask.h"
-#import "DoUser.h"
+
 #import "DataStore.h"
 
 

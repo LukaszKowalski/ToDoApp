@@ -10,11 +10,10 @@
 		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
 		C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */; };
 		C325E9EE19A68F0900668291 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9ED19A68F0900668291 /* DataStore.m */; };
-		C325E9F319A6961300668291 /* DoTask.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9F019A6961300668291 /* DoTask.m */; };
-		C325E9F419A6961300668291 /* DoUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9F219A6961300668291 /* DoUser.m */; };
 		C3479E6D19D68DB40091D70E /* IcoFriends.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6A19D68DB40091D70E /* IcoFriends.png */; };
 		C3479E6E19D68DB40091D70E /* DoLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6B19D68DB40091D70E /* DoLogo.png */; };
 		C3479E6F19D68DB40091D70E /* IcoPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6C19D68DB40091D70E /* IcoPlus.png */; };
+		C3479E7119D868F30091D70E /* friends.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3479E7019D868F30091D70E /* friends.plist */; };
 		C37D37F319BF02B500CEAC31 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F219BF02B500CEAC31 /* SignUpViewController.m */; };
 		C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F619C08E7600CEAC31 /* ParseStore.m */; };
 		C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */; };
@@ -63,13 +62,10 @@
 		C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsToDoViewController.m; sourceTree = "<group>"; };
 		C325E9EC19A68F0900668291 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
 		C325E9ED19A68F0900668291 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStore.m; sourceTree = "<group>"; };
-		C325E9EF19A6961300668291 /* DoTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoTask.h; sourceTree = "<group>"; };
-		C325E9F019A6961300668291 /* DoTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoTask.m; sourceTree = "<group>"; };
-		C325E9F119A6961300668291 /* DoUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoUser.h; sourceTree = "<group>"; };
-		C325E9F219A6961300668291 /* DoUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoUser.m; sourceTree = "<group>"; };
 		C3479E6A19D68DB40091D70E /* IcoFriends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IcoFriends.png; sourceTree = "<group>"; };
 		C3479E6B19D68DB40091D70E /* DoLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DoLogo.png; sourceTree = "<group>"; };
 		C3479E6C19D68DB40091D70E /* IcoPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IcoPlus.png; sourceTree = "<group>"; };
+		C3479E7019D868F30091D70E /* friends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = friends.plist; sourceTree = "<group>"; };
 		C37D37F119BF02B500CEAC31 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		C37D37F219BF02B500CEAC31 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		C37D37F519C08E7600CEAC31 /* ParseStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseStore.h; sourceTree = "<group>"; };
@@ -157,17 +153,15 @@
 			name = "Login and SignUp";
 			sourceTree = "<group>";
 		};
-		C38E1E1319CA1A08008DF0BE /* DataStore */ = {
+		C38E1E1319CA1A08008DF0BE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				C37D37F519C08E7600CEAC31 /* ParseStore.h */,
+				C37D37F619C08E7600CEAC31 /* ParseStore.m */,
 				C325E9EC19A68F0900668291 /* DataStore.h */,
 				C325E9ED19A68F0900668291 /* DataStore.m */,
-				C325E9EF19A6961300668291 /* DoTask.h */,
-				C325E9F019A6961300668291 /* DoTask.m */,
-				C325E9F119A6961300668291 /* DoUser.h */,
-				C325E9F219A6961300668291 /* DoUser.m */,
 			);
-			name = DataStore;
+			name = Data;
 			sourceTree = "<group>";
 		};
 		C3C4FBC0198FC84100F36830 = {
@@ -221,9 +215,7 @@
 				C3C4FBDC198FC84100F36830 /* ToDoAppDelegate.m */,
 				C3DF846119A7453100701980 /* ViewControllers */,
 				C3DF846019A7451700701980 /* TableViewCells */,
-				C38E1E1319CA1A08008DF0BE /* DataStore */,
-				C37D37F519C08E7600CEAC31 /* ParseStore.h */,
-				C37D37F619C08E7600CEAC31 /* ParseStore.m */,
+				C38E1E1319CA1A08008DF0BE /* Data */,
 				C3C4FBDE198FC84100F36830 /* Images.xcassets */,
 				C3C4FBD3198FC84100F36830 /* Supporting Files */,
 			);
@@ -233,6 +225,7 @@
 		C3C4FBD3198FC84100F36830 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C3479E7019D868F30091D70E /* friends.plist */,
 				C3C4FBD4198FC84100F36830 /* ToDoApp2-Info.plist */,
 				C3C4FBD5198FC84100F36830 /* InfoPlist.strings */,
 				C3C4FBD8198FC84100F36830 /* main.m */,
@@ -365,6 +358,7 @@
 			files = (
 				C3C4FBD7198FC84100F36830 /* InfoPlist.strings in Resources */,
 				C3479E6F19D68DB40091D70E /* IcoPlus.png in Resources */,
+				C3479E7119D868F30091D70E /* friends.plist in Resources */,
 				C3479E6E19D68DB40091D70E /* DoLogo.png in Resources */,
 				C3479E6D19D68DB40091D70E /* IcoFriends.png in Resources */,
 				C3C4FBDF198FC84100F36830 /* Images.xcassets in Resources */,
@@ -394,11 +388,9 @@
 				C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */,
 				C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */,
 				C325E9EE19A68F0900668291 /* DataStore.m in Sources */,
-				C325E9F319A6961300668291 /* DoTask.m in Sources */,
 				C3D1D97719BE2E8F00120D55 /* ToDoViewController.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
 				C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */,
-				C325E9F419A6961300668291 /* DoUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

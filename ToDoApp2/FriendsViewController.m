@@ -8,17 +8,13 @@
 
 #import "FriendsViewController.h"
 #import "DataStore.h"
-#import "DoUser.h"
-
-
-
 
 
 @interface FriendsViewController ()
 
 @property (strong, nonatomic) FriendsToDoViewController *controller;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
-@property (weak, nonatomic) PFUser *userCell;
+@property (weak, nonatomic) NSDictionary *userCell;
 
 @end
 
@@ -33,7 +29,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.title = @"Friends list";
     self.friendsTableView = [[UITableView alloc] init];
-    self.friendsTableView.frame = CGRectMake(0, 75, 320, 400);
+    self.friendsTableView.frame = CGRectMake(10, 75, 300, 410);
     self.friendsTableView.delegate = self;
     self.friendsTableView.dataSource = self;
     [self.view addSubview:self.friendsTableView];
@@ -90,7 +86,19 @@
 - (void)reloadTableView{
 
     self.delegate = self;
-    [[ParseStore sharedInstance] loadFriends:self withObjectId:[PFUser currentUser].objectId];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *fullPath = [NSString stringWithFormat:@"%@/friends.plist", documentsDirectory];
+    
+    
+    self.arrayOfFriends = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
+    
+    
+    if (self.arrayOfFriends == nil) {
+      [[ParseStore sharedInstance] loadFriends:self withObjectId:[PFUser currentUser].objectId];
+    }
+    
     [self.friendsTableView reloadData];
 
 }
@@ -102,6 +110,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@"licza friendsow %d", [self.arrayOfFriends count]);
     return [self.arrayOfFriends count];
 
 }
@@ -113,16 +122,8 @@
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
     
-//    NSString *username = [self.arrayOfFriends objectAtIndex:indexPath.row];
-//    PFQuery *queryAboutUser = [PFUser query];
-//    [queryAboutUser whereKey:@"username" equalTo:username];
-//    PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
-//    NSString *colorInString = [user objectForKey:@"color"];
-//    cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
-//  cell.newestFriend.backgroundColor = [self randomColor];
-//    cell.newestFriend.text = username;
+
     self.userCell = [ self.arrayOfFriends objectAtIndex:indexPath.row];
-   //[self.userCell fetch];
     cell.newestFriend.text = [self.userCell objectForKey:@"username"];
     NSString *colorInString = [self.userCell objectForKey:@"color"];
     cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
@@ -144,11 +145,10 @@
     
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
-    NSString *user = [[self.arrayOfFriends objectAtIndex:indexPath.row] objectForKey:@"username"];
     self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
     NSLog(@" self.userCell = %@", self.userCell);
     [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
-    friendsToDoView.titleName = [NSString stringWithFormat:@"%@", user];
+    friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
 
@@ -163,18 +163,14 @@
 
 -(void)addItem:(NSString *)item {
     
-    if (!self.loginIndicator) {
-        self.loginIndicator=  [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-
-    }
+    
     [self.view addSubview:self.loginIndicator];
     [self.view bringSubviewToFront:self.loginIndicator];
     self.loginIndicator.frame = CGRectMake(100, 200, 44, 44);
-    [self.loginIndicator startAnimating];
     [[ParseStore sharedInstance] addFriend:item];
     [self.friendsTableView reloadData];
     [self reloadTableView];
-    [self.loginIndicator stopAnimating];
+    
 }
     
 - (void)addFriend:(UIButton *)sender {

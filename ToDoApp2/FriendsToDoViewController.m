@@ -26,7 +26,7 @@
     self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
     self.navigationItem.hidesBackButton = YES;
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(0, 75, 320, 400);
+    self.tableView.frame = CGRectMake(10, 75, 300, 410);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -112,7 +112,7 @@
     NSString *colorInString = [task objectForKey:@"color"];
     
     self.taskForFriend = [[UILabel alloc] init];
-    self.taskForFriend.frame = CGRectMake(0, 0, 320, 78);
+    self.taskForFriend.frame = CGRectMake(0, 0, 300, 70);
     self.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     self.taskForFriend.textColor = [UIColor whiteColor];
     self.taskForFriend.font = [UIFont systemFontOfSize:26];
@@ -135,9 +135,12 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
+    NSDictionary *objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
+    NSString *username = [objectId objectForKey:@"username"];
+    
     PFQuery *userQuery=[PFUser query];
-    NSLog(@"user = %@", [[ParseStore sharedInstance] whosViewControllerItIs].objectId);
-    [userQuery whereKey:@"objectId" equalTo:[[ParseStore sharedInstance] whosViewControllerItIs].objectId];
+    NSLog(@"user = %@", [[[ParseStore sharedInstance] whosViewControllerItIs] objectForKey:@"objectId"]);
+    [userQuery whereKey:@"username" equalTo:username];
     NSLog(@"userQuery = %@", userQuery);
 //    [userQuery whereKey:@"objectId" equalTo:@"AJWL7dFEAq"];
 
