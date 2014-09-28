@@ -55,14 +55,15 @@
     // adding button
     
     self.addTaskButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.addTaskButton.frame = CGRectMake(0, 64, 159, 75);
+    self.addTaskButton.frame = CGRectMake(40, 64, 75, 75);
     self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:25];
+    self.addTaskButton.titleLabel.adjustsLetterSpacingToFitWidth = YES;
     [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addTaskButton];
     
     // adding TextField
     
-    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
+    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 134, 300, 70)];
     [self.view addSubview:self.addTaskTextField];
     
     // adding friendsList Button
@@ -76,15 +77,16 @@
 //    [self.friendsLists setImage:btnImage forState:UIControlStateNormal];
     [self.friendsLists setTitle:@"Friends list" forState:UIControlStateNormal];
     self.friendsLists.titleLabel.font = [UIFont systemFontOfSize:25];
-    self.friendsLists.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.friendsLists.backgroundColor = [UIColor clearColor];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
     
     // conf button
     
     [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
-    self.addTaskButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.addTaskButton.backgroundColor = [UIColor clearColor];
     self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:45];
+    self.addTaskButton.tag = 1;
     
     // conf textfield
     
@@ -178,10 +180,31 @@
 
 
 - (void)addTask:(UIButton *)sender {
+    
+    if (self.addTaskButton.tag == 1) {
+        
+    
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.tableView setFrame:CGRectMake(0, 135, 320, 410)];
+    } completion:^(BOOL finished) {
     self.addTaskTextField.hidden = NO;
-    self.friendsLists.hidden = YES;
+        [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+        self.addTaskTextField.backgroundColor = [[ParseStore sharedInstance] randomColor];
+    }];
     [self.addTaskTextField becomeFirstResponder];
     self.addTaskTextField.delegate = self;
+    self.addTaskButton.tag = 2;
+    }else{
+        [UIView animateWithDuration:0.3 animations:^{
+            self.addTaskTextField.hidden = YES;
+            [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
+            [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+            }];
+        [self.addTaskTextField resignFirstResponder];
+        self.addTaskButton.tag = 1;
+    }
     
 }
 - (void)friendsButtonFired{
@@ -192,6 +215,19 @@
     [self.navigationController pushViewController:self.friendsController animated:YES];
 
 }
+- (void)addTaskFiredAgain{
+    
+    
+    [UIView animateWithDuration:0.3 animations:^{
+         self.addTaskTextField.hidden = YES;
+        [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
+        [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+        [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    [self.addTaskTextField resignFirstResponder];
+}
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     

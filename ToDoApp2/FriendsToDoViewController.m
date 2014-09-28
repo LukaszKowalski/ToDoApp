@@ -26,7 +26,7 @@
     self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
     self.navigationItem.hidesBackButton = YES;
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(10, 75, 300, 410);
+    self.tableView.frame = CGRectMake(10, 75, 300, 510);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
