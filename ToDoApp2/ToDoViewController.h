@@ -20,9 +20,12 @@
 @property (strong, nonatomic) UIButton *friendsLists;
 @property (strong, nonatomic) UINavigationBar *bar;
 @property (strong, nonatomic) UILabel *doSign;
+@property (strong, nonatomic) UILabel *cap;
+
+@property (nonatomic, assign) NSInteger swipeSwitch;
 
 -(void)reloadTableView;
 -(void)loadArrayOfTasks:(NSMutableArray *)array;
-
+-(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer;
 
 @end

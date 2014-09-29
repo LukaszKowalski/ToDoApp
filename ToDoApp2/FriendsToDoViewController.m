@@ -26,7 +26,7 @@
     self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
     self.navigationItem.hidesBackButton = YES;
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(10, 75, 300, 510);
+    self.tableView.frame = CGRectMake(10, 75, 300, 410);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -135,36 +135,35 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    NSDictionary *objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
-    NSString *username = [objectId objectForKey:@"username"];
+    self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
+    NSString *username = [self.objectId objectForKey:@"username"];
     
     PFQuery *userQuery=[PFUser query];
-    NSLog(@"user = %@", [[[ParseStore sharedInstance] whosViewControllerItIs] objectForKey:@"objectId"]);
     [userQuery whereKey:@"username" equalTo:username];
-    NSLog(@"userQuery = %@", userQuery);
-//    [userQuery whereKey:@"objectId" equalTo:@"AJWL7dFEAq"];
 
     // send push notification to the user
     PFQuery *pushQuery = [PFInstallation query];
     [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
-    NSLog(@" pushQuery = %@", pushQuery);
+
     PFPush *push = [PFPush new];
     [push setQuery: pushQuery];
     PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
     NSString *message= [NSString stringWithFormat:@"%@ przypomina Ci o %@",[PFUser currentUser].username ,[task objectForKey:@"taskString"]];
     [push setData: @{ @"alert":message}];
     [push sendPushInBackground];
-    NSLog(@" push = %@", push);
+
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 -(void)addItem:(NSString *)item {
     
+    self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
     [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
+    [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];
     [self.tableView reloadData];
     [self reloadTableView];
-    
+
 }
 - (void)addTask:(UIButton *)sender {
     
@@ -190,7 +189,7 @@
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;
     self.friendsLists.hidden = NO;
-    
+        
     
     return YES;
 }

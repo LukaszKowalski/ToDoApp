@@ -32,7 +32,7 @@
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
-    [task saveInBackground];
+    [task save];
     
 }
 
@@ -44,28 +44,25 @@
     [query whereKey:@"username" equalTo:username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"%@", objects);
+            
             if (objects.count > 0) {
             {
                 PFUser *user = [objects firstObject];
                 [user fetch];
                
                 NSArray *allKeys = [user allKeys];
-                NSLog(@"allKeys %@",allKeys);
                 NSMutableDictionary *userData = [[NSMutableDictionary alloc] init];
                 for (NSString * key in allKeys) {
                     [userData setValue:[user objectForKey:key] forKey:key];
                 }
                
-                NSMutableArray *array2 = [[NSMutableArray alloc] initWithObjects:userData, nil];
+
                 // Create a dictionary from the JSON string
                 
                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
                 NSString *documentsDirectory = [paths objectAtIndex:0];
                 NSString *path = [documentsDirectory stringByAppendingPathComponent:@"friends.plist"];
                 
-                NSLog(@"the path is %@, the array is %@", path, array2);
-        
                 NSMutableArray *friend = [NSMutableArray arrayWithContentsOfFile:path];
                 
                 if (nil == friend) {
@@ -77,10 +74,7 @@
                 [friend addObject:array];
                 
                 [friend writeToFile:path atomically: TRUE];
-                
-                
-                NSMutableArray *test = [[NSMutableArray alloc ]initWithContentsOfFile:path];
-                NSLog(@"the test is %@", test);
+              
                 
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[PFUser currentUser] saveEventually];
@@ -170,7 +164,28 @@
         }
     }];
 }
+-(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task{
+    
+    NSDictionary *objectId = user;
+    NSString *username = [objectId objectForKey:@"username"];
+    PFQuery *userQuery=[PFUser query];
+    
+    [userQuery whereKey:@"username" equalTo:username];
+    
+    // send push notification to the user
+    PFQuery *pushQuery = [PFInstallation query];
+    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+    
+    PFPush *push = [PFPush new];
+    [push setQuery: pushQuery];
+    NSString *message= [NSString stringWithFormat:@"New task for you \"%@\"", task];
+    [push setData: @{ @"alert":message}];
+    [push sendPushInBackground];
+    
 
+    
+    
+}
 
 - (void)loadFriends:(FriendsViewController *)delegate withObjectId:(NSString *)objectID{
     
@@ -185,7 +200,7 @@
         PFUser *friend = [self userFromObjectId:friendId];
         [friendsArray addObject:friend];
     }
-    NSLog(@"load user array of friends %@", arrayOfUserFriends); 
+    
       [delegate loadArrayOfFriends:friendsArray];
     
 }
@@ -215,19 +230,22 @@
     task[@"taskString"] = taskString;
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
-    task[@"principal"] = user.username;
+    task[@"principal"] = [[PFUser currentUser] username];
+    
     [task saveInBackground];
+    
     
 }
 -(UIColor *)randomColor{
     
     NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
-                              [UIColor colorWithRed:255/255.0 green:232/255.0 blue:0/255.0 alpha:1],
-                              [UIColor colorWithRed:20/255.0 green:162/255.0 blue:212/255.0 alpha:1],
-                              [UIColor colorWithRed:175/255.0 green:94/255.0 blue:156/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:177/255.0 blue:106/255.0 alpha:1],
-                              [UIColor colorWithRed:247/255.0 green:148/255.0 blue:30/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:82/255.0 blue:156/255.0 alpha:1],
+                              [UIColor colorWithRed:255/255.0 green:202/255.0 blue:94/255.0 alpha:1],
+                              [UIColor colorWithRed:255/255.0 green:94/255.0 blue:115/255.0 alpha:1],
+                              [UIColor colorWithRed:101/255.0 green:192/255.0 blue:197/255.0 alpha:1],
+                              [UIColor colorWithRed:133/255.0 green:117/255.0 blue:167/255.0 alpha:1],
+                              [UIColor colorWithRed:154/255.0 green:212/255.0 blue:107/255.0 alpha:1],
+                              [UIColor colorWithRed:215/255.0 green:216/255.0 blue:184/255.0 alpha:1],
+                              [UIColor colorWithRed:0/255.0 green:181/255.0 blue:156/255.0 alpha:1],
                               nil];
     
     UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];

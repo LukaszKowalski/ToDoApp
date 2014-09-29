@@ -9,7 +9,10 @@
 #import "NewTaskTableViewCell.h"
 #import "ToDoViewController.h"
 
+
 @implementation NewTaskTableViewCell
+
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -19,15 +22,15 @@
         self.background = [[UILabel alloc] init];
         
         self.newestTask = [[UILabel alloc] init];
-        self.newestTask.frame = CGRectMake(10, 0, 300, 70);
+        self.newestTask.frame = CGRectMake(13, 0, 294, 70);
         self.newestTask.textColor = [UIColor whiteColor];
-        self.newestTask.font = [UIFont systemFontOfSize:26];
+        self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.newestTask setUserInteractionEnabled:YES];
         
         self.whoAddedTask = [[UILabel alloc] init];
         self.whoAddedTask.frame = CGRectMake(0, 0, 320, 70);
         self.whoAddedTask.textColor = [UIColor whiteColor];
-        self.whoAddedTask.font = [UIFont systemFontOfSize:26];
+        self.whoAddedTask.font = [UIFont systemFontOfSize:20];
         self.whoAddedTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
         
         [self.contentView addSubview:self.newestTask];
@@ -48,6 +51,7 @@
         [self.no setTitle:@"No" forState:UIControlStateNormal];
         [self.done setTitle:@"Done" forState:UIControlStateNormal];
         
+        self.currentStatus = SWIPE_TYPE_START;
         
         self.done.tag = 10000;
         self.no.tag = 10001;
@@ -59,9 +63,13 @@
         UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRightInCell:)];
         [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
         
+        
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeLeftInCell:)];
         [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
         
+//       UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+//        
+//        [self.newestTask addGestureRecognizer:panGesture];
         [self.newestTask addGestureRecognizer:swipeRight];
         [self.newestTask addGestureRecognizer:swipeLeft];
         
@@ -84,57 +92,47 @@
     
 }
 
--(void)didSwipeRightInCell:(id)sender {
-    
-    // Inform the delegate of the right swipe
-   // [delegate didSwipeRightInCellWithIndexPath:_indexPath];
+-(void)didSwipeRightInCell:(id)sender{
+    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
+
+    if (self.currentStatus == SWIPE_TYPE_LEFT) {
     
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    
-    // Swipe top view left
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        [self.newestTask setFrame:CGRectMake(10, 0, self.contentView.frame.size.width-20, 70)];
-        
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-26, 70)];
+        }];
+        self.currentStatus = SWIPE_TYPE_START;
     }
-//                     completion:^(BOOL finished) {
-//        
-//        // Bounce lower view
-//        [UIView animateWithDuration:0.15 animations:^{
-//            
-//            [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-//            
-//        }
-//                         completion:^(BOOL finished) {
-//            
-//            [UIView animateWithDuration:0.15 animations:^{
-//                [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-//            }];
+//    else if (self.currentStatus == SWIPE_TYPE_START){
+//
+//        [UIView animateWithDuration:0.5 animations:^{
+//            [self.newestTask setFrame:CGRectMake(320, 0, self.contentView.frame.size.width-26, 70)];
 //        }];
+//        
+//        double delayInSeconds = 0.7;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            
+//            [self.delegate removeTaskforRowAtIndexPath:indexPath];
+//            
+//        });
+//
+//        self.currentStatus = SWIPE_TYPE_START;
+//        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-26, 70)];
+//
 //    }
-         ];
-    
- //   }];
 }
 
 -(void)didSwipeLeftInCell:(id)sender {
     
-    // Inform the delegate of the left swipe
-   // [delegate didSwipeLeftInCellWithIndexPath:_indexPath];
+    self.currentStatus = SWIPE_TYPE_LEFT;
     
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    
     [UIView animateWithDuration:0.3 animations:^{
-        [self.newestTask setFrame:CGRectMake(-250, 0, self.contentView.frame.size.width-20, 70)];
-    }
-//                     completion:^(BOOL finished) {
-//        [UIView animateWithDuration:0.15 animations:^{
-//            [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-//        }];
-//    }
-     ];
-    
+        [self.newestTask setFrame:CGRectMake(-250, 0, self.contentView.frame.size.width-26, 70)];
+    }];
 }
+
 
 
 -(void)noFired:(id)sender{
@@ -181,16 +179,16 @@
           }
           ];
      }
-#pragma mark - horizontal pan gesture methods
-//-(BOOL)gestureRecognizerShouldBegin:(UISwipeGestureRecognizer *)gestureRecognizer {
-//    CGPoint translation = [gestureRecognizer translationInView:self.newestTask];
-//    // Check for horizontal gesture
-//    if (fabsf(translation.x) > fabsf(translation.y)) {
-//        return YES;
-//    }
-//    return NO;
-//}
-//
+//#pragma mark - horizontal pan gesture methods
+////-(BOOL)gestureRecognizerShouldBegin:(UISwipeGestureRecognizer *)gestureRecognizer {
+////    CGPoint translation = [gestureRecognizer translationInView:self.newestTask];
+////    // Check for horizontal gesture
+////    if (fabsf(translation.x) > fabsf(translation.y)) {
+////        return YES;
+////    }
+////    return NO;
+////}
+////
 //-(void)handlePan:(UIPanGestureRecognizer *)recognizer {
 //    // 1
 //    [self subviews];
@@ -208,18 +206,18 @@
 //        
 //        self.newestTask.center = CGPointMake(__originalCenter.x + translation.x, __originalCenter.y);
 //        // determine whether the item has been dragged far enough to initiate a delete / complete
-//        __deleteOnDragRelease = self.newestTask.frame.origin.x < -self.newestTask.frame.size.width / 2;
+//        __deleteOnDragRelease = self.newestTask.frame.origin.x < self.newestTask.frame.size.width / 2;
 //        
 //    }
 //    
 //    // 3
 //    if (recognizer.state == UIGestureRecognizerStateEnded) {
 //        CGPoint translation = [recognizer translationInView:self.newestTask];
-//        if (__originalCenter.x + translation.x > -110) {
-//            self.newestTask.center = CGPointMake(-110, __originalCenter.y);
+//        if (__originalCenter.x + translation.x > 300) {
+//            self.newestTask.center = CGPointMake(480, __originalCenter.y);
 //        }
 //        // the frame this cell would have had before being dragged
-//        CGRect originalFrame = CGRectMake(0, self.newestTask.frame.origin.y,
+//        CGRect originalFrame = CGRectMake(13, self.newestTask.frame.origin.y,
 //                                          self.newestTask.bounds.size.width, self.newestTask.bounds.size.height);
 //        if (!__deleteOnDragRelease) {
 //            // if the item is not being deleted, snap back to the original location

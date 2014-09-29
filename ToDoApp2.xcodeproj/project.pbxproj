@@ -10,7 +10,7 @@
 		C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */; };
 		C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */; };
 		C325E9EE19A68F0900668291 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C325E9ED19A68F0900668291 /* DataStore.m */; };
-		C3479E6D19D68DB40091D70E /* IcoFriends.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6A19D68DB40091D70E /* IcoFriends.png */; };
+		C3479E6D19D68DB40091D70E /* IcoFriends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6A19D68DB40091D70E /* IcoFriends@2x.png */; };
 		C3479E6E19D68DB40091D70E /* DoLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6B19D68DB40091D70E /* DoLogo.png */; };
 		C3479E6F19D68DB40091D70E /* IcoPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = C3479E6C19D68DB40091D70E /* IcoPlus.png */; };
 		C3479E7119D868F30091D70E /* friends.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3479E7019D868F30091D70E /* friends.plist */; };
@@ -62,7 +62,7 @@
 		C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsToDoViewController.m; sourceTree = "<group>"; };
 		C325E9EC19A68F0900668291 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
 		C325E9ED19A68F0900668291 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStore.m; sourceTree = "<group>"; };
-		C3479E6A19D68DB40091D70E /* IcoFriends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IcoFriends.png; sourceTree = "<group>"; };
+		C3479E6A19D68DB40091D70E /* IcoFriends@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IcoFriends@2x.png"; sourceTree = "<group>"; };
 		C3479E6B19D68DB40091D70E /* DoLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DoLogo.png; sourceTree = "<group>"; };
 		C3479E6C19D68DB40091D70E /* IcoPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IcoPlus.png; sourceTree = "<group>"; };
 		C3479E7019D868F30091D70E /* friends.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = friends.plist; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 				C3C4FBEB198FC84100F36830 /* ToDoApp2Tests */,
 				C3C4FBCB198FC84100F36830 /* Frameworks */,
 				C3C4FBCA198FC84100F36830 /* Products */,
-				C3479E6A19D68DB40091D70E /* IcoFriends.png */,
+				C3479E6A19D68DB40091D70E /* IcoFriends@2x.png */,
 				C3479E6B19D68DB40091D70E /* DoLogo.png */,
 				C3479E6C19D68DB40091D70E /* IcoPlus.png */,
 			);
@@ -360,7 +360,7 @@
 				C3479E6F19D68DB40091D70E /* IcoPlus.png in Resources */,
 				C3479E7119D868F30091D70E /* friends.plist in Resources */,
 				C3479E6E19D68DB40091D70E /* DoLogo.png in Resources */,
-				C3479E6D19D68DB40091D70E /* IcoFriends.png in Resources */,
+				C3479E6D19D68DB40091D70E /* IcoFriends@2x.png in Resources */,
 				C3C4FBDF198FC84100F36830 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

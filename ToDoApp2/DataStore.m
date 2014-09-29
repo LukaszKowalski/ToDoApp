@@ -30,7 +30,7 @@
     if (self.arrayOfTasks == nil) {
         self.arrayOfTasks = [NSMutableArray new];
     }
-    NSLog(@"loaded");
+    
     
 }
 -(NSMutableArray *)loadFriends:(NSString *)keyString
@@ -41,7 +41,7 @@
 //    if (self.arrayOfFriends == nil) {
 //        self.arrayOfFriends = [NSMutableArray new];
 //    }
-    NSLog(@"loaded");
+    
     return self.arrayOfFriends;
 
 }

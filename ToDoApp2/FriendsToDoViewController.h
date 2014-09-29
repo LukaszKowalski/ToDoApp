@@ -25,6 +25,7 @@
 
 @property (strong, nonatomic) NSMutableArray *arrayOfUserTasks;
 @property (strong, nonatomic) PFUser *friendsToDoList;
+@property (strong, nonatomic) NSDictionary *objectId;
 
 -(void)addItem:(NSString*)item;
 -(void)loadArrayOfTaskss:(NSMutableArray *)array;

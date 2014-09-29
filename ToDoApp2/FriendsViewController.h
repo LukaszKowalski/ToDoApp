@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSMutableArray *arrayOfFriends;
 @property (strong, nonatomic) FriendsViewController *delegate;
 @property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UILabel *cap;
 
 -(void)reloadTableView;
 -(void)loadArrayOfFriends:(NSMutableArray *)array;

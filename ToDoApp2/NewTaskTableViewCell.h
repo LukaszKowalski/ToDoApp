@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "DataStore.h"
+typedef enum {SWIPE_TYPE_START = 0, SWIPE_TYPE_LEFT, SWIPE_TYPE_RIGHT} SWIPE_TYPE;
 
 @class ToDoViewController;
 
@@ -23,5 +24,9 @@
 @property (nonatomic, strong) UILabel *background;
 @property CGPoint _originalCenter;
 @property BOOL _deleteOnDragRelease;
+@property  (strong, nonatomic) ToDoViewController *delegate;
+
+
+@property SWIPE_TYPE currentStatus;
 
 @end

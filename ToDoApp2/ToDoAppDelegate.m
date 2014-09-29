@@ -52,8 +52,7 @@
                                                          UIRemoteNotificationTypeSound)];
     }
     
-    PFUser * user = [[ParseStore sharedInstance] userFromObjectId:@"1WBcXRsLlR" ];
-    NSLog(@"user works %@", user);
+
     return YES;
 }
 
@@ -86,12 +85,12 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
-    NSLog(@">>%@",deviceToken);
+
     
     //Removing the brackets from the device token
-    NSString *tokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+//    NSString *tokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     
-    NSLog(@"Push Notification tokenstring is %@",tokenString);
+
     
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -101,7 +100,7 @@
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"%@", error);
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

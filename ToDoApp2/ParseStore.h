@@ -32,6 +32,7 @@
 -(NSDictionary *)whosViewControllerItIs;
 -(void)asignWhosViewControllerItIs:(NSDictionary *)user;
 -(PFUser *)userFromObjectId:(NSString *)objectId;
+-(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task;
 
 @property (strong, nonatomic) NSDictionary *usersViewController;
 

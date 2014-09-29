@@ -38,44 +38,54 @@
     self.friendsTableView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
     
+    self.cap = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
+    self.cap.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    [self.view addSubview:self.cap];
+
+    
     // adding button
     
     self.addFriendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.addFriendButton.frame = CGRectMake(0, 64, 159, 75);
+    self.addFriendButton.frame = CGRectMake(40, 64, 75, 75);
     self.addFriendButton.titleLabel.font = [UIFont systemFontOfSize:25];
     [self.addFriendButton addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addFriendButton];
     
     // adding TextField
     
-    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
-    [self.view addSubview:self.addTaskTextField];
     
-    // adding friendsList Button
+        // adding friendsList Button
+    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 134, 300, 70)];
+    [self.view addSubview:self.addTaskTextField];
+
+    
     
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.backButton.frame = CGRectMake(159, 64, 161, 75);
     [self.backButton setTitle:@"Task list" forState:UIControlStateNormal];
     self.backButton.titleLabel.font = [UIFont systemFontOfSize:25];
-    self.backButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.backButton.backgroundColor = [UIColor clearColor];
     [self.backButton addTarget:self action:@selector(backButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
     
     // conf button
     
     [self.addFriendButton setTitle:@"+" forState:UIControlStateNormal];
-        self.addFriendButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.addFriendButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addFriendButton.titleLabel.font = [UIFont systemFontOfSize:40];
+    self.addFriendButton.tag = 1;
     
     // conf textfield
     
-    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];;
+    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [UIColor whiteColor];
     self.addTaskTextField.font = [UIFont systemFontOfSize:28];
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your friend's nick"];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
+    
+ 
     
     // initArray
     
@@ -110,7 +120,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSLog(@"licza friendsow %d", [self.arrayOfFriends count]);
     return [self.arrayOfFriends count];
 
 }
@@ -146,7 +155,6 @@
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
     self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
-    NSLog(@" self.userCell = %@", self.userCell);
     [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
@@ -174,9 +182,31 @@
 }
     
 - (void)addFriend:(UIButton *)sender {
-    self.addTaskTextField.hidden = NO;
-    self.backButton.hidden = YES;
-    [self.addTaskTextField becomeFirstResponder];
+    
+    if (self.addFriendButton.tag == 1) {
+        
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.friendsTableView setFrame:CGRectMake(10, 140, 300, 410)];
+            [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
+        } completion:^(BOOL finished) {
+            self.addTaskTextField.hidden = NO;
+            self.addTaskTextField.backgroundColor = [[ParseStore sharedInstance] randomColor];
+        }];
+        [self.addTaskTextField becomeFirstResponder];
+        self.addTaskTextField.delegate = self;
+        self.addFriendButton.tag = 2;
+    }else{
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            [self.friendsTableView setFrame:CGRectMake(10, 75, 300, 410)];
+            [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
+        }];
+        self.addTaskTextField.hidden = YES;
+        [self.addTaskTextField resignFirstResponder];
+        self.addFriendButton.tag = 1;
+    }
+
     self.addTaskTextField.delegate = self;
 }
 - (void)backButtonFired{
@@ -190,6 +220,13 @@
     textField.text = @"";
     [self.delegate addItem:newFriend];
     [self.addTaskTextField resignFirstResponder];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.addTaskTextField.hidden = YES;
+        [self.friendsTableView setFrame:CGRectMake(0, 75, 320, 410)];
+        [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
+    }];
+    [self.addTaskTextField resignFirstResponder];
+    self.addFriendButton.tag = 1;
     self.addTaskTextField.hidden = YES;
     self.backButton.hidden = NO;
     
