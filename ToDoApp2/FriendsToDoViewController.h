@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UINavigationBar *bar;
 @property (strong, nonatomic) NSString *titleName;
 @property (strong, nonatomic) UILabel *taskForFriend;
+@property (strong, nonatomic) UIButton *confirmButton;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfUserTasks;
 @property (strong, nonatomic) PFUser *friendsToDoList;

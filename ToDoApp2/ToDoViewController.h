@@ -21,11 +21,13 @@
 @property (strong, nonatomic) UINavigationBar *bar;
 @property (strong, nonatomic) UILabel *doSign;
 @property (strong, nonatomic) UILabel *cap;
-
+@property (strong, nonatomic) UIButton *confirmButton;
 @property (nonatomic, assign) NSInteger swipeSwitch;
 
 -(void)reloadTableView;
 -(void)loadArrayOfTasks:(NSMutableArray *)array;
+-(void)loadArrayOfTasksForStart:(NSMutableArray *)array;
+
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer;
 
 @end

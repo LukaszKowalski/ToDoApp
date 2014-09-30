@@ -35,21 +35,18 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     // nav bar
     
-    self.bar = [[UINavigationBar alloc] init];
-    [self.bar setFrame:CGRectMake(0, 20, 320, 44)];
-    self.bar.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:self.bar];
+
     
     // adding button
     
     self.addTaskButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.addTaskButton.frame = CGRectMake(0, 64, 159, 75);
+    self.addTaskButton.frame = CGRectMake(120, 64, 75, 75);
     [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addTaskButton];
     
     // adding TextField
     
-    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
+    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(13, 134, 294, 70)];
     [self.view addSubview:self.addTaskTextField];
     
     // adding friendsList Button
@@ -57,7 +54,7 @@
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
     self.friendsLists.frame = CGRectMake(159, 64, 161, 75);
     [self.friendsLists setTitle:@"Friend's lists" forState:UIControlStateNormal];
-    self.friendsLists.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.friendsLists.backgroundColor = [UIColor clearColor];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
     
@@ -65,17 +62,30 @@
     
     [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
     self.addTaskButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
-    self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:40];
-    
+    self.addTaskButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     // conf textfield
     
     self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
-    self.addTaskTextField.textColor = [UIColor whiteColor];
-    self.addTaskTextField.font = [UIFont systemFontOfSize:28];
+    self.addTaskTextField.textColor = [[ParseStore sharedInstance] randomColor];
+    self.addTaskTextField.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type task for %@", self.titleName];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
+    
+    // confirmButton
+    
+    UIImage *confirmImage = [UIImage imageNamed:@"IcoCheck.png"];
+    
+    self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
+    self.confirmButton.frame = CGRectMake(20, 64, 81, 75);
+    self.confirmButton.backgroundColor = [UIColor clearColor];
+    [self.confirmButton addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.confirmButton];
+    self.confirmButton.hidden = YES;
+    
+    self.addTaskButton.tag = 1;
     
     // initArray
     
@@ -91,8 +101,8 @@
     
 }
 -(void)loadArrayOfTaskss:(NSMutableArray *)array {
-    
-    self.arrayOfUserTasks = array;
+    NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
+    self.arrayOfUserTasks = reversed;
     [self.tableView reloadData];
 
 }
@@ -115,7 +125,7 @@
     self.taskForFriend.frame = CGRectMake(0, 0, 300, 70);
     self.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     self.taskForFriend.textColor = [UIColor whiteColor];
-    self.taskForFriend.font = [UIFont systemFontOfSize:26];
+    self.taskForFriend.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.taskForFriend.textAlignment = NSTextAlignmentCenter;
     self.taskForFriend.text = [task objectForKey:@"taskString"];
     [cell.contentView addSubview:self.taskForFriend];
@@ -167,11 +177,33 @@
 }
 - (void)addTask:(UIButton *)sender {
     
-    self.addTaskTextField.hidden = NO;
-    self.friendsLists.hidden = YES;
-    [self.addTaskTextField becomeFirstResponder];
-    self.addTaskTextField.delegate = self;
+    if (self.addTaskButton.tag == 1) {
+        
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.tableView setFrame:CGRectMake(13, 140, 294, 410)];
+            [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+        } completion:^(BOOL finished) {
+            self.confirmButton.hidden = NO;
+            self.addTaskTextField.hidden = NO;
+            self.addTaskTextField.backgroundColor = [UIColor whiteColor];
+        }];
+        [self.addTaskTextField becomeFirstResponder];
+        self.addTaskTextField.delegate = self;
+        self.addTaskButton.tag = 2;
+    }else{
+        [UIView animateWithDuration:0.3 animations:^{
+            
+            [self.tableView setFrame:CGRectMake(13, 75, 294, 410)];
+            [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+        }];
+        self.addTaskTextField.hidden = YES;
+        [self.addTaskTextField resignFirstResponder];
+        self.addTaskButton.tag = 1;
+        self.confirmButton.hidden = YES;
+    }
     
+    self.addTaskTextField.delegate = self;
 }
 - (void)friendsButtonFired{
     
@@ -179,12 +211,33 @@
     
 }
 
+// potwierdzanie taska
+
+- (void) confirmTask{
+    
+    [self textFieldShouldReturn:self.addTaskTextField];
+    
+}
+
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     NSString *newTask = textField.text;
     
     textField.text = @"";
     [self.delegate addItem:newTask];
+    
+    [self.addTaskTextField resignFirstResponder];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.addTaskTextField.hidden = YES;
+        [self.tableView setFrame:CGRectMake(13, 75, 294, 410)];
+        [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+    }];
+    [self.addTaskTextField resignFirstResponder];
+    self.addTaskButton.tag = 1;
+    self.confirmButton.hidden = YES;
+    
+    
     
     [self.addTaskTextField resignFirstResponder];
     self.addTaskTextField.hidden = YES;

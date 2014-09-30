@@ -56,6 +56,8 @@
     self.cap = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
     self.cap.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.view addSubview:self.cap];
+    
+
     // adding button
     
     self.addTaskButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -88,15 +90,15 @@
     
     [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
     self.addTaskButton.backgroundColor = [UIColor clearColor];
-    self.addTaskButton.titleLabel.font = [UIFont systemFontOfSize:45];
+    self.addTaskButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     self.addTaskButton.tag = 1;
     
     // conf textfield
     
     self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
-    self.addTaskTextField.textColor = [UIColor whiteColor];
-    self.addTaskTextField.font = [UIFont systemFontOfSize:28];
+    self.addTaskTextField.textColor = [[ParseStore   sharedInstance] randomColor];
+    self.addTaskTextField.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task"];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
@@ -111,6 +113,20 @@
     
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
+    // confirmButton
+    
+    UIImage *confirmImage = [UIImage imageNamed:@"IcoCheck.png"];
+    
+    
+    self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
+    self.confirmButton.frame = CGRectMake(20, 64, 81, 75);
+    self.confirmButton.backgroundColor = [UIColor clearColor];
+    [self.confirmButton addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.confirmButton];
+    self.confirmButton.hidden = YES;
+
+    
     // initArray
     
     [self reloadTableView];
@@ -122,21 +138,51 @@
 }
 
 - (void)reloadTableView{
-
+    
     [[ParseStore sharedInstance] loadTasks:self];
     self.delegate = self;
 
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
-    self.arrayOfParseTasks = array;
+    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *fullPath = [NSString stringWithFormat:@"%@/userTasks.plist", documentsDirectory];
+    NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
+    self.arrayOfParseTasks = reversed;
+
+    if (self.arrayOfParseTasks == nil) {
+        self.arrayOfParseTasks = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
+        [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
+    }
+    NSLog(@"%@", self.arrayOfParseTasks);
     [self.tableView reloadData];
 }
+//-(void)loadArrayOfTasksForStart:(NSMutableArray *)array {
+//
+//    self.arrayOfParseTasks = array;
+//    
+//    if (self.arrayOfParseTasks == nil) {
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    NSString *fullPath = [NSString stringWithFormat:@"%@/userTasks.plist", documentsDirectory];
+//        
+//    self.arrayOfParseTasks = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
+//    }
+//    NSLog(@"%@", self.arrayOfParseTasks);
+//    [self.tableView reloadData];
+//}
+//
+
+
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
         
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
     [self.tableView reloadData];
     }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
     return [self.arrayOfParseTasks count];
@@ -150,7 +196,7 @@
     if (cell == nil) {
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
     }
-    
+
     PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
     cell.viewController = self;
     cell.delegate = self; 
@@ -188,6 +234,8 @@
 
 - (void)addTask:(UIButton *)sender {
     
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    
     if (self.addTaskButton.tag == 1) {
         
     
@@ -198,9 +246,9 @@
         [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
         
     } completion:^(BOOL finished) {
-   
+        self.confirmButton.hidden = NO;
         self.addTaskTextField.hidden = NO;
-        self.addTaskTextField.backgroundColor = [[ParseStore sharedInstance] randomColor];
+        self.addTaskTextField.backgroundColor = [UIColor whiteColor];
     }];
     [self.addTaskTextField becomeFirstResponder];
     self.addTaskTextField.delegate = self;
@@ -211,6 +259,7 @@
             [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
             [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
             }];
+        self.confirmButton.hidden = YES;
         [self.addTaskTextField resignFirstResponder];
         self.addTaskButton.tag = 1;
     }
@@ -221,31 +270,27 @@
     if (!self.friendsController){
     self.friendsController = [[FriendsViewController alloc] init];
     }
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     [self.navigationController pushViewController:self.friendsController animated:YES];
 
 }
-- (void)addTaskFiredAgain{
-    
-    
-    [UIView animateWithDuration:0.3 animations:^{
-         self.addTaskTextField.hidden = YES;
-        [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
-        [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
-        [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
-    }];
-    [self.addTaskTextField resignFirstResponder];
+
+// potwierdzanie taska
+
+- (void) confirmTask{
+
+    [self textFieldShouldReturn:self.addTaskTextField];
+
 }
-
-
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     NSString *newTask = textField.text;
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
-    
     self.friendsLists.hidden = NO;
     [[ParseStore sharedInstance] addTask:newTask];
+    [self instantTaskAdd:newTask];
     [UIView animateWithDuration:0.3 animations:^{
         self.addTaskTextField.hidden = YES;
         [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
@@ -253,12 +298,16 @@
     }];
     [self.addTaskTextField resignFirstResponder];
     self.addTaskButton.tag = 1;
-
+    self.confirmButton.hidden = YES;
     [self reloadTableView];
-    
     
     return YES;
 }
-
+-(void) instantTaskAdd:(NSString *)task{
+    
+    
+    NSLog(@"done");
+    [self reloadTableView];
+}
 
 @end

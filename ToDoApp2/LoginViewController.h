@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "SignUpViewController.h"
 #import "ToDoViewController.h"
+#import "ParseStore.h"
 
 @interface LoginViewController : UIViewController
 
@@ -20,8 +21,7 @@
 @property (strong, nonatomic) UIButton *signUpButton;
 @property (strong, nonatomic) UILabel *doSign;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
-
-
+@property (strong, nonatomic) ToDoViewController *toDoViewController;
 
 
 @end

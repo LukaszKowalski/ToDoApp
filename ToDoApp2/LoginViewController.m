@@ -62,31 +62,33 @@
     
     
     
-//    UIImageView *doImage=[ [UIImageView alloc] initWithImage:[UIImage imageNamed:@"DoLogo.png"]];
-//    [self.view addSubview:doImage];
-//    CGRect myFrame = doImage.frame;
-//    myFrame.origin.x = 60;
-//    myFrame.origin.y = 60;
-//    doImage.frame = myFrame;
+    UIImageView *doImage=[ [UIImageView alloc] initWithImage:[UIImage imageNamed:@"DoLogo.png"]];
+    [self.view addSubview:doImage];
+    CGRect myFrame = doImage.frame;
+    myFrame.origin.x = 110;
+    myFrame.origin.y = 80;
+    doImage.frame = myFrame;
     
     
     
-    self.doSign.text = @"Do";
-    self.doSign.textColor = [UIColor whiteColor];
-    self.doSign.font = [UIFont systemFontOfSize:90];
-    self.doSign.textAlignment = NSTextAlignmentCenter;
+//    self.doSign.text = @"Do";
+//    self.doSign.textColor = [UIColor whiteColor];
+//    self.doSign.font = [UIFont systemFontOfSize:90];
+//    self.doSign.textAlignment = NSTextAlignmentCenter;
     
     self.getLogin.layer.cornerRadius=8.0f;
     self.getLogin.layer.masksToBounds=YES;
     self.getLogin.layer.borderColor=[[UIColor whiteColor]CGColor];
     self.getLogin.layer.borderWidth= 2.5f;
+    [self.getLogin setBorderStyle:UITextBorderStyleNone];
     
     self.getPassword.layer.cornerRadius=8.0f;
     self.getPassword.layer.masksToBounds=YES;
     self.getPassword.layer.borderColor=[[UIColor whiteColor]CGColor];
     self.getPassword.layer.borderWidth= 2.5f;
     self.getPassword.secureTextEntry=YES;
-
+    [self.getPassword setEnabled:NO];
+    [self.getPassword setBorderStyle:UITextBorderStyleNone];
     
     [self.view addSubview:self.getLogin];
     [self.view addSubview:self.getPassword];
@@ -107,13 +109,19 @@
                     
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
-                }}];
-        }
+
+
+                    }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+
 }
+
+// Przycisk konto
 
 - (void)createUserAccount{
     
@@ -140,6 +148,7 @@
                 [self.getLogin resignFirstResponder];
                 [self.getPassword resignFirstResponder];
                 [[ParseStore sharedInstance] registerUserForPushNotification];
+                [[ParseStore sharedInstance] loadTasksForStart:self.toDoViewController];
                 
             } else {
                 //Something bad has ocurred

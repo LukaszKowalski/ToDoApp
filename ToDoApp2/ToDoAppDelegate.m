@@ -9,7 +9,7 @@
 #import "ToDoAppDelegate.h"
 
 #import "DataStore.h"
-
+#import "ParseStore.h"
 
 @implementation ToDoAppDelegate
 
@@ -18,9 +18,22 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     LoginViewController *viewController = [[LoginViewController alloc] init];
     UINavigationController *navCon = [[UINavigationController alloc] init];
+    
+    
+
     navCon.navigationBar.barTintColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    
+    
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-Light" size:20], NSFontAttributeName, nil]];
-//  [navCon.navigationBar setTranslucent:NO];
+
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
+                                      forBarPosition:UIBarPositionAny
+                                          barMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
+    
+    //  [navCon.navigationBar setTranslucent:NO];
 //    [navCon pushViewController:friendsView animated:NO];
     [navCon pushViewController:viewController animated:NO];
     
@@ -51,6 +64,7 @@
                                                          UIRemoteNotificationTypeAlert |
                                                          UIRemoteNotificationTypeSound)];
     }
+    
     
 
     return YES;
@@ -104,6 +118,13 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    {
+//        if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
+//        {
+//            [[ParseStore sharedInstance] loadTasks:self.toDoViewController];
+//        }
+    }
+    
     [PFPush handlePush:userInfo];
 }
 

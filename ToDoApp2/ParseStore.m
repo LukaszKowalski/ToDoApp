@@ -21,6 +21,15 @@
 
 -(void)addTask:(NSString *)taskString{
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"userTasks.plist"];
+    NSMutableArray *userTasks = [NSMutableArray arrayWithContentsOfFile:path];
+    
+    if (nil == userTasks) {
+        userTasks = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    
     PFUser *user = [PFUser currentUser];
     
     UIColor *color = self.randomColor;
@@ -32,7 +41,11 @@
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
-    [task save];
+    
+    [userTasks addObject:task];
+    [userTasks writeToFile:path atomically: TRUE];
+    NSLog(@"userTasks %@", userTasks);
+    [task saveEventually];
     
 }
 
@@ -49,14 +62,11 @@
             {
                 PFUser *user = [objects firstObject];
                 [user fetch];
-               
                 NSArray *allKeys = [user allKeys];
                 NSMutableDictionary *userData = [[NSMutableDictionary alloc] init];
                 for (NSString * key in allKeys) {
                     [userData setValue:[user objectForKey:key] forKey:key];
                 }
-               
-
                 // Create a dictionary from the JSON string
                 
                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -68,21 +78,22 @@
                 if (nil == friend) {
                     friend = [[NSMutableArray alloc] initWithCapacity:0];
                 }
-                
                 NSMutableDictionary *array = [[NSMutableDictionary alloc]initWithDictionary:userData];
-            
                 [friend addObject:array];
-                
                 [friend writeToFile:path atomically: TRUE];
-              
-                
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[PFUser currentUser] saveEventually];
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+            }else{
+                NSLog(@"alert");
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
+                    [alert show];
             }
+        }
+    }];
             
-            }}];
+        
     
 //            if (user) {
 //            [[PFUser currentUser] addObject:user forKey:@"friendsArray"];
@@ -116,8 +127,10 @@
     
 }
 - (void)loadTasks:(ToDoViewController *)delegate{
-    PFUser *user = [PFUser currentUser];
     
+    
+
+    PFUser *user = [PFUser currentUser];
     __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
@@ -128,17 +141,48 @@
                         
             for (id object in objects) {
                 [arrayOfParseTasks addObject:object];
+                
             }
             
             dispatch_async(dispatch_get_main_queue(),^{
                 [delegate loadArrayOfTasks:arrayOfParseTasks];
+                
             });
             
-            
-            }
+        }
     }];
 }
+
+- (void)loadTasksForStart:(ToDoViewController *)delegate{
+    
+    NSLog(@"work"); 
+    
+    PFUser *user = [PFUser currentUser];
+    __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+    query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            for (id object in objects) {
+                [arrayOfParseTasks addObject:object];
+                
+            }
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                [delegate loadArrayOfTasksForStart:arrayOfParseTasks];
+            });
+            
+        }
+    }];
+}
+
+
 - (void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username{
+    
+    
     
     PFQuery *queryAboutUser = [PFUser query];
     [queryAboutUser whereKey:@"username" equalTo:username];
@@ -232,7 +276,7 @@
     task[@"color"] = colorAsString;
     task[@"principal"] = [[PFUser currentUser] username];
     
-    [task saveInBackground];
+    [task saveEventually];
     
     
 }

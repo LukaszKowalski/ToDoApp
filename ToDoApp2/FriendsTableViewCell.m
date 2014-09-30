@@ -12,8 +12,7 @@
         self.newestFriend.frame = CGRectMake(0, 0, 300, 70);
         self.newestFriend.textAlignment = NSTextAlignmentCenter;
         self.newestFriend.textColor = [UIColor whiteColor];
-        self.newestFriend.font = [UIFont systemFontOfSize:26];
-    
+        self.newestFriend.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.contentView addSubview:self.newestFriend];
     }
     return self;
