@@ -36,12 +36,20 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     // nav bar
     
+    self.cap = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
+    self.cap.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    [self.view addSubview:self.cap];
 
     
     // adding button
     
     self.addTaskButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.addTaskButton.frame = CGRectMake(120, 64, 75, 75);
+    UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
+    
+    [self.addTaskButton setImage:plusImage forState:UIControlStateNormal];
+    
+
     [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addTaskButton];
     
@@ -53,15 +61,17 @@
     // adding friendsList Button
     
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    UIImage *btnImage = [UIImage imageNamed:@"IcoFriends.png"];
+    
+    [self.friendsLists setImage:btnImage forState:UIControlStateNormal];
     self.friendsLists.frame = CGRectMake(219, 64, 81, 75);
-    [self.friendsLists setTitle:@"Friend's lists" forState:UIControlStateNormal];
     self.friendsLists.backgroundColor = [UIColor clearColor];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
     
     // conf button
     
-    [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
     self.addTaskButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     // conf textfield
@@ -89,6 +99,8 @@
     self.addTaskButton.tag = 1;
     
     // initArray
+    
+    
     
     [self reloadTableView];
     self.delegate = self;

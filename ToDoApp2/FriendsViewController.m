@@ -70,8 +70,10 @@
     [self.view addSubview:self.backButton];
     
     // conf button
+    UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
     
-    [self.addFriendButton setTitle:@"+" forState:UIControlStateNormal];
+    [self.addFriendButton setImage:plusImage forState:UIControlStateNormal];
+    
     self.addFriendButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addFriendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     self.addFriendButton.tag = 1;

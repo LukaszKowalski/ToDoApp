@@ -89,7 +89,10 @@
     
     // conf button
     
-    [self.addTaskButton setTitle:@"+" forState:UIControlStateNormal];
+    UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
+    
+    [self.addTaskButton setImage:plusImage forState:UIControlStateNormal];
+
     self.addTaskButton.backgroundColor = [UIColor clearColor];
     self.addTaskButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     self.addTaskButton.tag = 1;
