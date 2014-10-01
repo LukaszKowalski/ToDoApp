@@ -40,11 +40,12 @@
         
         UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRightInCell:)];
         [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
-        
+
         
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeLeftInCell:)];
         [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
         
+
         [self.newestTask addGestureRecognizer:swipeRight];
         [self.newestTask addGestureRecognizer:swipeLeft];
         
@@ -71,10 +72,10 @@
     NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
 
     if (self.currentStatus == SWIPE_TYPE_LEFT) {
-    
+
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView animateWithDuration:0.5 animations:^{
-        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-26, 70)];
+        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 70)];
         }];
         self.currentStatus = SWIPE_TYPE_START;
     }
@@ -101,7 +102,7 @@
 -(void)didSwipeLeftInCell:(id)sender {
     
     self.currentStatus = SWIPE_TYPE_LEFT;
-    
+    NSLog(@"swipe left");
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView animateWithDuration:0.3 animations:^{
         [self.newestTask setFrame:CGRectMake(-230, 0, self.contentView.frame.size.width-26, 70)];

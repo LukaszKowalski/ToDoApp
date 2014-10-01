@@ -26,7 +26,8 @@
     self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
     self.navigationItem.hidesBackButton = YES;
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(10, 75, 300, 410);
+    CGSize viewSize = self.view.frame.size;
+    self.tableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -52,7 +53,7 @@
     // adding friendsList Button
     
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.friendsLists.frame = CGRectMake(159, 64, 161, 75);
+    self.friendsLists.frame = CGRectMake(219, 64, 81, 75);
     [self.friendsLists setTitle:@"Friend's lists" forState:UIControlStateNormal];
     self.friendsLists.backgroundColor = [UIColor clearColor];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];

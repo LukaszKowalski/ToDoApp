@@ -29,7 +29,8 @@
     self.navigationItem.hidesBackButton = YES;
     self.title = @"Friends list";
     self.friendsTableView = [[UITableView alloc] init];
-    self.friendsTableView.frame = CGRectMake(13, 75, 294, 410);
+    CGSize viewSize = self.view.frame.size;
+    self.friendsTableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height);
     self.friendsTableView.delegate = self;
     self.friendsTableView.dataSource = self;
     [self.view addSubview:self.friendsTableView];
@@ -61,7 +62,7 @@
     
     
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backButton.frame = CGRectMake(159, 64, 161, 75);
+    self.backButton.frame = CGRectMake(219, 64, 81, 75);
     [self.backButton setTitle:@"Task list" forState:UIControlStateNormal];
     self.backButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.backButton.backgroundColor = [UIColor clearColor];
@@ -114,7 +115,8 @@
     
     
     self.arrayOfFriends = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
-    
+    NSLog(@"plists content %@", self.arrayOfFriends);
+    NSLog(@" full path %@", fullPath);
     
     if (self.arrayOfFriends == nil) {
       [[ParseStore sharedInstance] loadFriends:self withObjectId:[PFUser currentUser].objectId];
@@ -125,6 +127,7 @@
 }
 
 -(void)loadArrayOfFriends:(NSMutableArray *)array {
+
     NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
     
     self.arrayOfFriends = reversed;

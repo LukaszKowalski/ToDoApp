@@ -37,7 +37,8 @@
     self.navigationItem.hidesBackButton = YES;
     self.title = @"My Tasks";
     self.tableView = [[UITableView alloc] init];
-    self.tableView.frame = CGRectMake(0, 75, 320, 410);
+    CGSize viewSize = self.view.frame.size;
+    self.tableView.frame = CGRectMake(0, 75, viewSize.width -13, viewSize.height);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.alwaysBounceHorizontal = NO;

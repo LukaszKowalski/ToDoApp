@@ -25,7 +25,7 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"userTasks.plist"];
     NSMutableArray *userTasks = [NSMutableArray arrayWithContentsOfFile:path];
-    
+    NSLog(@"path %@", path);
     if (nil == userTasks) {
         userTasks = [[NSMutableArray alloc] initWithCapacity:0];
     }
@@ -42,6 +42,12 @@
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
     
+    NSArray *allKeys = [task allKeys];
+    NSMutableDictionary *taskData = [[NSMutableDictionary alloc] init];
+    for (NSString * key in allKeys) {
+        [taskData setValue:[task objectForKey:key] forKey:key];
+    }
+
     [userTasks addObject:task];
     [userTasks writeToFile:path atomically: TRUE];
     NSLog(@"userTasks %@", userTasks);
@@ -78,9 +84,11 @@
                 if (nil == friend) {
                     friend = [[NSMutableArray alloc] initWithCapacity:0];
                 }
+                
                 NSMutableDictionary *array = [[NSMutableDictionary alloc]initWithDictionary:userData];
                 [friend addObject:array];
                 [friend writeToFile:path atomically: TRUE];
+    
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[PFUser currentUser] saveEventually];
                 }
