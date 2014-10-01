@@ -22,14 +22,15 @@
         self.background = [[UILabel alloc] init];
         
         self.newestTask = [[UILabel alloc] init];
-        self.newestTask.frame = CGRectMake(13, 0, 294, 70);
+        self.newestTask.frame = CGRectMake(13, 0, 294, 66);
         self.newestTask.textColor = [UIColor whiteColor];
         self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.newestTask setUserInteractionEnabled:YES];
         
         self.whoAddedTask = [[UILabel alloc] init];
-        self.whoAddedTask.frame = CGRectMake(0, 0, 320, 70);
+        self.whoAddedTask.frame = CGRectMake(0, 0, 320, 66);
         self.whoAddedTask.textColor = [UIColor whiteColor];
+        self.whoAddedTask.userActivity = NO; 
         self.whoAddedTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         self.whoAddedTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
         [self.contentView addSubview:self.newestTask];
@@ -75,7 +76,7 @@
 
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView animateWithDuration:0.5 animations:^{
-        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 70)];
+        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
         }];
         self.currentStatus = SWIPE_TYPE_START;
     }
@@ -105,7 +106,7 @@
     NSLog(@"swipe left");
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView animateWithDuration:0.3 animations:^{
-        [self.newestTask setFrame:CGRectMake(-230, 0, self.contentView.frame.size.width-26, 70)];
+        [self.newestTask setFrame:CGRectMake(-200, 0, self.contentView.frame.size.width-26, 66)];
     }];
 }
 

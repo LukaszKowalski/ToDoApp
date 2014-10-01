@@ -16,13 +16,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+
     LoginViewController *viewController = [[LoginViewController alloc] init];
+
+    
     UINavigationController *navCon = [[UINavigationController alloc] init];
     
-    
-
     navCon.navigationBar.barTintColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
-    
     
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-Light" size:20], NSFontAttributeName, nil]];
 
@@ -32,10 +33,6 @@
     
     [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     
-    
-    //  [navCon.navigationBar setTranslucent:NO];
-//    [navCon pushViewController:friendsView animated:NO];
-    [navCon pushViewController:viewController animated:NO];
     
     self.window.rootViewController = navCon;
     self.window.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
@@ -65,8 +62,22 @@
                                                          UIRemoteNotificationTypeSound)];
     }
     
-    
+    if ([NSUserDefaults standardUserDefaults]) {
+        [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+                                     password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
+                                        block:^(PFUser *user, NSError *error) {
+                                            if (user) {
+                                                
+                                                self.toDo = [[ToDoViewController alloc] init];
+                                                [navCon pushViewController:self.toDo animated:YES];
+                                                
+                                                
+                                            }
+                                        }];
+    }else{
+        [navCon pushViewController:viewController animated:NO];
 
+    }
     return YES;
 }
 

@@ -27,7 +27,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.tableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
-    self.tableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height);
+    self.tableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height -73);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -46,10 +46,7 @@
     self.addTaskButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.addTaskButton.frame = CGRectMake(120, 64, 75, 75);
     UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
-    
     [self.addTaskButton setImage:plusImage forState:UIControlStateNormal];
-    
-
     [self.addTaskButton addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addTaskButton];
     
@@ -72,7 +69,7 @@
     
     // conf button
     
-    self.addTaskButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.addTaskButton.backgroundColor = [UIColor clearColor];
     self.addTaskButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     // conf textfield
     
@@ -135,7 +132,7 @@
     NSString *colorInString = [task objectForKey:@"color"];
     
     self.taskForFriend = [[UILabel alloc] init];
-    self.taskForFriend.frame = CGRectMake(0, 0, 300, 70);
+    self.taskForFriend.frame = CGRectMake(0, 0, 300, 66);
     self.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     self.taskForFriend.textColor = [UIColor whiteColor];
     self.taskForFriend.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
@@ -154,7 +151,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 66;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     

@@ -15,7 +15,8 @@
 @interface ToDoAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (nonatomic, strong) ToDoViewController *toDo;
+@property (strong, nonatomic) ToDoViewController *toDoViewController;
 
 
 @end

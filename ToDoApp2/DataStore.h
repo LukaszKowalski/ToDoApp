@@ -20,9 +20,8 @@
 -(NSMutableArray *)loadFriends:(NSString *)keyString;
 -(void)addFriend:(PFUser *)friend;
 
-@property (strong, nonatomic) NSMutableArray *arrayOfUsers;
-@property (strong, nonatomic) NSMutableArray *arrayOfFriends;
-@property (strong, nonatomic) NSMutableArray *arrayOfTasks;
+@property (strong, nonatomic) NSMutableArray *arrayOfFriendsLocally;
+@property (strong, nonatomic) NSMutableArray *arrayOfTasksLocally;
 
 
 @end

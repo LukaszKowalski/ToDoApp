@@ -24,8 +24,6 @@
 
 @implementation ToDoViewController
 
-
-
 - (void)viewDidLoad
 {
     // adding tableView
@@ -38,7 +36,7 @@
     self.title = @"My Tasks";
     self.tableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
-    self.tableView.frame = CGRectMake(0, 75, viewSize.width -13, viewSize.height);
+    self.tableView.frame = CGRectMake(0, 75, viewSize.width -13, viewSize.height -73);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.alwaysBounceHorizontal = NO;
@@ -130,6 +128,26 @@
     [self.view addSubview:self.confirmButton];
     self.confirmButton.hidden = YES;
 
+    [UIView transitionWithView:self.addTaskTextField
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+    // settingsButton
+    
+    UIImage *settingsImage = [UIImage imageNamed:@"IcoSettings.png"];
+    
+    
+    self.settings = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.settings setImage:settingsImage forState:UIControlStateNormal];
+    self.settings.frame = CGRectMake(20, 64, 81, 75);
+    self.settings.backgroundColor = [UIColor clearColor];
+    [self.settings addTarget:self action:@selector(goToSettings) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.settings];
+    self.settings.hidden = NO;
+
+    
     
     // initArray
     
@@ -220,7 +238,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 66;
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
@@ -250,6 +268,7 @@
         [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
         
     } completion:^(BOOL finished) {
+        self.settings.hidden = YES;
         self.confirmButton.hidden = NO;
         self.addTaskTextField.hidden = NO;
         self.addTaskTextField.backgroundColor = [UIColor whiteColor];
@@ -263,7 +282,9 @@
             [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
             [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
             }];
+        
         self.confirmButton.hidden = YES;
+        self.settings.hidden = NO;
         [self.addTaskTextField resignFirstResponder];
         self.addTaskButton.tag = 1;
     }
@@ -277,6 +298,16 @@
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     [self.navigationController pushViewController:self.friendsController animated:YES];
 
+}
+- (void) goToSettings{
+    
+    if (!self.settingsViewController){
+        self.settingsViewController = [[SettingsViewController alloc] init];
+    }
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    [self.navigationController pushViewController:self.settingsViewController animated:YES];
+
+    
 }
 
 // potwierdzanie taska
@@ -303,6 +334,7 @@
     [self.addTaskTextField resignFirstResponder];
     self.addTaskButton.tag = 1;
     self.confirmButton.hidden = YES;
+    self.settings.hidden = NO;
     [self reloadTableView];
     
     return YES;

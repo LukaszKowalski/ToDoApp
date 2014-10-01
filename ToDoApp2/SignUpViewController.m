@@ -58,45 +58,50 @@
     
     // Login TextField
     
-    self.getLogin.layer.cornerRadius=8.0f;
-    self.getLogin.layer.masksToBounds=YES;
-    self.getLogin.layer.borderColor=[[UIColor whiteColor]CGColor];
-    self.getLogin.layer.borderWidth= 2.5f;
-    self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Login" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Choose your Username" attributes: @{NSForegroundColorAttributeName:color ,
+                                                                                                                            NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];
     self.getLogin.textColor = [UIColor whiteColor];
 
     
     // Password TextField
     
-    self.getPassword.layer.cornerRadius=8.0f;
-    self.getPassword.layer.masksToBounds=YES;
-    self.getPassword.layer.borderColor=[[UIColor whiteColor]CGColor];
-    self.getPassword.layer.borderWidth= 2.5f;
+
     self.getPassword.secureTextEntry = YES;
-    self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Password" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Choose your password" attributes: @{NSForegroundColorAttributeName:color ,
+                                                                                                                               NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];
     self.getPassword.textColor = [UIColor whiteColor];
 
         // Email TextField
     
-    self.getEmail.layer.cornerRadius=8.0f;
-    self.getEmail.layer.masksToBounds=YES;
-    self.getEmail.layer.borderColor=[[UIColor whiteColor]CGColor];
-    self.getEmail.layer.borderWidth= 2.5f;
-    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Email" attributes:@{NSForegroundColorAttributeName: color}];
-    self.getEmail.textColor = [UIColor whiteColor];
+
+    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Enter your E-mail" attributes: @{NSForegroundColorAttributeName:color ,
+                                                                                                                            NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];    self.getEmail.textColor = [UIColor whiteColor];
     [self.getEmail setKeyboardType:UIKeyboardTypeEmailAddress];
 
     
     // Label
     
-    self.signUpLabel.text = @"Create Your \"Do\" Account";
+    self.signUpLabel.text = @"Create Your  Account";
     self.signUpLabel.frame = CGRectMake(15, 100, 300, 50);
     
     self.signUpLabel.textColor = [UIColor whiteColor];
     self.signUpLabel.font = [UIFont systemFontOfSize:25];
     self.signUpLabel.textAlignment = NSTextAlignmentCenter;
     
+    // LINES
     
+    self.line1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 215, 260, 1)];
+    self.line1.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    
+    self.line2 = [[UILabel alloc] initWithFrame:CGRectMake(30, 275, 260, 1)];
+    self.line2.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    
+    self.line3 = [[UILabel alloc] initWithFrame:CGRectMake(30, 305, 260, 1)];
+    self.line3.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    
+    [self.view addSubview:self.line1];
+    [self.view addSubview:self.line2];
+    [self.view addSubview:self.line3];
     [self.view addSubview:self.getLogin];
     [self.view addSubview:self.getPassword];
     [self.view addSubview:self.createAccount];

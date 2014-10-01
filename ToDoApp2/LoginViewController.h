@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UILabel *line2;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 @property (strong, nonatomic) ToDoViewController *toDoViewController;
-
+@property (nonatomic, strong) ToDoViewController *toDo;
+@property (nonatomic, strong) SignUpViewController *signUp;
 
 @end

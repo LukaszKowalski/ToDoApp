@@ -30,14 +30,17 @@
     self.title = @"Friends list";
     self.friendsTableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
-    self.friendsTableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height);
+    self.friendsTableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height -73);
     self.friendsTableView.delegate = self;
     self.friendsTableView.dataSource = self;
     [self.view addSubview:self.friendsTableView];
     self.friendsTableView.tableFooterView = [[UIView alloc ] init];
     [self.friendsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.friendsTableView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
+    
+    // cap below menu
     
     self.cap = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
     self.cap.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
@@ -56,10 +59,10 @@
     
     
         // adding friendsList Button
-    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(13, 134, 294, 70)];
-    [self.view addSubview:self.addTaskTextField];
-
     
+    [self.view addSubview:self.addTaskTextField];
+    
+    // Button 'back to ToDoViewController
     
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.backButton.frame = CGRectMake(219, 64, 81, 75);
@@ -70,16 +73,16 @@
     [self.view addSubview:self.backButton];
     
     // conf button
+    
     UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
-    
     [self.addFriendButton setImage:plusImage forState:UIControlStateNormal];
-    
     self.addFriendButton.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addFriendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     self.addFriendButton.tag = 1;
     
     // conf textfield
     
+    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(13, 134, 294, 70)];
     self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [UIColor whiteColor];
@@ -100,12 +103,18 @@
     [self.view addSubview:self.confirmButton];
     self.confirmButton.hidden = YES;
 
-    
+    self.goToFriendsToDo = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(225, 115, 30, 30)];
+    [self.goToFriendsToDo setBackgroundColor:[UIColor clearColor]];
+    [self.goToFriendsToDo setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
+    [self.view addSubview:self.goToFriendsToDo];
+    [self.goToFriendsToDo bringSubviewToFront:self.friendsTableView];
     // initArray
     
     [self reloadTableView];
     self.delegate = self;
 }
+
+// loading tasks to tableView
 
 - (void)reloadTableView{
 
@@ -127,6 +136,8 @@
     [self.friendsTableView reloadData];
 
 }
+
+// getting tasks from PARSE
 
 -(void)loadArrayOfFriends:(NSMutableArray *)array {
 
@@ -166,8 +177,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 66;
 }
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
@@ -175,9 +187,13 @@
     self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
     [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
+    
+    
+
+    [self.goToFriendsToDo startAnimating];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    [self.goToFriendsToDo stopAnimating];
 }
 
 
@@ -189,10 +205,6 @@
 
 -(void)addItem:(NSString *)item {
     
-    
-    [self.view addSubview:self.loginIndicator];
-    [self.view bringSubviewToFront:self.loginIndicator];
-    self.loginIndicator.frame = CGRectMake(100, 200, 44, 44);
     [[ParseStore sharedInstance] addFriend:item];
     [self.friendsTableView reloadData];
     [self reloadTableView];

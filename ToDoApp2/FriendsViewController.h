@@ -22,6 +22,8 @@
 @property (strong, nonatomic) UIButton *backButton;
 @property (strong, nonatomic) UILabel *cap;
 @property (strong, nonatomic) UIButton *confirmButton;
+@property (strong, nonatomic) UIActivityIndicatorView *goToFriendsToDo;
+
 
 -(void)reloadTableView;
 -(void)loadArrayOfFriends:(NSMutableArray *)array;

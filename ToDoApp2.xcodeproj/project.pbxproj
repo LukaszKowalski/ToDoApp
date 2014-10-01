@@ -17,6 +17,8 @@
 		C37A9E8E19DAEAA000B44602 /* IcoCheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C37A9E8D19DAEAA000B44602 /* IcoCheck@2x.png */; };
 		C37D37F319BF02B500CEAC31 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F219BF02B500CEAC31 /* SignUpViewController.m */; };
 		C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F619C08E7600CEAC31 /* ParseStore.m */; };
+		C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3875BCD19DC446B00194663 /* IcoSettings@2x.png */; };
+		C3875BD119DC459900194663 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3875BD019DC459900194663 /* SettingsViewController.m */; };
 		C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */; };
 		C3C4FBCD198FC84100F36830 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBCC198FC84100F36830 /* Foundation.framework */; };
 		C3C4FBCF198FC84100F36830 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3C4FBCE198FC84100F36830 /* CoreGraphics.framework */; };
@@ -72,6 +74,9 @@
 		C37D37F219BF02B500CEAC31 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		C37D37F519C08E7600CEAC31 /* ParseStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseStore.h; sourceTree = "<group>"; };
 		C37D37F619C08E7600CEAC31 /* ParseStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseStore.m; sourceTree = "<group>"; };
+		C3875BCD19DC446B00194663 /* IcoSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IcoSettings@2x.png"; sourceTree = "<group>"; };
+		C3875BCF19DC459900194663 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		C3875BD019DC459900194663 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsViewController.h; sourceTree = "<group>"; };
 		C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsViewController.m; sourceTree = "<group>"; };
 		C3C4FBC9198FC84100F36830 /* ToDoApp2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +182,7 @@
 				C3479E6B19D68DB40091D70E /* DoLogo@2x.png */,
 				C3479E6C19D68DB40091D70E /* IcoPlus@2x.png */,
 				C37A9E8D19DAEAA000B44602 /* IcoCheck@2x.png */,
+				C3875BCD19DC446B00194663 /* IcoSettings@2x.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -276,6 +282,8 @@
 				C3BAA8F6199284BB00FDCE14 /* FriendsViewController.m */,
 				C3020AB41996088D00C20BB7 /* FriendsToDoViewController.h */,
 				C3020AB51996088D00C20BB7 /* FriendsToDoViewController.m */,
+				C3875BCF19DC459900194663 /* SettingsViewController.h */,
+				C3875BD019DC459900194663 /* SettingsViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -364,6 +372,7 @@
 				C3479E6F19D68DB40091D70E /* IcoPlus@2x.png in Resources */,
 				C3479E7119D868F30091D70E /* friends.plist in Resources */,
 				C3479E6E19D68DB40091D70E /* DoLogo@2x.png in Resources */,
+				C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */,
 				C3479E6D19D68DB40091D70E /* IcoFriends@2x.png in Resources */,
 				C3C4FBDF198FC84100F36830 /* Images.xcassets in Resources */,
 			);
@@ -387,6 +396,7 @@
 				C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */,
 				C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */,
 				C37D37F319BF02B500CEAC31 /* SignUpViewController.m in Sources */,
+				C3875BD119DC459900194663 /* SettingsViewController.m in Sources */,
 				C3C4FBDD198FC84100F36830 /* ToDoAppDelegate.m in Sources */,
 				C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */,
 				C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */,
