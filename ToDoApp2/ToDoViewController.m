@@ -30,7 +30,7 @@
     
     [super viewDidLoad];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTableView" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTaskTableView" object:nil];
     
     self.navigationItem.hidesBackButton = YES;
     self.title = @"My Tasks";
@@ -68,7 +68,7 @@
     
     // adding TextField
     
-    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(13, 134, 294, 70)];
+    self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(13, 139, 294, 66)];
     [self.view addSubview:self.addTaskTextField];
     
     // adding friendsList Button
@@ -160,44 +160,38 @@
 }
 
 - (void)reloadTableView{
+    NSMutableArray *dupaNieOdwrocona = [[NSMutableArray alloc] init];
+    dupaNieOdwrocona = [[DataStore sharedInstance] loadData:@"friendsArrayLocally"];
+    self.arrayOfParseTasks = [[dupaNieOdwrocona reverseObjectEnumerator] allObjects];
     
-    [[ParseStore sharedInstance] loadTasks:self];
+    if (self.arrayOfParseTasks == nil) {
+//    [[ParseStore sharedInstance] loadTasks:self];
+        self.arrayOfParseTasks = @[
+                         @{@"color": @"0.603922,0.831373,0.419608,1.000000", @"principal": @"DoTeam",
+                         @"taskString": @"Hi, welcome in \"Do\" ;)", @"taskUsernameId": @"asdfasdfas"},
+    @{@"color": @"1.000000,0.792157,0.368627,1.000000", @"principal": @"DoTeam",
+      @"taskString": @"Swipe right to delete task", @"taskUsernameId": @"asdfasdfas"},
+    @{@"color": @"0.396078,0.752941,0.772549,1.000000", @"principal": @"DoTeam",
+      @"taskString": @"Swipe left, find who gave you \"do\"", @"taskUsernameId": @"asdfasdfas"}];
+    
+    };
+    
     self.delegate = self;
+    [[[self.arrayOfParseTasks reverseObjectEnumerator] allObjects] mutableCopy];
+    NSLog(@"odwrocone? %@", self.arrayOfParseTasks);
+    [self.tableView reloadData];
 
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
-    
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fullPath = [NSString stringWithFormat:@"%@/userTasks.plist", documentsDirectory];
-    NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
-    self.arrayOfParseTasks = reversed;
-
-    if (self.arrayOfParseTasks == nil) {
-        self.arrayOfParseTasks = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
-        [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
-    }
-    NSLog(@"%@", self.arrayOfParseTasks);
+   
+    NSArray* reversed = [[array reverseObjectEnumerator] allObjects];
+//    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
+    self.arrayOfParseTasks = [reversed mutableCopy];
+    NSLog(@"array = %@", self.arrayOfParseTasks);
+//    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
     [self.tableView reloadData];
 }
-//-(void)loadArrayOfTasksForStart:(NSMutableArray *)array {
-//
-//    self.arrayOfParseTasks = array;
-//    
-//    if (self.arrayOfParseTasks == nil) {
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    NSString *fullPath = [NSString stringWithFormat:@"%@/userTasks.plist", documentsDirectory];
-//        
-//    self.arrayOfParseTasks = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
-//    }
-//    NSLog(@"%@", self.arrayOfParseTasks);
-//    [self.tableView reloadData];
-//}
-//
-
 
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
         
@@ -242,14 +236,6 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-//    UITableViewCell *customcell = [self.tableView cellForRowAtIndexPath:indexPath];
-//    
-//    UIButton *done = (UIButton *)[customcell viewWithTag:10000];
-//    [done setHidden:NO];
-//    UIButton *no = (UIButton *)[customcell viewWithTag:10001];
-//    [no setHidden:NO];
-//    
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
 
@@ -260,14 +246,19 @@
     
     if (self.addTaskButton.tag == 1) {
         
-    
+        self.addTaskTextField.alpha = 1;
+        self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task"];
+
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     
     [UIView animateWithDuration:0.3 animations:^{
-        [self.tableView setFrame:CGRectMake(0, 140, 320, 410)];
+        CGSize viewSize = self.view.frame.size;
+
+        [self.tableView setFrame:CGRectMake(0, 140, viewSize.width -13, viewSize.height -73)];
         [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
         
     } completion:^(BOOL finished) {
+        
         self.settings.hidden = YES;
         self.confirmButton.hidden = NO;
         self.addTaskTextField.hidden = NO;
@@ -278,8 +269,10 @@
     self.addTaskButton.tag = 2;
     }else{
         [UIView animateWithDuration:0.3 animations:^{
+            CGSize viewSize = self.view.frame.size;
+
             self.addTaskTextField.hidden = YES;
-            [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
+            [self.tableView setFrame:CGRectMake(0, 75, viewSize.width -13, viewSize.height -73)];
             [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
             }];
         
@@ -324,13 +317,22 @@
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.friendsLists.hidden = NO;
+    
     [[ParseStore sharedInstance] addTask:newTask];
-    [self instantTaskAdd:newTask];
-    [UIView animateWithDuration:0.3 animations:^{
-        self.addTaskTextField.hidden = YES;
-        [self.tableView setFrame:CGRectMake(0, 75, 320, 410)];
-        [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+    
+    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+    NSLog(@"task = %@", task);
+    [[DataStore sharedInstance] addTask:task];
+    [UIView animateWithDuration:0.6 animations:^{
+        self.addTaskTextField.alpha = 0;
+        self.addTaskTextField.placeholder = [NSString stringWithFormat:@"%@", newTask];
+    } completion: ^(BOOL finished) {
+        
+        self.addTaskTextField.hidden = finished;
     }];
+    CGSize viewSize = self.view.frame.size;
+    [self.tableView setFrame:CGRectMake(0, 75, viewSize.width -13, viewSize.height -73)];
+    [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
     [self.addTaskTextField resignFirstResponder];
     self.addTaskButton.tag = 1;
     self.confirmButton.hidden = YES;
@@ -338,12 +340,6 @@
     [self reloadTableView];
     
     return YES;
-}
--(void) instantTaskAdd:(NSString *)task{
-    
-    
-    NSLog(@"done");
-    [self reloadTableView];
 }
 
 @end

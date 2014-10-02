@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
-#import "SignUpViewController.h"
 #import "ToDoViewController.h"
 #import "ParseStore.h"
+#import "SignUpViewController.h"
 
 @interface LoginViewController : UIViewController
 
@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 @property (strong, nonatomic) ToDoViewController *toDoViewController;
 @property (nonatomic, strong) ToDoViewController *toDo;
-@property (nonatomic, strong) SignUpViewController *signUp;
+
+
 
 @end

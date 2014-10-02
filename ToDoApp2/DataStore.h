@@ -14,11 +14,14 @@
 
 +(instancetype)sharedInstance;
 
--(void)loadData:(NSString *)keyString;
--(void)saveData:(NSData *)myDictionary withKey:(NSString *)keyString;
-
+-(NSMutableArray *)loadData:(NSString *)keyString;
+-(void)saveData:(NSMutableArray *)myDictionary withKey:(NSString *)keyString;
 -(NSMutableArray *)loadFriends:(NSString *)keyString;
 -(void)addFriend:(PFUser *)friend;
+-(void)addTask:(PFObject*)task;
+-(NSDictionary *)changeData:(PFObject*)object;
+-(PFObject *)createTaskLocally:(NSString *)taskString;
+-(NSMutableArray *)changeArray:(NSMutableArray *)PFArray;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfFriendsLocally;
 @property (strong, nonatomic) NSMutableArray *arrayOfTasksLocally;

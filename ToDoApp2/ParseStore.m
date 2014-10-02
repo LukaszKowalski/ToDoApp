@@ -21,14 +21,14 @@
 
 -(void)addTask:(NSString *)taskString{
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"userTasks.plist"];
-    NSMutableArray *userTasks = [NSMutableArray arrayWithContentsOfFile:path];
-    NSLog(@"path %@", path);
-    if (nil == userTasks) {
-        userTasks = [[NSMutableArray alloc] initWithCapacity:0];
-    }
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"userTasks.plist"];
+//    NSMutableArray *userTasks = [NSMutableArray arrayWithContentsOfFile:path];
+//    NSLog(@"path %@", path);
+//    if (nil == userTasks) {
+//        userTasks = [[NSMutableArray alloc] initWithCapacity:0];
+//    }
     
     PFUser *user = [PFUser currentUser];
     
@@ -42,15 +42,15 @@
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
     
-    NSArray *allKeys = [task allKeys];
-    NSMutableDictionary *taskData = [[NSMutableDictionary alloc] init];
-    for (NSString * key in allKeys) {
-        [taskData setValue:[task objectForKey:key] forKey:key];
-    }
-
-    [userTasks addObject:task];
-    [userTasks writeToFile:path atomically: TRUE];
-    NSLog(@"userTasks %@", userTasks);
+//    NSArray *allKeys = [task allKeys];
+//    NSMutableDictionary *taskData = [[NSMutableDictionary alloc] init];
+//    for (NSString * key in allKeys) {
+//        [taskData setValue:[task objectForKey:key] forKey:key];
+//    }
+//
+//    [userTasks addObject:task];
+//    [userTasks writeToFile:path atomically: TRUE];
+//    NSLog(@"userTasks %@", userTasks);
     [task saveEventually];
     
 }
@@ -68,27 +68,9 @@
             {
                 PFUser *user = [objects firstObject];
                 [user fetch];
-                NSArray *allKeys = [user allKeys];
-                NSMutableDictionary *userData = [[NSMutableDictionary alloc] init];
-                for (NSString * key in allKeys) {
-                    [userData setValue:[user objectForKey:key] forKey:key];
-                }
-                // Create a dictionary from the JSON string
-                
-                NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-                NSString *documentsDirectory = [paths objectAtIndex:0];
-                NSString *path = [documentsDirectory stringByAppendingPathComponent:@"friends.plist"];
-                
-                NSMutableArray *friend = [NSMutableArray arrayWithContentsOfFile:path];
-                
-                if (nil == friend) {
-                    friend = [[NSMutableArray alloc] initWithCapacity:0];
-                }
-                
-                NSMutableDictionary *array = [[NSMutableDictionary alloc]initWithDictionary:userData];
-                [friend addObject:array];
-                [friend writeToFile:path atomically: TRUE];
     
+                
+                
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[PFUser currentUser] saveEventually];
                 }
@@ -100,17 +82,6 @@
             }
         }
     }];
-            
-        
-    
-//            if (user) {
-//            [[PFUser currentUser] addObject:user forKey:@"friendsArray"];
-//            [[PFUser currentUser] saveInBackground];
-//                    } else {
-//            NSLog(@"alert");
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
-//            [alert show];
-//                    }
 }
 
 
@@ -149,7 +120,7 @@
                         
             for (id object in objects) {
                 [arrayOfParseTasks addObject:object];
-                
+
             }
             
             dispatch_async(dispatch_get_main_queue(),^{
@@ -160,33 +131,6 @@
         }
     }];
 }
-
-- (void)loadTasksForStart:(ToDoViewController *)delegate{
-    
-    NSLog(@"work"); 
-    
-    PFUser *user = [PFUser currentUser];
-    __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-    query.cachePolicy = kPFCachePolicyNetworkElseCache;
-    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            
-            for (id object in objects) {
-                [arrayOfParseTasks addObject:object];
-                
-            }
-            
-            dispatch_async(dispatch_get_main_queue(),^{
-                [delegate loadArrayOfTasksForStart:arrayOfParseTasks];
-            });
-            
-        }
-    }];
-}
-
 
 - (void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username{
     

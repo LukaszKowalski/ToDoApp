@@ -33,7 +33,6 @@
 -(void)asignWhosViewControllerItIs:(NSDictionary *)user;
 -(PFUser *)userFromObjectId:(NSString *)objectId;
 -(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task;
--(void)loadTasksForStart:(ToDoViewController *)delegate;
 
 @property (strong, nonatomic) NSDictionary *usersViewController;
 

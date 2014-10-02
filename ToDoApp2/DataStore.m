@@ -22,21 +22,26 @@
     return sharedInstance;
 }
 
--(void)loadData:(NSString *)keyString
+-(NSMutableArray *)loadData:(NSString *)keyString
 {
     
-    NSData *encodedAllData =  [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
-    self.arrayOfTasksLocally = [NSKeyedUnarchiver unarchiveObjectWithData:encodedAllData];
-    if (self.arrayOfTasksLocally == nil) {
-        self.arrayOfTasksLocally = [NSMutableArray new];
-    }
-    
-    
+    NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];;
+
+    self.arrayOfTasksLocally = encodedAllData;
+
+    return self.arrayOfTasksLocally;
 }
+-(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString{
+    
+    [[NSUserDefaults standardUserDefaults] setObject:myArray forKey:keyString];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
+
+}
+
 -(NSMutableArray *)loadFriends:(NSString *)keyString
 {
 
-    NSMutableDictionary *dictionary = [[NSUserDefaults standardUserDefaults] objectForKey:keyString];
+    NSMutableDictionary *dictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:keyString]mutableCopy];
     [self.arrayOfFriendsLocally addObject:dictionary];
 //    if (self.arrayOfFriends == nil) {
 //        self.arrayOfFriends = [NSMutableArray new];
@@ -55,23 +60,55 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
 
 }
--(void)addTask:(NSDictionary *)task{
+-(void)addTask:(PFObject*)task{
     
-    NSDictionary *taskLocally = [NSDictionary new];
-    taskLocally = task;
-    [self.arrayOfFriendsLocally addObject:task];
-    //    [[DataStore sharedInstance] saveData:self.arrayOfFriends withKey:@"friendsArray"];
+    NSDictionary *taskLocally = [self changeData:task];
+    NSLog(@"taskLocally method: %@", taskLocally);
+    
+    if (!self.arrayOfTasksLocally) {
+        self.arrayOfTasksLocally = [[NSMutableArray alloc] init];
+    }
+    
+    [self.arrayOfTasksLocally addObject:taskLocally];
+    [[DataStore sharedInstance] saveData:self.arrayOfTasksLocally withKey:@"friendsArrayLocally"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     
 }
 
-
--(void)saveData:(NSMutableDictionary *)myDictionary withKey:(NSString *)keyString
-
-{
-    [[NSUserDefaults standardUserDefaults] setObject:myDictionary forKey:keyString];
-
+-(NSDictionary *)changeData:(PFObject *)object{
+    NSArray *allKeys = [object allKeys];
+    NSMutableDictionary *changedData = [[NSMutableDictionary alloc] init];
+    for (NSString * key in allKeys) {
+        [changedData setValue:[object objectForKey:key] forKey:key];
+    }
+    return changedData;
 }
+
+-(NSMutableArray *)changeArray:(NSMutableArray *)parseArray{
+    
+    NSMutableArray *dictionaryArray = [NSMutableArray arrayWithCapacity:parseArray.count];
+    for (id object in parseArray) {
+        [dictionaryArray addObject:[object dictionaryRepresentation]];
+    }
+    return dictionaryArray;
+}
+
+-(PFObject *)createTaskLocally:(NSString *)taskString{
+    PFUser *user = [PFUser currentUser];
+    
+    UIColor *color = self.randomColor;
+    const CGFloat *components = CGColorGetComponents(color.CGColor);
+    NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
+    
+    PFObject *task = [PFObject objectWithClassName:@"Tasks"];
+    task[@"taskString"] = taskString;
+    task[@"taskUsernameId"] = user.objectId;
+    task[@"color"] = colorAsString;
+    task[@"principal"] = user.username;
+    
+    return task;
+}
+
 
 -(NSString *)getRandomId
 {
@@ -82,10 +119,20 @@
 }
 
 -(UIColor *)randomColor{
-    CGFloat red = arc4random() % 255 / 255.0;
-    CGFloat blue = arc4random() % 255 / 255.0;
-    CGFloat green = arc4random() % 255 / 255.0;
-    return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+    
+    NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
+                              [UIColor colorWithRed:255/255.0 green:202/255.0 blue:94/255.0 alpha:1],
+                              [UIColor colorWithRed:255/255.0 green:94/255.0 blue:115/255.0 alpha:1],
+                              [UIColor colorWithRed:101/255.0 green:192/255.0 blue:197/255.0 alpha:1],
+                              [UIColor colorWithRed:133/255.0 green:117/255.0 blue:167/255.0 alpha:1],
+                              [UIColor colorWithRed:154/255.0 green:212/255.0 blue:107/255.0 alpha:1],
+                              [UIColor colorWithRed:215/255.0 green:216/255.0 blue:184/255.0 alpha:1],
+                              [UIColor colorWithRed:0/255.0 green:181/255.0 blue:156/255.0 alpha:1],
+                              nil];
+    
+    UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];
+    return color;
+
 }
 
 

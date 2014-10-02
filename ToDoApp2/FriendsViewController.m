@@ -89,7 +89,6 @@
     self.addTaskTextField.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your friend's nick"];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.addTaskTextField.hidden = YES;
     
     // confirmButton
     
@@ -206,6 +205,10 @@
 -(void)addItem:(NSString *)item {
     
     [[ParseStore sharedInstance] addFriend:item];
+//    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+//    NSLog(@"task = %@", task);
+//    [[DataStore sharedInstance] addTask:task];
+    
     [self.friendsTableView reloadData];
     [self reloadTableView];
     

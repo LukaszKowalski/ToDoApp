@@ -10,28 +10,13 @@
 
 @interface LoginViewController ()
 
+@property (strong, nonatomic) SignUpViewController *signUpController;
 
 
 @end
 
 @implementation LoginViewController
 
-- (void)viewWillLayoutSubviews{
-    if ([NSUserDefaults standardUserDefaults]) {
-        [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
-                                     password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
-                                        block:^(PFUser *user, NSError *error) {
-                                            if (user) {
-                                                
-                                                self.toDo = [[ToDoViewController alloc] init];
-                                                [self.navigationController pushViewController:self.toDo animated:YES];
-                                                
-                                                
-                                            }
-                                        }];
-    }
-
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -107,23 +92,8 @@
     myFrame.origin.y = 80;
     doImage.frame = myFrame;
     
-    
-    
-//    self.doSign.text = @"Do";
-//    self.doSign.textColor = [UIColor whiteColor];
-//    self.doSign.font = [UIFont systemFontOfSize:90];
-//    self.doSign.textAlignment = NSTextAlignmentCenter;
-    
-//    self.getLogin.layer.cornerRadius=8.0f;
-//    self.getLogin.layer.masksToBounds=YES;
-//    self.getLogin.layer.borderColor=[[UIColor whiteColor]CGColor];
-//    self.getLogin.layer.borderWidth= 2.5f;
+
     [self.getLogin setBorderStyle:UITextBorderStyleNone];
-    
-//    self.getPassword.layer.cornerRadius=8.0f;
-//    self.getPassword.layer.masksToBounds=YES;
-//    self.getPassword.layer.borderColor=[[UIColor whiteColor]CGColor];
-//    self.getPassword.layer.borderWidth= 2.5f;
     self.getPassword.secureTextEntry=YES;
     [self.getPassword setBorderStyle:UITextBorderStyleNone];
     
@@ -140,19 +110,19 @@
     // Auto-login
 
 - (void)viewDidAppear:(BOOL)animated{
-//        if ([NSUserDefaults standardUserDefaults]) {
-//            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
-//                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
-//                                            block:^(PFUser *user, NSError *error) {
-//                if (user) {
-//                    
-//                    self.toDo = [[ToDoViewController alloc] init];
-//                    [self.navigationController pushViewController:self.toDo animated:YES];
-//
-//
-//                    }
-//        }];
-//    }
+        if ([NSUserDefaults standardUserDefaults]) {
+            [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+                                         password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
+                                            block:^(PFUser *user, NSError *error) {
+                if (user) {
+                    
+                    self.toDo = [[ToDoViewController alloc] init];
+                    [self.navigationController pushViewController:self.toDo animated:YES];
+
+
+                    }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -164,8 +134,8 @@
 
 - (void)createUserAccount{
     
-    self.signUp = [[SignUpViewController alloc] init];
-    [self.navigationController pushViewController:self.signUp animated:YES];
+    self.signUpController = [[SignUpViewController alloc] init];
+    [self.navigationController pushViewController:self.signUpController animated:YES];
 }
 - (void)loginFired:(id)sender{
     
@@ -187,7 +157,6 @@
                 [self.getLogin resignFirstResponder];
                 [self.getPassword resignFirstResponder];
                 [[ParseStore sharedInstance] registerUserForPushNotification];
-                [[ParseStore sharedInstance] loadTasksForStart:self.toDoViewController];
                 
             } else {
                 //Something bad has ocurred

@@ -8,10 +8,10 @@
 
 #import "SignUpViewController.h"
 
-
 @interface SignUpViewController ()
 
 @property (strong, nonatomic) LoginViewController *login;
+
 
 @end
 

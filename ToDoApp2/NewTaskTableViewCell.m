@@ -30,7 +30,7 @@
         self.whoAddedTask = [[UILabel alloc] init];
         self.whoAddedTask.frame = CGRectMake(0, 0, 320, 66);
         self.whoAddedTask.textColor = [UIColor whiteColor];
-        self.whoAddedTask.userActivity = NO; 
+        self.whoAddedTask.userInteractionEnabled = NO;
         self.whoAddedTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         self.whoAddedTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
         [self.contentView addSubview:self.newestTask];
