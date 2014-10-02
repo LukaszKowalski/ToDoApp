@@ -63,6 +63,23 @@
                                                          UIRemoteNotificationTypeSound)];
     }
     
+    // Extract the notification data
+    
+    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    // Create a pointer to the Photo object
+    if ([notificationPayload objectForKey:@"reload"]) {
+            // handle recived notification
+            NSLog(@"reload");
+            NSString *newTask = [notificationPayload objectForKey:@"taskString"];
+            PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+            [[DataStore sharedInstance] addTask:task];
+    }
+    
+    
+    
+    
+    
     return YES;
 }
 
@@ -114,12 +131,17 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    {
-//        if ( application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground  )
-//        {
-//            [[ParseStore sharedInstance] loadTasks:self.toDoViewController];
-//        }
+    
+    if ([userInfo objectForKey:@"reload"]) {
+        // handle recived notification
+        NSLog(@"reload");
+        NSString *newTask = [userInfo objectForKey:@"taskString"];
+        PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+        [[DataStore sharedInstance] addTask:task];
+ 
+        
     }
+
     
     [PFPush handlePush:userInfo];
 }

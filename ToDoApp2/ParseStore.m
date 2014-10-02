@@ -172,7 +172,7 @@
     PFPush *push = [PFPush new];
     [push setQuery: pushQuery];
     NSString *message= [NSString stringWithFormat:@"New task for you \"%@\"", task];
-    [push setData: @{ @"alert":message}];
+    [push setData: @{ @"alert":message, @"reload":@"reload data", @"taskString":task }];
     [push sendPushInBackground];
     
 
