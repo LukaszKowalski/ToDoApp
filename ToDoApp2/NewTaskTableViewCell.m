@@ -103,7 +103,6 @@
 -(void)didSwipeLeftInCell:(id)sender {
     
     self.currentStatus = SWIPE_TYPE_LEFT;
-    NSLog(@"swipe left");
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView animateWithDuration:0.3 animations:^{
         [self.newestTask setFrame:CGRectMake(-200, 0, self.contentView.frame.size.width-26, 66)];

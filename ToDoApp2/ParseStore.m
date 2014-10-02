@@ -69,12 +69,11 @@
                 PFUser *user = [objects firstObject];
                 [user fetch];
     
-                
-                
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
+                [[DataStore sharedInstance] changeUserData:user];
                 [[PFUser currentUser] saveEventually];
-                }
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+            }
             }else{
                 NSLog(@"alert");
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
@@ -133,8 +132,6 @@
 }
 
 - (void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username{
-    
-    
     
     PFQuery *queryAboutUser = [PFUser query];
     [queryAboutUser whereKey:@"username" equalTo:username];
@@ -228,7 +225,7 @@
     task[@"color"] = colorAsString;
     task[@"principal"] = [[PFUser currentUser] username];
     
-    [task saveEventually];
+    [task save];
     
     
 }

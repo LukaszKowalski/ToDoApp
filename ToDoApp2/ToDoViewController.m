@@ -147,8 +147,6 @@
     [self.view addSubview:self.settings];
     self.settings.hidden = NO;
 
-    
-    
     // initArray
     
     [self reloadTableView];
@@ -160,8 +158,9 @@
 }
 
 - (void)reloadTableView{
+    
     NSMutableArray *dupaNieOdwrocona = [[NSMutableArray alloc] init];
-    dupaNieOdwrocona = [[DataStore sharedInstance] loadData:@"friendsArrayLocally"];
+    dupaNieOdwrocona = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
     self.arrayOfParseTasks = [[dupaNieOdwrocona reverseObjectEnumerator] allObjects];
     
     if (self.arrayOfParseTasks == nil) {
@@ -178,7 +177,6 @@
     
     self.delegate = self;
     [[[self.arrayOfParseTasks reverseObjectEnumerator] allObjects] mutableCopy];
-    NSLog(@"odwrocone? %@", self.arrayOfParseTasks);
     [self.tableView reloadData];
 
 }
@@ -188,7 +186,6 @@
     NSArray* reversed = [[array reverseObjectEnumerator] allObjects];
 //    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
     self.arrayOfParseTasks = [reversed mutableCopy];
-    NSLog(@"array = %@", self.arrayOfParseTasks);
 //    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
     [self.tableView reloadData];
 }
@@ -321,7 +318,6 @@
     [[ParseStore sharedInstance] addTask:newTask];
     
     PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
-    NSLog(@"task = %@", task);
     [[DataStore sharedInstance] addTask:task];
     [UIView animateWithDuration:0.6 animations:^{
         self.addTaskTextField.alpha = 0;

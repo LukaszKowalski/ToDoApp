@@ -111,8 +111,9 @@
     
 }
 -(void)loadArrayOfTaskss:(NSMutableArray *)array {
-    NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
-    self.arrayOfUserTasks = reversed;
+    
+   // NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
+    self.arrayOfUserTasks = array;
     [self.tableView reloadData];
 
 }

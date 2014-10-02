@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) FriendsToDoViewController *controller;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
-@property (weak, nonatomic) NSDictionary *userCell;
+@property (strong, nonatomic) NSMutableDictionary *userCell;
 
 @end
 
@@ -30,7 +30,7 @@
     self.title = @"Friends list";
     self.friendsTableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
-    self.friendsTableView.frame = CGRectMake(13, 75, viewSize.width -26, viewSize.height -73);
+    self.friendsTableView.frame = CGRectMake(13, 75, viewSize.width-26, viewSize.height -73);
     self.friendsTableView.delegate = self;
     self.friendsTableView.dataSource = self;
     [self.view addSubview:self.friendsTableView];
@@ -83,12 +83,15 @@
     // conf textfield
     
     self.addTaskTextField = [[UITextField alloc] initWithFrame:CGRectMake(13, 134, 294, 70)];
-    self.addTaskTextField.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    self.addTaskTextField.backgroundColor = [UIColor whiteColor];
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
-    self.addTaskTextField.textColor = [UIColor whiteColor];
+    self.addTaskTextField.textColor = [[ParseStore sharedInstance] randomColor];
     self.addTaskTextField.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your friend's nick"];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.addTaskTextField.hidden = YES;
+    [self.view addSubview:self.addTaskTextField];
+
     
     // confirmButton
     
@@ -117,33 +120,37 @@
 
 - (void)reloadTableView{
 
+    NSMutableArray *friends = [[NSMutableArray alloc] init];
+    
+    friends = [[DataStore sharedInstance] loadFriends:@"friendsArrayLocally"];
+    self.arrayOfFriends = [[friends reverseObjectEnumerator] allObjects];
+    
+    if (self.arrayOfFriends == nil) {
+        self.arrayOfFriends = @[
+                                   @{@"color": @"0.603922,0.831373,0.419608,1.000000", @"principal": @"DoTeam",
+                                     @"username": @"Simply add you friends username", @"taskUsernameId": @"asdfasdfas"},
+                                   @{@"color": @"1.000000,0.792157,0.368627,1.000000", @"principal": @"DoTeam",
+                                     @"username": @"Tap, add see DoTeam's tasks", @"taskUsernameId": @"asdfasdfas"}                                   ];
+        
     self.delegate = self;
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fullPath = [NSString stringWithFormat:@"%@/friends.plist", documentsDirectory];
-    
-    
-    self.arrayOfFriends = [[NSMutableArray alloc] initWithContentsOfFile:fullPath];
-    NSLog(@"plists content %@", self.arrayOfFriends);
-    NSLog(@" full path %@", fullPath);
     
     if (self.arrayOfFriends == nil) {
       [[ParseStore sharedInstance] loadFriends:self withObjectId:[PFUser currentUser].objectId];
-    }
-    
-    [self.friendsTableView reloadData];
+        }
 
+    }
+    NSLog(@"friends : %@", self.arrayOfFriends);
+    [self.friendsTableView reloadData];
 }
 
 // getting tasks from PARSE
 
 -(void)loadArrayOfFriends:(NSMutableArray *)array {
-
-    NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
-    
-    self.arrayOfFriends = reversed;
-    [self.friendsTableView reloadData];
+//
+//    NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
+//    
+//    self.arrayOfFriends = reversed;
+//    [self.friendsTableView reloadData];
     
 }
 
@@ -160,7 +167,9 @@
     }
     
 
-    self.userCell = [ self.arrayOfFriends objectAtIndex:indexPath.row];
+    NSLog(@"Ty suk %@", [self.arrayOfFriends class]);
+    
+    self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
     cell.newestFriend.text = [self.userCell objectForKey:@"username"];
     NSString *colorInString = [self.userCell objectForKey:@"color"];
     cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
@@ -216,11 +225,19 @@
     
 - (void)addFriend:(UIButton *)sender {
     
+    [self.friendsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    
     if (self.addFriendButton.tag == 1) {
         
+        self.addTaskTextField.alpha = 1;
+        self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your friend's nick"];
+
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        
         [UIView animateWithDuration:0.3 animations:^{
-            [self.friendsTableView setFrame:CGRectMake(13, 140, 294, 410)];
+            CGSize viewSize = self.view.frame.size;
+            
+            [self.friendsTableView setFrame:CGRectMake(13, 140, viewSize.width -26, viewSize.height -73)];
             [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
         } completion:^(BOOL finished) {
             self.confirmButton.hidden = NO;
@@ -232,17 +249,18 @@
         self.addFriendButton.tag = 2;
     }else{
         [UIView animateWithDuration:0.3 animations:^{
+            CGSize viewSize = self.view.frame.size;
+            self.addTaskTextField.hidden = YES;
             
-            [self.friendsTableView setFrame:CGRectMake(13, 75, 294, 410)];
+            [self.friendsTableView setFrame:CGRectMake(13, 75, viewSize.width -26, viewSize.height -73)];
             [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
         }];
-        self.addTaskTextField.hidden = YES;
         self.confirmButton.hidden = YES;
         [self.addTaskTextField resignFirstResponder];
         self.addFriendButton.tag = 1;
     }
 
-    self.addTaskTextField.delegate = self;
+//    self.addTaskTextField.delegate = self;
 }
 - (void)backButtonFired{
 
@@ -262,12 +280,16 @@
     
     NSString *newFriend = textField.text;
     textField.text = @"";
+    
+    
     [self.delegate addItem:newFriend];
     [self.addTaskTextField resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
         self.addTaskTextField.hidden = YES;
-        [self.friendsTableView setFrame:CGRectMake(13, 75, 294, 410)];
-        [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
+        CGSize viewSize = self.view.frame.size;
+
+    [self.friendsTableView setFrame:CGRectMake(13, 75, viewSize.width -26, viewSize.height -73)];
+    [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
     }];
     [self.addTaskTextField resignFirstResponder];
     self.addFriendButton.tag = 1;
