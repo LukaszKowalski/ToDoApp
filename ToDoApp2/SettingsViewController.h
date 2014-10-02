@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataStore.h"
+#import "ParseStore.h"
+#import <MessageUI/MessageUI.h>
 
-@interface SettingsViewController : UIViewController
+
+@interface SettingsViewController : UIViewController <MFMessageComposeViewControllerDelegate>
+
+@property (nonatomic, strong) UIButton *sendSms;
+@property (nonatomic, strong) UIButton *logout;
 
 @end

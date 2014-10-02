@@ -11,6 +11,7 @@
 #import "FriendsViewController.h"
 #import <Parse/Parse.h>
 #include "LoginViewController.h"
+#import <MessageUI/MessageUI.h>
 
 @interface ToDoAppDelegate : UIResponder <UIApplicationDelegate>
 

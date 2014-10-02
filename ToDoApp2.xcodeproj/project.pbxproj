@@ -32,6 +32,7 @@
 		C3C4FBF0198FC84100F36830 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C3C4FBEE198FC84100F36830 /* InfoPlist.strings */; };
 		C3C4FBF2198FC84100F36830 /* ToDoApp2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */; };
 		C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */; };
+		C3CBD9CE19DD9724004B4078 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3CBD9CD19DD9724004B4078 /* MessageUI.framework */; };
 		C3D1D97719BE2E8F00120D55 /* ToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D1D97619BE2E8F00120D55 /* ToDoViewController.m */; };
 		C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DBD5DA19BDC35A000F4EB0 /* LoginViewController.m */; };
 		C3DBD5E419BDDCFD000F4EB0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3DBD5E119BDDCFD000F4EB0 /* Bolts.framework */; };
@@ -96,6 +97,7 @@
 		C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToDoApp2Tests.m; sourceTree = "<group>"; };
 		C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTaskTableViewCell.h; sourceTree = "<group>"; };
 		C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTaskTableViewCell.m; sourceTree = "<group>"; };
+		C3CBD9CD19DD9724004B4078 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C3D1D97519BE2E8F00120D55 /* ToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoViewController.h; sourceTree = "<group>"; };
 		C3D1D97619BE2E8F00120D55 /* ToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoViewController.m; sourceTree = "<group>"; };
 		C3DBD5D919BDC35A000F4EB0 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3CBD9CE19DD9724004B4078 /* MessageUI.framework in Frameworks */,
 				C3DBD5F219BDDD7A000F4EB0 /* QuartzCore.framework in Frameworks */,
 				C3DBD5F819BDDD93000F4EB0 /* SystemConfiguration.framework in Frameworks */,
 				C3DBD5F619BDDD8A000F4EB0 /* StoreKit.framework in Frameworks */,
@@ -198,6 +201,7 @@
 		C3C4FBCB198FC84100F36830 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C3CBD9CD19DD9724004B4078 /* MessageUI.framework */,
 				C3DBD5F719BDDD92000F4EB0 /* SystemConfiguration.framework */,
 				C3DBD5F519BDDD8A000F4EB0 /* StoreKit.framework */,
 				C3DBD5F319BDDD84000F4EB0 /* Security.framework */,

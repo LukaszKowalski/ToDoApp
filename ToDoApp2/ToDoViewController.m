@@ -17,6 +17,7 @@
 @property (strong, nonatomic) FriendsViewController *friendsController;
 @property (strong, nonatomic) NSString *dataFilePath;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
+@property (strong, nonatomic) SettingsViewController* settingsViewController;
 
 
 
