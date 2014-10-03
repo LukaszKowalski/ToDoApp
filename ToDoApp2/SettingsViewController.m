@@ -20,21 +20,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    // Sms Button
+    
+
     self.sendSms = [UIButton buttonWithType:UIButtonTypeCustom];
     self.sendSms.frame = CGRectMake(120, 64, 75, 75);
-    self.sendSms.backgroundColor = [UIColor whiteColor];
-    self.sendSms.titleLabel.font = [UIFont systemFontOfSize:25];
-    self.sendSms.titleLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.sendSms.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.sendSms addTarget:self action:@selector(sendSms:) forControlEvents:UIControlEventTouchUpInside];
+    UIImage *sms = [UIImage imageNamed:@"IcoLogout.png"];
+    [self.sendSms setImage:sms forState:UIControlStateNormal];
     [self.view addSubview:self.sendSms];
     
+
+    // Logout Button
+
     self.logout = [UIButton buttonWithType:UIButtonTypeCustom];
     self.logout.frame = CGRectMake(120, 200, 75, 75);
-    self.logout.backgroundColor = [UIColor whiteColor];
+    self.logout.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.logout.titleLabel.font = [UIFont systemFontOfSize:25];
     self.logout.titleLabel.adjustsLetterSpacingToFitWidth = YES;
     [self.logout addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.logout];
+    UIImage *logout = [UIImage imageNamed:@"IcoLogout.png"];
+    [self.logout setImage:logout forState:UIControlStateNormal];
+    
+    // Invite Button
+    
+    self.invite = [[UILabel alloc] initWithFrame:CGRectMake(120, 40, 320, 75)];
+    self.invite.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+    self.invite.text = @"Invite Friends";
+    self.invite.textColor = [UIColor whiteColor];
+    [self.view addSubview:self.invite];
+    
+    // Logout Label
+    
+    self.logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 160, 320, 75)];
+    self.logoutLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+    self.logoutLabel.text = @"Log Out";
+    self.logoutLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:self.logoutLabel];
+    
+    // Line Labels
+    
+    self.line1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 215, 260, 1)];
+    self.line1.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    self.line2 = [[UILabel alloc] initWithFrame:CGRectMake(30, 275, 260, 1)];
+    self.line2.backgroundColor = [UIColor colorWithRed:31/255.0f green:33/255.0f blue:86/255.0f alpha:1.0f];
+    [self.view addSubview:self.line1];
+    [self.view addSubview:self.line2];
     
 }
 

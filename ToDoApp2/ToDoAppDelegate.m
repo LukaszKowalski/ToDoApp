@@ -75,7 +75,8 @@
             PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
             [[DataStore sharedInstance] addTask:task];
     }
-    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     
     
     
@@ -145,6 +146,7 @@
     
     [PFPush handlePush:userInfo];
 }
+
 
 
 

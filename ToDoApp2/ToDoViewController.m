@@ -75,8 +75,6 @@
     // adding friendsList Button
     
     UIImage *btnImage = [UIImage imageNamed:@"IcoFriends.png"];
-
-    
     [self.friendsLists setImage:btnImage forState:UIControlStateNormal];
     self.friendsLists = [UIButton buttonWithType:UIButtonTypeCustom];
     self.friendsLists.frame = CGRectMake(219, 64, 81, 75);
@@ -89,9 +87,7 @@
     // conf button
     
     UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
-    
     [self.addTaskButton setImage:plusImage forState:UIControlStateNormal];
-
     self.addTaskButton.backgroundColor = [UIColor clearColor];
     self.addTaskButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:40];
     self.addTaskButton.tag = 1;
@@ -119,8 +115,6 @@
     // confirmButton
     
     UIImage *confirmImage = [UIImage imageNamed:@"IcoCheck.png"];
-    
-    
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
     self.confirmButton.frame = CGRectMake(20, 64, 81, 75);
@@ -138,8 +132,6 @@
     // settingsButton
     
     UIImage *settingsImage = [UIImage imageNamed:@"IcoSettings.png"];
-    
-    
     self.settings = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settings setImage:settingsImage forState:UIControlStateNormal];
     self.settings.frame = CGRectMake(20, 64, 81, 75);
@@ -323,13 +315,16 @@
     [UIView animateWithDuration:0.6 animations:^{
         self.addTaskTextField.alpha = 0;
         self.addTaskTextField.placeholder = [NSString stringWithFormat:@"%@", newTask];
+        [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+
     } completion: ^(BOOL finished) {
         
         self.addTaskTextField.hidden = finished;
     }];
+    self.confirmButton.hidden = YES;
+    self.settings.hidden = NO;
     CGSize viewSize = self.view.frame.size;
     [self.tableView setFrame:CGRectMake(0, 75, viewSize.width -13, viewSize.height -73)];
-    [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
     [self.addTaskTextField resignFirstResponder];
     self.addTaskButton.tag = 1;
     self.confirmButton.hidden = YES;
@@ -338,5 +333,7 @@
     
     return YES;
 }
+
+
 
 @end

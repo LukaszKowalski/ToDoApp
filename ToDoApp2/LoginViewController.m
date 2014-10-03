@@ -171,7 +171,10 @@
     
     [self.view endEditing:YES];
 }
-
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 
 
 @end

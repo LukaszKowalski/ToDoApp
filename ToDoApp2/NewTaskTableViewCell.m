@@ -70,7 +70,7 @@
 }
 
 -(void)didSwipeRightInCell:(id)sender{
-    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
+//    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
 
     if (self.currentStatus == SWIPE_TYPE_LEFT) {
 

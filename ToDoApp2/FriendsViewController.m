@@ -15,6 +15,8 @@
 @property (strong, nonatomic) FriendsToDoViewController *controller;
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 @property (strong, nonatomic) NSMutableDictionary *userCell;
+@property (strong, nonatomic) SettingsViewController* settingsViewController;
+
 
 @end
 
@@ -63,11 +65,18 @@
     [self.view addSubview:self.addTaskTextField];
     
     // Button 'back to ToDoViewController
+//    UIImage *taskImage = [UIImage imageNamed:@"taskImage.png"];
+//    [self.backButton setImage:taskImage forState:UIControlStateNormal];
+
+    
+
     
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backButton.frame = CGRectMake(219, 64, 81, 75);
-    [self.backButton setTitle:@"Task list" forState:UIControlStateNormal];
+    self.backButton.frame = CGRectMake(20, 64, 81, 75);
     self.backButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
+    
+    UIImage *btnImage = [UIImage imageNamed:@"IcoTask.png"];
+    [self.backButton setImage:btnImage forState:UIControlStateNormal];
     self.backButton.backgroundColor = [UIColor clearColor];
     [self.backButton addTarget:self action:@selector(backButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
@@ -99,7 +108,7 @@
 
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
-    self.confirmButton.frame = CGRectMake(20, 64, 81, 75);
+    self.confirmButton.frame = CGRectMake(219, 64, 81, 75);
     self.confirmButton.backgroundColor = [UIColor clearColor];
     [self.confirmButton addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.confirmButton];
@@ -110,8 +119,22 @@
     [self.goToFriendsToDo setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
     [self.view addSubview:self.goToFriendsToDo];
     [self.goToFriendsToDo bringSubviewToFront:self.friendsTableView];
-    // initArray
     
+    // settings
+    
+//    UIImage *settingsImage = [UIImage imageNamed:@"IcoSettings.png"];
+//    self.settings = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.settings setImage:settingsImage forState:UIControlStateNormal];
+//    self.settings.frame = CGRectMake(219, 64, 81, 75);
+//    self.settings.backgroundColor = [UIColor clearColor];
+//    [self.settings addTarget:self action:@selector(goToSettings) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:self.settings];
+//    self.settings.hidden = NO;
+
+    
+    
+    // initArray
+
     [self reloadTableView];
     self.delegate = self;
 }
@@ -267,6 +290,18 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void) goToSettings{
+    
+    if (!self.settingsViewController){
+        self.settingsViewController = [[SettingsViewController alloc] init];
+    }
+    [self.friendsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    [self.navigationController pushViewController:self.settingsViewController animated:YES];
+    
+    
+}
+
+
 // potwierdzanie taska
 
 - (void) confirmTask{
@@ -287,9 +322,9 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.addTaskTextField.hidden = YES;
         CGSize viewSize = self.view.frame.size;
+        [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
 
     [self.friendsTableView setFrame:CGRectMake(13, 75, viewSize.width -26, viewSize.height -73)];
-    [self.addFriendButton setTransform:CGAffineTransformRotate(self.addFriendButton.transform, M_PI/4)];
     }];
     [self.addTaskTextField resignFirstResponder];
     self.addFriendButton.tag = 1;

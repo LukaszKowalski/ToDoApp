@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C3C4FBC8198FC84100F36830"
-               BuildableName = "ToDoApp2.app"
+               BuildableName = "Do.app"
                BlueprintName = "ToDoApp2"
                ReferencedContainer = "container:ToDoApp2.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3C4FBC8198FC84100F36830"
-            BuildableName = "ToDoApp2.app"
+            BuildableName = "Do.app"
             BlueprintName = "ToDoApp2"
             ReferencedContainer = "container:ToDoApp2.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3C4FBC8198FC84100F36830"
-            BuildableName = "ToDoApp2.app"
+            BuildableName = "Do.app"
             BlueprintName = "ToDoApp2"
             ReferencedContainer = "container:ToDoApp2.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C3C4FBC8198FC84100F36830"
-            BuildableName = "ToDoApp2.app"
+            BuildableName = "Do.app"
             BlueprintName = "ToDoApp2"
             ReferencedContainer = "container:ToDoApp2.xcodeproj">
          </BuildableReference>

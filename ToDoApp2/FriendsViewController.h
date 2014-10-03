@@ -11,6 +11,7 @@
 #import "FriendsTableViewCell.h"
 #import "FriendsToDoViewController.h"
 #import "ParseStore.h"
+#import "SettingsViewController.h"
 
 @interface FriendsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -23,7 +24,7 @@
 @property (strong, nonatomic) UILabel *cap;
 @property (strong, nonatomic) UIButton *confirmButton;
 @property (strong, nonatomic) UIActivityIndicatorView *goToFriendsToDo;
-
+@property (strong, nonatomic) UIButton *settings;
 
 -(void)reloadTableView;
 -(void)loadArrayOfFriends:(NSMutableArray *)array;

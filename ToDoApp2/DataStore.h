@@ -21,7 +21,6 @@
 -(void)addTask:(PFObject*)task;
 -(NSDictionary *)changeData:(PFObject*)object;
 -(PFObject *)createTaskLocally:(NSString *)taskString;
--(NSMutableArray *)changeArray:(NSMutableArray *)PFArray;
 -(void)saveUser:(NSDictionary *)myDictionary withKey:(NSString *)keyString;
 -(void)changeUserData:(PFObject*)object;
 
