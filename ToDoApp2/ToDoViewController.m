@@ -184,10 +184,20 @@
 }
 
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
-        
+    
+    NSLog(@"integer %ld", (long)[integer row]);
+
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
+    [[DataStore sharedInstance] removeLocally:[integer row]];
+    
+    //    PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
+    //    NSString*taskStringToDelete = [taskTodelete objectForKey:@"taskString"];
+    //    [[ParseStore sharedInstance] deleteTask:taskStringToDelete];
+
     [self.tableView reloadData];
-    }
+}
+
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
