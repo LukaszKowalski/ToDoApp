@@ -70,45 +70,57 @@
 }
 
 -(void)didSwipeRightInCell:(id)sender{
-//    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
-
+    //    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
+    
     if (self.currentStatus == SWIPE_TYPE_LEFT) {
-
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView animateWithDuration:0.5 animations:^{
-        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+        
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
         }];
         self.currentStatus = SWIPE_TYPE_START;
     }
-//    else if (self.currentStatus == SWIPE_TYPE_START){
-//
-//        [UIView animateWithDuration:0.5 animations:^{
-//            [self.newestTask setFrame:CGRectMake(320, 0, self.contentView.frame.size.width-26, 70)];
-//        }];
-//        
-//        double delayInSeconds = 0.7;
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//            
-//            [self.delegate removeTaskforRowAtIndexPath:indexPath];
-//            
-//        });
-//
-//        self.currentStatus = SWIPE_TYPE_START;
-//        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-26, 70)];
-//
-//    }
+    else if (self.currentStatus == SWIPE_TYPE_START){
+        self.whoAddedTask.hidden = YES;
+        self.confirmButton.hidden = NO;
+        self.no.hidden = NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(260, 0, self.contentView.frame.size.width-13, 66)];
+        }];
+        
+        //        double delayInSeconds = 0.7;
+        //        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        //        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        //
+        
+        
+        self.currentStatus = SWIPE_TYPE_RIGHT;
+    }
 }
 
 -(void)didSwipeLeftInCell:(id)sender {
     
-    self.currentStatus = SWIPE_TYPE_LEFT;
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.newestTask setFrame:CGRectMake(-200, 0, self.contentView.frame.size.width-26, 66)];
-    }];
+    if (self.currentStatus == SWIPE_TYPE_START){
+        self.currentStatus = SWIPE_TYPE_LEFT;
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(-220, 0, self.contentView.frame.size.width-13, 66)];
+        }];
+    }else if (self.currentStatus == SWIPE_TYPE_RIGHT){
+        
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+            self.currentStatus = SWIPE_TYPE_START;
+        } completion:^(BOOL finished) {
+            self.whoAddedTask.hidden = NO;
+            self.confirmButton.hidden = YES;
+            self.no.hidden = NO;
+            
+        }];
+    }
 }
-
 
 
 @end
