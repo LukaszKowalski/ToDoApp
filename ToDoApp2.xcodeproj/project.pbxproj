@@ -18,7 +18,7 @@
 		C37D37F319BF02B500CEAC31 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F219BF02B500CEAC31 /* SignUpViewController.m */; };
 		C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F619C08E7600CEAC31 /* ParseStore.m */; };
 		C3820EB919DDD31C00B03506 /* IcoLogout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */; };
-		C3820EBB19DDD32100B03506 /* Rainbow (1).png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EBA19DDD32100B03506 /* Rainbow (1).png */; };
+		C3820EBB19DDD32100B03506 /* Rainbow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EBA19DDD32100B03506 /* Rainbow@2x.png */; };
 		C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3875BCD19DC446B00194663 /* IcoSettings@2x.png */; };
 		C3875BD119DC459900194663 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3875BD019DC459900194663 /* SettingsViewController.m */; };
 		C3B8961619DEA21E00AD9769 /* IcoTask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3B8961419DEA21E00AD9769 /* IcoTask@2x.png */; };
@@ -79,7 +79,7 @@
 		C37D37F519C08E7600CEAC31 /* ParseStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseStore.h; sourceTree = "<group>"; };
 		C37D37F619C08E7600CEAC31 /* ParseStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseStore.m; sourceTree = "<group>"; };
 		C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IcoLogout@2x.png"; path = "../../Downloads/IcoLogout@2x.png"; sourceTree = "<group>"; };
-		C3820EBA19DDD32100B03506 /* Rainbow (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rainbow (1).png"; path = "../../Downloads/Rainbow (1).png"; sourceTree = "<group>"; };
+		C3820EBA19DDD32100B03506 /* Rainbow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rainbow@2x.png"; path = "../../Downloads/Rainbow@2x.png"; sourceTree = "<group>"; };
 		C3820EBC19DDD33200B03506 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Invite@2x.png"; path = "../../Downloads/Invite@2x.png"; sourceTree = "<group>"; };
 		C3875BCD19DC446B00194663 /* IcoSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IcoSettings@2x.png"; sourceTree = "<group>"; };
 		C3875BCF19DC459900194663 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 				C3479E6A19D68DB40091D70E /* IcoFriends@2x.png */,
 				C3B8961419DEA21E00AD9769 /* IcoTask@2x.png */,
 				C3B8961519DEA21E00AD9769 /* IcoPass@2x.png */,
-				C3820EBA19DDD32100B03506 /* Rainbow (1).png */,
+				C3820EBA19DDD32100B03506 /* Rainbow@2x.png */,
 				C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */,
 				C3820EBC19DDD33200B03506 /* Invite@2x.png */,
 				C3479E6B19D68DB40091D70E /* DoLogo@2x.png */,
@@ -393,7 +393,7 @@
 				C3479E6E19D68DB40091D70E /* DoLogo@2x.png in Resources */,
 				C3B8961719DEA21E00AD9769 /* IcoPass@2x.png in Resources */,
 				C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */,
-				C3820EBB19DDD32100B03506 /* Rainbow (1).png in Resources */,
+				C3820EBB19DDD32100B03506 /* Rainbow@2x.png in Resources */,
 				C3820EB919DDD31C00B03506 /* IcoLogout@2x.png in Resources */,
 				C3479E6D19D68DB40091D70E /* IcoFriends@2x.png in Resources */,
 				C3B8961619DEA21E00AD9769 /* IcoTask@2x.png in Resources */,

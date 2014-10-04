@@ -22,6 +22,8 @@
 {
     // adding tableView
     
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTaskTableView" object:nil];
+    
     [super viewDidLoad];
     self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
     self.navigationItem.hidesBackButton = YES;
@@ -107,6 +109,7 @@
     
     self.delegate = self;
     [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:@"%@", self.titleName]];
+    
     [self.tableView reloadData];
     
 }
@@ -114,6 +117,7 @@
     
    // NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
     self.arrayOfUserTasks = array;
+    NSLog(@"Jak wyglada array %@", array);
     [self.tableView reloadData];
 
 }

@@ -69,6 +69,32 @@
     [self.view addSubview:self.line1];
     [self.view addSubview:self.line2];
     
+    // Rainbow Sign
+    
+    
+        CATextLayer *textLayer = [[CATextLayer alloc] init];
+        textLayer.contentsScale = [UIScreen mainScreen].scale;
+        NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+        textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0f];
+        
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"My Tasks", nil)
+                                                                               attributes:textProperties];
+        
+        textLayer.string = attributedString;
+        
+        
+        textLayer.frame = self.view.bounds;
+        
+        UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+        self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+        self.imageView.layer.mask = textLayer;
+        
+        [self.imageView sizeToFit];
+        self.imageView.center = self.view.center;
+        self.imageView.frame = CGRectIntegral(self.imageView.frame);
+        [self.view addSubview:self.imageView];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -21,5 +21,7 @@
 @property (strong, nonatomic) UILabel *invite;
 @property (strong, nonatomic) UILabel *changePassword;
 @property (strong, nonatomic) UILabel *logoutLabel;
+@property (nonatomic, strong) UIImageView *imageView;
+
 
 @end

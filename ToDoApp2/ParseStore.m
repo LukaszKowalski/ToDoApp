@@ -71,7 +71,7 @@
     
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[DataStore sharedInstance] changeUserData:user];
-                [[PFUser currentUser] saveEventually];
+                [[PFUser currentUser] saveInBackground];
 //                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
             }
             }else{
@@ -153,7 +153,6 @@
                 [delegate loadArrayOfTaskss:arrayOfUserTasks];
             });
             
-            
         }
     }];
 }
@@ -226,7 +225,8 @@
     task[@"principal"] = [[PFUser currentUser] username];
     
     [task save];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadSomeoneTableView" object:nil];
+
     
 }
 -(UIColor *)randomColor{

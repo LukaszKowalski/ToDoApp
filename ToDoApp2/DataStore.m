@@ -26,13 +26,12 @@
 {
     
     NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];
-
     self.arrayOfTasksLocally = encodedAllData;
-
     return self.arrayOfTasksLocally;
 }
 -(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString{
     
+    [[myArray reverseObjectEnumerator] allObjects];
     [[NSUserDefaults standardUserDefaults] setObject:myArray forKey:keyString];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
 
