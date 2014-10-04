@@ -27,6 +27,8 @@
         self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.newestTask setUserInteractionEnabled:YES];
         
+        self.contentView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+        
         self.whoAddedTask = [[UILabel alloc] init];
         self.whoAddedTask.frame = CGRectMake(0, 0, 320, 66);
         self.whoAddedTask.textColor = [UIColor whiteColor];
@@ -65,21 +67,20 @@
         
         self.no.hidden = YES;
         
-
+        //
         
-
         self.currentStatus = SWIPE_TYPE_START;
         
         [self.contentView insertSubview:self.whoAddedTask belowSubview:self.newestTask];
         
         UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRightInCell:)];
         [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
-
+        
         
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeLeftInCell:)];
         [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
         
-
+        
         [self.newestTask addGestureRecognizer:swipeRight];
         [self.newestTask addGestureRecognizer:swipeLeft];
         
@@ -153,6 +154,50 @@
             
         }];
     }
+}
+-(void) noTask{
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+        self.currentStatus = SWIPE_TYPE_START;
+    } completion:^(BOOL finished) {
+        self.whoAddedTask.hidden = NO;
+        self.confirmButton.hidden = YES;
+        self.no.hidden = NO;
+    }];
+}
+-(void) confirmTask{
+    
+    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
+    
+    self.currentStatus = SWIPE_TYPE_START;
+    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    [UIView animateWithDuration:0.8 animations:^{
+        self.newestTask.text = @"Task Done";
+        self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:22];
+        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+        
+    } completion:^(BOOL finished) {
+        self.whoAddedTask.hidden = NO;
+        self.confirmButton.hidden = YES;
+        self.no.hidden = NO;
+        self.newestTask.textColor = [UIColor whiteColor];
+        
+        [UIView transitionWithView:self.newestTask duration:0.7 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+            self.newestTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+            self.newestTask.text = @"";
+        } completion:^(BOOL finished){
+            
+            [self.delegate removeTaskforRowAtIndexPath:indexPath];
+            
+        }];
+        
+    }];
+    
+    
+    self.currentStatus = SWIPE_TYPE_START;
+    
+    
 }
 
 
