@@ -34,6 +34,39 @@
         self.whoAddedTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         self.whoAddedTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
         [self.contentView addSubview:self.newestTask];
+        
+        // confirm
+        
+        UIImage *confirmImage = [UIImage imageNamed:@"IcoCheckColor.png"];
+        self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
+        self.confirmButton.frame = CGRectMake(80, 0, 81, 75);
+        self.confirmButton.backgroundColor = [UIColor clearColor];
+        [self.confirmButton addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:self.confirmButton];
+        [self.contentView insertSubview:self.confirmButton belowSubview:self.newestTask];
+        
+        self.confirmButton.hidden = YES;
+        
+        //
+        
+        // no
+        
+        
+        self.no = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
+        [self.no setImage:plusImage forState:UIControlStateNormal];
+        self.no.backgroundColor = [UIColor clearColor];
+        [self.no addTarget:self action:@selector(noTask) forControlEvents:UIControlEventTouchUpInside];
+        self.no.frame = CGRectMake(150, 0, 81, 75);
+        
+        [self.contentView addSubview:self.no];
+        [self.contentView insertSubview:self.no belowSubview:self.newestTask];
+        
+        self.no.hidden = YES;
+        
+
+        
 
         self.currentStatus = SWIPE_TYPE_START;
         

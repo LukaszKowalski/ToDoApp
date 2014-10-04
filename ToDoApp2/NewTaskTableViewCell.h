@@ -16,7 +16,7 @@ typedef enum {SWIPE_TYPE_START = 0, SWIPE_TYPE_LEFT, SWIPE_TYPE_RIGHT} SWIPE_TYP
 @interface NewTaskTableViewCell : UITableViewCell
 @property (nonatomic, strong) UILabel *newestTask;
 @property (nonatomic, strong) UILabel *whoAddedTask;
-@property (nonatomic, strong) UIButton *done;
+@property (nonatomic, strong) UIButton *confirmButton;
 @property (nonatomic, strong) UIButton *no;
 
 @property (nonatomic, weak) ToDoViewController *viewController;
