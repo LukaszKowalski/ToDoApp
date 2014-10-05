@@ -11,6 +11,8 @@
 #import "DataStore.h"
 #import "ParseStore.h"
 #import "SVProgressHUD.h"
+#import "FriendsToDoTableViewCell.h"
+
 
 @interface FriendsToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 

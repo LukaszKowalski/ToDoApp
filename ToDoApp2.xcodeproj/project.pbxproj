@@ -17,6 +17,7 @@
 		C37A9E8E19DAEAA000B44602 /* IcoCheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C37A9E8D19DAEAA000B44602 /* IcoCheck@2x.png */; };
 		C37D37F319BF02B500CEAC31 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F219BF02B500CEAC31 /* SignUpViewController.m */; };
 		C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F619C08E7600CEAC31 /* ParseStore.m */; };
+		C37EC32519E1A6240027FD1A /* FriendsToDoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C37EC32419E1A6240027FD1A /* FriendsToDoTableViewCell.m */; };
 		C3820EB919DDD31C00B03506 /* IcoLogout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */; };
 		C3820EBB19DDD32100B03506 /* Rainbow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EBA19DDD32100B03506 /* Rainbow@2x.png */; };
 		C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3875BCD19DC446B00194663 /* IcoSettings@2x.png */; };
@@ -80,6 +81,8 @@
 		C37D37F219BF02B500CEAC31 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		C37D37F519C08E7600CEAC31 /* ParseStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseStore.h; sourceTree = "<group>"; };
 		C37D37F619C08E7600CEAC31 /* ParseStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseStore.m; sourceTree = "<group>"; };
+		C37EC32319E1A6240027FD1A /* FriendsToDoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsToDoTableViewCell.h; sourceTree = "<group>"; };
+		C37EC32419E1A6240027FD1A /* FriendsToDoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsToDoTableViewCell.m; sourceTree = "<group>"; };
 		C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IcoLogout@2x.png"; path = "../../Downloads/IcoLogout@2x.png"; sourceTree = "<group>"; };
 		C3820EBA19DDD32100B03506 /* Rainbow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rainbow@2x.png"; path = "../../Downloads/Rainbow@2x.png"; sourceTree = "<group>"; };
 		C3820EBC19DDD33200B03506 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Invite@2x.png"; path = "../../Downloads/Invite@2x.png"; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */,
 				C3020AB119953A4C00C20BB7 /* FriendsTableViewCell.h */,
 				C3020AB219953A4C00C20BB7 /* FriendsTableViewCell.m */,
+				C37EC32319E1A6240027FD1A /* FriendsToDoTableViewCell.h */,
+				C37EC32419E1A6240027FD1A /* FriendsToDoTableViewCell.m */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -447,6 +452,7 @@
 				C325E9EE19A68F0900668291 /* DataStore.m in Sources */,
 				C3C81D7B19E1904F00F5B995 /* SVProgressHUD.m in Sources */,
 				C3D1D97719BE2E8F00120D55 /* ToDoViewController.m in Sources */,
+				C37EC32519E1A6240027FD1A /* FriendsToDoTableViewCell.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
 				C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */,
 			);

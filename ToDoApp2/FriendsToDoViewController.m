@@ -129,24 +129,18 @@
     return self.arrayOfUserTasks.count;
 }
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
+    
+    FriendsToDoTableViewCell *cell = (FriendsToDoTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newTaskForFriend"];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
+        cell = [[FriendsToDoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newTaskForFriend"];
     }
     // init Label
     
     PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
     NSString *colorInString = [task objectForKey:@"color"];
-    
-    self.taskForFriend = [[UILabel alloc] init];
-    self.taskForFriend.frame = CGRectMake(0, 0, 300, 66);
-    self.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
-    self.taskForFriend.textColor = [UIColor whiteColor];
-    self.taskForFriend.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
-    self.taskForFriend.textAlignment = NSTextAlignmentCenter;
-    self.taskForFriend.text = [task objectForKey:@"taskString"];
-    [cell.contentView addSubview:self.taskForFriend];
+    cell.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
+    cell.taskForFriend.text = [task objectForKey:@"taskString"];
     
     return cell;
 }
@@ -180,19 +174,17 @@
     [push setData: @{ @"alert":message}];
     [push sendPushInBackground];
 
-    
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
 }
 
 -(void)addItem:(NSString *)item {
     
      dispatch_async(dispatch_get_main_queue(),^{
          [SVProgressHUD showWithStatus:@"Adding Task"];
-         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
     self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
     [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];
-    [self.tableView reloadData];
      });
 }
 - (void)addTask:(UIButton *)sender {

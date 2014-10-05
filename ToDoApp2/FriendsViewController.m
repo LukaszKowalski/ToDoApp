@@ -211,6 +211,9 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
+    [SVProgressHUD showWithStatus:@"Loading Tasks"];
+    dispatch_async(dispatch_get_main_queue(),^{
+        
     FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
     
     self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
@@ -219,6 +222,7 @@
     
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
+    });
 }
 
 
@@ -232,7 +236,6 @@
     
      dispatch_async(dispatch_get_main_queue(),^{
     [SVProgressHUD showWithStatus:@"Adding Friend"];
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
 
     [[ParseStore sharedInstance] addFriend:item];
 //    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
