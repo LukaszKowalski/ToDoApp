@@ -187,7 +187,8 @@
 -(void)addItem:(NSString *)item {
     
      dispatch_async(dispatch_get_main_queue(),^{
-         [SVProgressHUD showWithStatus:@"Adding Task"]; 
+         [SVProgressHUD showWithStatus:@"Adding Task"];
+         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
     self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
     [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];

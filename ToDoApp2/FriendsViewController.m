@@ -232,6 +232,8 @@
     
      dispatch_async(dispatch_get_main_queue(),^{
     [SVProgressHUD showWithStatus:@"Adding Friend"];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
+
     [[ParseStore sharedInstance] addFriend:item];
 //    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
 //    NSLog(@"task = %@", task);

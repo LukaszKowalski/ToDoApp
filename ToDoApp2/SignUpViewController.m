@@ -118,6 +118,10 @@
 -(void)createAccount:(id)sender{
     
     //1
+     dispatch_async(dispatch_get_main_queue(),^{
+    [SVProgressHUD showWithStatus:@"Adding Account"];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
+
     
     PFUser *user = [PFUser user];
     //2
@@ -146,6 +150,7 @@
             [errorAlertView show];
         }
     }];
+     });
     
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
