@@ -130,13 +130,9 @@
     
     PFUser *user = [PFUser user];
     //2
-    NSString *usernameLowerCase = self.getLogin.text;
-    usernameLowerCase = [usernameLowerCase lowercaseString];
-    user.username = usernameLowerCase;
+    user.username = self.getLogin.text;
     
-    NSString *passwordLowerCase = self.getPassword.text;
-    passwordLowerCase = [passwordLowerCase lowercaseString];
-    user.password = passwordLowerCase;
+    user.password = self.getPassword.text;
     
     user.email = self.getEmail.text;
     //3
@@ -147,12 +143,14 @@
             
             self.login = [[LoginViewController alloc] init];
             [self.navigationController pushViewController:self.login animated:YES];
+            [SVProgressHUD dismiss];
             
         } else {
             //Something bad has occurred
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [errorAlertView show];
+            [SVProgressHUD dismiss];
         }
     }];
      });

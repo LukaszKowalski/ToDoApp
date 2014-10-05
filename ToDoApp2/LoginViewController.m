@@ -40,7 +40,7 @@
     self.forgotPassword = [[UIButton alloc] initWithFrame:CGRectMake(90, 400, 150, 40)];
     [self.forgotPassword setTitle:@"FORGOT PASSWORD?" forState:UIControlStateNormal];
     [self.forgotPassword setBackgroundColor:[UIColor clearColor]];
-    [self.forgotPassword addTarget:self action:@selector(createUserAccount) forControlEvents:UIControlEventTouchUpInside];
+    [self.forgotPassword addTarget:self action:@selector(forgotPasswordProblem) forControlEvents:UIControlEventTouchUpInside];
     [self.forgotPassword setTitleColor:[UIColor colorWithRed:160/255.0f green:170/255.0f blue:213/255.0f alpha:1.0f] forState:UIControlStateNormal];
     self.forgotPassword.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:12];
 
@@ -71,13 +71,13 @@
     self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
     
     UIColor *color= [UIColor whiteColor];
-    self.getLogin.frame = CGRectMake(120, 165, 300, 50);
+    self.getLogin.frame = CGRectMake(110, 175, 300, 50);
     self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"username" attributes: @{NSForegroundColorAttributeName:color ,
                      NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:20]
                      }];
     
     self.getLogin.textColor = [UIColor whiteColor];
-    self.getPassword.frame  = CGRectMake(120, 220, 300, 50);
+    self.getPassword.frame  = CGRectMake(110, 235, 300, 50);
     self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"password" attributes: @{NSForegroundColorAttributeName:color ,
                                                                                                                 NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:20]
                                                                
@@ -181,6 +181,24 @@
 {
     return YES;
 }
+- (void)forgotPasswordProblem{
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Forgot Password?"
+                                                    message:@"We will send you a new one"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Done"
+                                          otherButtonTitles:nil];
+    
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alert textFieldAtIndex:0];
+    textField.keyboardType = UIKeyboardTypeDefault;
+    textField.placeholder = @"Enter your email";
+    
+    [alert show];
+    
 
+    [PFUser requestPasswordResetForEmailInBackground:[NSString stringWithFormat:@"%@", textField.text]
+];
+}
 
 @end

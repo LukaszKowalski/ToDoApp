@@ -19,6 +19,7 @@
 		C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C37D37F619C08E7600CEAC31 /* ParseStore.m */; };
 		C37EC32519E1A6240027FD1A /* FriendsToDoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C37EC32419E1A6240027FD1A /* FriendsToDoTableViewCell.m */; };
 		C37EC32719E1D0470027FD1A /* IcoNo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C37EC32619E1D0470027FD1A /* IcoNo@2x.png */; };
+		C37EC32A19E1E2E30027FD1A /* RSMaskedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C37EC32919E1E2E30027FD1A /* RSMaskedLabel.m */; };
 		C3820EB919DDD31C00B03506 /* IcoLogout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */; };
 		C3820EBB19DDD32100B03506 /* Rainbow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3820EBA19DDD32100B03506 /* Rainbow@2x.png */; };
 		C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3875BCD19DC446B00194663 /* IcoSettings@2x.png */; };
@@ -85,6 +86,8 @@
 		C37EC32319E1A6240027FD1A /* FriendsToDoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsToDoTableViewCell.h; sourceTree = "<group>"; };
 		C37EC32419E1A6240027FD1A /* FriendsToDoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsToDoTableViewCell.m; sourceTree = "<group>"; };
 		C37EC32619E1D0470027FD1A /* IcoNo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IcoNo@2x.png"; path = "../../Downloads/IcoNo@2x.png"; sourceTree = "<group>"; };
+		C37EC32819E1E2E30027FD1A /* RSMaskedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSMaskedLabel.h; path = ../../../Downloads/TestLabel/TestLabel/RSMaskedLabel.h; sourceTree = "<group>"; };
+		C37EC32919E1E2E30027FD1A /* RSMaskedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSMaskedLabel.m; path = ../../../Downloads/TestLabel/TestLabel/RSMaskedLabel.m; sourceTree = "<group>"; };
 		C3820EB819DDD31C00B03506 /* IcoLogout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "IcoLogout@2x.png"; path = "../../Downloads/IcoLogout@2x.png"; sourceTree = "<group>"; };
 		C3820EBA19DDD32100B03506 /* Rainbow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rainbow@2x.png"; path = "../../Downloads/Rainbow@2x.png"; sourceTree = "<group>"; };
 		C3820EBC19DDD33200B03506 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Invite@2x.png"; path = "../../Downloads/Invite@2x.png"; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 		C3C4FBD3198FC84100F36830 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C37EC32819E1E2E30027FD1A /* RSMaskedLabel.h */,
+				C37EC32919E1E2E30027FD1A /* RSMaskedLabel.m */,
 				C3C81D7519E1904F00F5B995 /* SVProgressHUD */,
 				C3479E7019D868F30091D70E /* friends.plist */,
 				C3C4FBD4198FC84100F36830 /* ToDoApp2-Info.plist */,
@@ -445,6 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C37EC32A19E1E2E30027FD1A /* RSMaskedLabel.m in Sources */,
 				C3020AB61996088D00C20BB7 /* FriendsToDoViewController.m in Sources */,
 				C3BAA8F7199284BB00FDCE14 /* FriendsViewController.m in Sources */,
 				C37D37F319BF02B500CEAC31 /* SignUpViewController.m in Sources */,

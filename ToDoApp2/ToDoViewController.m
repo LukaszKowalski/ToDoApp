@@ -8,7 +8,7 @@
 
 #import "ToDoViewController.h"
 #import "DataStore.h"
-
+#import "RSMaskedLabel.h"
 #import "ParseStore.h"
 
 
@@ -34,7 +34,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTaskTableView" object:nil];
     
     self.navigationItem.hidesBackButton = YES;
-    self.title = @"My Tasks";
     self.tableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
     self.tableView.frame = CGRectMake(0, 75,320, viewSize.height -73);
@@ -45,6 +44,8 @@
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc ] init];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+
     
 //    // nav bar
 //    
@@ -140,6 +141,23 @@
     [self.settings addTarget:self action:@selector(goToSettings) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.settings];
     self.settings.hidden = NO;
+    
+    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(60,10,320,40)];
+    navView.backgroundColor = [UIColor clearColor];
+    
+    RSMaskedLabel *label = [[RSMaskedLabel alloc] initWithFrame:navView.frame];
+    label.text =@"My Tasks";
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
+
+    [navView addSubview:label];
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:navView.frame];
+    [imgView setImage:[UIImage imageNamed:@"rainbow"]];
+    
+    [navView addSubview:imgView];
+    [navView addSubview:label];
+    [self.view addSubview:navView];
+    
 
     // initArray
     
