@@ -22,7 +22,8 @@
 {
     // adding tableView
     
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadTaskTableView" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadSomeoneTableView" object:nil];
+    
     
     [super viewDidLoad];
     self.title =[NSString stringWithFormat:@"%@'s list", self.titleName];
@@ -111,6 +112,8 @@
     [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     
     [self.tableView reloadData];
+    [SVProgressHUD dismiss];
+
     
 }
 -(void)loadArrayOfTaskss:(NSMutableArray *)array {
@@ -183,12 +186,13 @@
 
 -(void)addItem:(NSString *)item {
     
+     dispatch_async(dispatch_get_main_queue(),^{
+         [SVProgressHUD showWithStatus:@"Adding Task"]; 
     self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
     [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];
     [self.tableView reloadData];
-    [self reloadTableView];
-
+     });
 }
 - (void)addTask:(UIButton *)sender {
     
@@ -230,6 +234,7 @@
 
 - (void) confirmTask{
     
+    [SVProgressHUD showWithStatus:@"Adding Task..."];
     [self textFieldShouldReturn:self.addTaskTextField];
     
 }
@@ -265,8 +270,6 @@
     
     [self.view endEditing:YES];
 }
-
-
 
 
 

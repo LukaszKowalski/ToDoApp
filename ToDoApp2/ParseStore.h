@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 #import "ToDoViewController.h"
-
+#import "SVProgressHUD.h"
 
 @class FriendsToDoViewController;
 @class FriendsViewController;

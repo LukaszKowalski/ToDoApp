@@ -36,6 +36,8 @@
 		C3C4FBF0198FC84100F36830 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C3C4FBEE198FC84100F36830 /* InfoPlist.strings */; };
 		C3C4FBF2198FC84100F36830 /* ToDoApp2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */; };
 		C3C4FC00198FC91400F36830 /* NewTaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */; };
+		C3C81D7A19E1904F00F5B995 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C3C81D7719E1904F00F5B995 /* SVProgressHUD.bundle */; };
+		C3C81D7B19E1904F00F5B995 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C81D7919E1904F00F5B995 /* SVProgressHUD.m */; };
 		C3CBD9CE19DD9724004B4078 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3CBD9CD19DD9724004B4078 /* MessageUI.framework */; };
 		C3D1D97719BE2E8F00120D55 /* ToDoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D1D97619BE2E8F00120D55 /* ToDoViewController.m */; };
 		C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3DBD5DA19BDC35A000F4EB0 /* LoginViewController.m */; };
@@ -105,6 +107,10 @@
 		C3C4FBF1198FC84100F36830 /* ToDoApp2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToDoApp2Tests.m; sourceTree = "<group>"; };
 		C3C4FBFE198FC91400F36830 /* NewTaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTaskTableViewCell.h; sourceTree = "<group>"; };
 		C3C4FBFF198FC91400F36830 /* NewTaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTaskTableViewCell.m; sourceTree = "<group>"; };
+		C3C81D7619E1904F00F5B995 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		C3C81D7719E1904F00F5B995 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		C3C81D7819E1904F00F5B995 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		C3C81D7919E1904F00F5B995 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		C3CBD9CD19DD9724004B4078 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C3D1D97519BE2E8F00120D55 /* ToDoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoViewController.h; sourceTree = "<group>"; };
 		C3D1D97619BE2E8F00120D55 /* ToDoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoViewController.m; sourceTree = "<group>"; };
@@ -248,6 +254,7 @@
 		C3C4FBD3198FC84100F36830 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C3C81D7519E1904F00F5B995 /* SVProgressHUD */,
 				C3479E7019D868F30091D70E /* friends.plist */,
 				C3C4FBD4198FC84100F36830 /* ToDoApp2-Info.plist */,
 				C3C4FBD5198FC84100F36830 /* InfoPlist.strings */,
@@ -273,6 +280,18 @@
 				C3C4FBEE198FC84100F36830 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C3C81D7519E1904F00F5B995 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				C3C81D7619E1904F00F5B995 /* SVProgressHUD-Prefix.pch */,
+				C3C81D7719E1904F00F5B995 /* SVProgressHUD.bundle */,
+				C3C81D7819E1904F00F5B995 /* SVProgressHUD.h */,
+				C3C81D7919E1904F00F5B995 /* SVProgressHUD.m */,
+			);
+			name = SVProgressHUD;
+			path = "../../../Desktop/SVProgressHUD-master/SVProgressHUD";
 			sourceTree = "<group>";
 		};
 		C3DF846019A7451700701980 /* TableViewCells */ = {
@@ -394,6 +413,7 @@
 				C3B8961719DEA21E00AD9769 /* IcoPass@2x.png in Resources */,
 				C3875BCE19DC446B00194663 /* IcoSettings@2x.png in Resources */,
 				C3820EBB19DDD32100B03506 /* Rainbow@2x.png in Resources */,
+				C3C81D7A19E1904F00F5B995 /* SVProgressHUD.bundle in Resources */,
 				C3820EB919DDD31C00B03506 /* IcoLogout@2x.png in Resources */,
 				C3479E6D19D68DB40091D70E /* IcoFriends@2x.png in Resources */,
 				C3B8961619DEA21E00AD9769 /* IcoTask@2x.png in Resources */,
@@ -425,6 +445,7 @@
 				C37D37F719C08E7600CEAC31 /* ParseStore.m in Sources */,
 				C3020AB319953A4C00C20BB7 /* FriendsTableViewCell.m in Sources */,
 				C325E9EE19A68F0900668291 /* DataStore.m in Sources */,
+				C3C81D7B19E1904F00F5B995 /* SVProgressHUD.m in Sources */,
 				C3D1D97719BE2E8F00120D55 /* ToDoViewController.m in Sources */,
 				C3C4FBD9198FC84100F36830 /* main.m in Sources */,
 				C3DBD5DB19BDC35A000F4EB0 /* LoginViewController.m in Sources */,

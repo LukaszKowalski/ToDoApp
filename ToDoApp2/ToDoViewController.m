@@ -188,7 +188,6 @@
     NSLog(@"integer %ld", (long)[integer row]);
 
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
-    [[DataStore sharedInstance] removeLocally:[integer row]];
     
     //    PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
     //    NSString*taskStringToDelete = [taskTodelete objectForKey:@"taskString"];

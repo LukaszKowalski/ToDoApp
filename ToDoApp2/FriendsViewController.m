@@ -164,6 +164,7 @@
     }
     NSLog(@"friends : %@", self.arrayOfFriends);
     [self.friendsTableView reloadData];
+    [SVProgressHUD dismiss];
 }
 
 // getting tasks from PARSE
@@ -188,9 +189,6 @@
     if (cell == nil) {
         cell = [[FriendsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newFriend"];
     }
-    
-
-    NSLog(@"Ty suk %@", [self.arrayOfFriends class]);
     
     self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
     cell.newestFriend.text = [self.userCell objectForKey:@"username"];
@@ -219,12 +217,8 @@
     [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
     friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
     
-    
-
-    [self.goToFriendsToDo startAnimating];
     [self.navigationController pushViewController:friendsToDoView animated:YES];
     [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
-    [self.goToFriendsToDo stopAnimating];
 }
 
 
@@ -236,13 +230,15 @@
 
 -(void)addItem:(NSString *)item {
     
+     dispatch_async(dispatch_get_main_queue(),^{
+    [SVProgressHUD showWithStatus:@"Adding Friend"];
     [[ParseStore sharedInstance] addFriend:item];
 //    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
 //    NSLog(@"task = %@", task);
 //    [[DataStore sharedInstance] addTask:task];
     
     [self.friendsTableView reloadData];
-    [self reloadTableView];
+     });
     
 }
     
@@ -313,6 +309,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
+    [SVProgressHUD show];
     NSString *newFriend = textField.text;
     textField.text = @"";
     

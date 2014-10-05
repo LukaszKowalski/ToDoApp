@@ -72,7 +72,7 @@
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
                 [[DataStore sharedInstance] changeUserData:user];
                 [[PFUser currentUser] saveInBackground];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+               [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
             }
             }else{
                 NSLog(@"alert");
