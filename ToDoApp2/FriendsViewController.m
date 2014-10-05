@@ -99,6 +99,8 @@
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your friend's nick"];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
+    self.addTaskTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+
     [self.view addSubview:self.addTaskTextField];
 
     
@@ -210,19 +212,20 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
-    
+
     [SVProgressHUD showWithStatus:@"Loading Tasks"];
     dispatch_async(dispatch_get_main_queue(),^{
         
-    FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
-    
-    self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
-    [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
-    friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
-    
-    [self.navigationController pushViewController:friendsToDoView animated:YES];
-    [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
+        FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
+        
+        self.userCell = [self.arrayOfFriends objectAtIndex:indexPath.row];
+        [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
+        friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
+        
+        [self.navigationController pushViewController:friendsToDoView animated:YES];
+        [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
     });
+
 }
 
 

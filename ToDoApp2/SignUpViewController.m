@@ -27,17 +27,16 @@
     self.getPassword = [[UITextField alloc] init];
     self.getEmail = [[UITextField alloc] init];
     
-    self.createAccount = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
+    self.createAccount = [[UIButton alloc] initWithFrame:CGRectMake(30, 330, 260, 50)];
     [self.createAccount setTitle:@"Create Account" forState:UIControlStateNormal];
-    [self.createAccount setBackgroundColor:[UIColor whiteColor]];
+    [self.createAccount setBackgroundColor:[UIColor colorWithRed:7/255.0f green:210/255.0f blue:126/255.0f alpha:1.0f]];
     [self.createAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
-    [self.createAccount setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    [self.createAccount setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
+    [self.createAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
     
-    
-    self.getLogin.frame = CGRectMake(70, 150, 200, 50);
-    self.getPassword.frame  = CGRectMake(70, 205, 200, 50);
-    self.getEmail.frame = CGRectMake(70, 260, 200, 50);
+    self.getLogin.frame = CGRectMake(63, 140, 200, 50);
+    self.getPassword.frame  = CGRectMake(63, 190, 200, 50);
+    self.getEmail.frame = CGRectMake(50, 240, 260, 50);
     
     // textfields
     
@@ -61,8 +60,8 @@
     self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Choose your Username" attributes: @{NSForegroundColorAttributeName:color ,
                                                                                                                             NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];
     self.getLogin.textColor = [UIColor whiteColor];
-
-    
+    self.getLogin.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getLogin.autocorrectionType = UITextAutocorrectionTypeNo;
     // Password TextField
     
 
@@ -70,33 +69,39 @@
     self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Choose your password" attributes: @{NSForegroundColorAttributeName:color ,
                                                                                                                                NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];
     self.getPassword.textColor = [UIColor whiteColor];
+    
+    self.getPassword.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
 
         // Email TextField
     
 
-    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Enter your E-mail" attributes: @{NSForegroundColorAttributeName:color ,
+    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Enter your E-mail (Optional)" attributes: @{NSForegroundColorAttributeName:color ,
                                                                                                                             NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];    self.getEmail.textColor = [UIColor whiteColor];
     [self.getEmail setKeyboardType:UIKeyboardTypeEmailAddress];
-
+    
+    self.getEmail.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getEmail.autocorrectionType = UITextAutocorrectionTypeNo;
     
     // Label
     
     self.signUpLabel.text = @"Create Your  Account";
-    self.signUpLabel.frame = CGRectMake(15, 100, 300, 50);
+    self.signUpLabel.frame = CGRectMake(15, 80, 300, 50);
     
     self.signUpLabel.textColor = [UIColor whiteColor];
-    self.signUpLabel.font = [UIFont systemFontOfSize:25];
     self.signUpLabel.textAlignment = NSTextAlignmentCenter;
+    self.signUpLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:25];
+
     
     // LINES
     
-    self.line1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 215, 260, 1)];
+    self.line1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 186, 260, 1)];
     self.line1.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
     
-    self.line2 = [[UILabel alloc] initWithFrame:CGRectMake(30, 275, 260, 1)];
+    self.line2 = [[UILabel alloc] initWithFrame:CGRectMake(30, 236, 260, 1)];
     self.line2.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
     
-    self.line3 = [[UILabel alloc] initWithFrame:CGRectMake(30, 305, 260, 1)];
+    self.line3 = [[UILabel alloc] initWithFrame:CGRectMake(30, 286, 260, 1)];
     self.line3.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
     
     [self.view addSubview:self.line1];

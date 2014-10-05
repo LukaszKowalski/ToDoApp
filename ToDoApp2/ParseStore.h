@@ -34,6 +34,8 @@
 -(PFUser *)userFromObjectId:(NSString *)objectId;
 -(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task;
 
+
+@property (strong, nonatomic) NSMutableArray *arrayOfColors;
 @property (strong, nonatomic) NSDictionary *usersViewController;
 
 @end

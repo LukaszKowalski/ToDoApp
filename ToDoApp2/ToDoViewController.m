@@ -37,7 +37,7 @@
     self.title = @"My Tasks";
     self.tableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
-    self.tableView.frame = CGRectMake(0, 75, viewSize.width -13, viewSize.height -73);
+    self.tableView.frame = CGRectMake(0, 75,320, viewSize.height -73);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.alwaysBounceHorizontal = NO;
@@ -101,6 +101,7 @@
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task"];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
+    self.addTaskTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     
     if ([[PFUser currentUser] objectForKey:@"color" ] == nil) {
         UIColor *color = [[ParseStore sharedInstance] randomColor];
@@ -196,8 +197,6 @@
     [self.tableView reloadData];
 }
 
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
     return [self.arrayOfParseTasks count];
@@ -253,7 +252,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         CGSize viewSize = self.view.frame.size;
 
-        [self.tableView setFrame:CGRectMake(0, 140, viewSize.width -13, viewSize.height -73)];
+        [self.tableView setFrame:CGRectMake(0, 140, 320, viewSize.height -73)];
         [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
         
     } completion:^(BOOL finished) {
@@ -271,7 +270,7 @@
             CGSize viewSize = self.view.frame.size;
 
             self.addTaskTextField.hidden = YES;
-            [self.tableView setFrame:CGRectMake(0, 75, viewSize.width -13, viewSize.height -73)];
+            [self.tableView setFrame:CGRectMake(0, 75, 320, viewSize.height -73)];
             [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
             }];
         
@@ -333,7 +332,7 @@
     self.confirmButton.hidden = YES;
     self.settings.hidden = NO;
     CGSize viewSize = self.view.frame.size;
-    [self.tableView setFrame:CGRectMake(0, 75, viewSize.width -13, viewSize.height -73)];
+    [self.tableView setFrame:CGRectMake(0, 75, 320, viewSize.height -73)];
     [self.addTaskTextField resignFirstResponder];
     self.addTaskButton.tag = 1;
     self.confirmButton.hidden = YES;

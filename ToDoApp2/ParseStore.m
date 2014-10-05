@@ -51,7 +51,7 @@
 //    [userTasks addObject:task];
 //    [userTasks writeToFile:path atomically: TRUE];
 //    NSLog(@"userTasks %@", userTasks);
-    [task saveEventually];
+    [task saveInBackground];
     
 }
 
@@ -137,10 +137,11 @@
     [queryAboutUser whereKey:@"username" equalTo:username];
     PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
     
+//   NSDictionary *user = [[ParseStore sharedInstance] whosViewControllerItIs];
+    
     __block NSMutableArray *arrayOfUserTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-    query.cachePolicy = kPFCachePolicyNetworkElseCache;
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -149,7 +150,7 @@
                 [arrayOfUserTasks addObject:object];
             }
             
-//            dispatch_async(dispatch_get_main_queue(),^{
+//           dispatch_async(dispatch_get_main_queue(),^{
                 [delegate loadArrayOfTaskss:arrayOfUserTasks];
 //            });
         
@@ -264,9 +265,12 @@
 };
 
 -(void)asignWhosViewControllerItIs:(NSDictionary *)user{
+    NSLog(@" tak wyglada user %@", user);
+
     self.usersViewController = user;
 };
 -(NSDictionary *)whosViewControllerItIs{
+    NSLog(@" tak wyglada user %@", self.usersViewController);
     return self.usersViewController;
 };
 

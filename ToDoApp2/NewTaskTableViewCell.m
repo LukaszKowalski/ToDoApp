@@ -37,7 +37,8 @@
         self.whoAddedTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         self.whoAddedTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
         [self.contentView addSubview:self.newestTask];
-        
+        [self.contentView insertSubview:self.whoAddedTask belowSubview:self.newestTask];
+
         // confirm
         
         UIImage *confirmImage = [UIImage imageNamed:@"IcoCheckColor.png"];
@@ -57,7 +58,7 @@
         
         
         self.no = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage *plusImage = [UIImage imageNamed:@"IcoPlus.png"];
+        UIImage *plusImage = [UIImage imageNamed:@"IcoNo.png"];
         [self.no setImage:plusImage forState:UIControlStateNormal];
         self.no.backgroundColor = [UIColor clearColor];
         [self.no addTarget:self action:@selector(noTask) forControlEvents:UIControlEventTouchUpInside];
@@ -111,7 +112,7 @@
         
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView animateWithDuration:0.5 animations:^{
-            [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+            [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
         }];
         self.currentStatus = SWIPE_TYPE_START;
     }
@@ -121,7 +122,7 @@
         self.no.hidden = NO;
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView animateWithDuration:0.5 animations:^{
-            [self.newestTask setFrame:CGRectMake(260, 0, self.contentView.frame.size.width-13, 66)];
+            [self.newestTask setFrame:CGRectMake(260, 0, 294, 66)];
         }];
         
         //        double delayInSeconds = 0.7;
@@ -140,13 +141,13 @@
         self.currentStatus = SWIPE_TYPE_LEFT;
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView animateWithDuration:0.5 animations:^{
-            [self.newestTask setFrame:CGRectMake(-220, 0, self.contentView.frame.size.width-13, 66)];
+            [self.newestTask setFrame:CGRectMake(-220, 0, 294, 66)];
         }];
     }else if (self.currentStatus == SWIPE_TYPE_RIGHT){
         
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView animateWithDuration:0.5 animations:^{
-            [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+            [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
             self.currentStatus = SWIPE_TYPE_START;
         } completion:^(BOOL finished) {
             self.whoAddedTask.hidden = NO;
@@ -159,7 +160,7 @@
 -(void) noTask{
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView animateWithDuration:0.5 animations:^{
-        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+        [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
         self.currentStatus = SWIPE_TYPE_START;
     } completion:^(BOOL finished) {
         self.whoAddedTask.hidden = NO;
@@ -177,7 +178,7 @@
     [UIView animateWithDuration:0.8 animations:^{
         self.newestTask.text = @"Task Done";
         self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:22];
-        [self.newestTask setFrame:CGRectMake(13, 0, self.contentView.frame.size.width-13, 66)];
+        [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
         
     } completion:^(BOOL finished) {
         self.whoAddedTask.hidden = NO;

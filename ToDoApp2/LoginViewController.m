@@ -52,7 +52,7 @@
 
     [self.login addTarget:self action:@selector(loginFired:) forControlEvents:UIControlEventTouchUpInside];
     [self.login setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
+    
     
     
     // UITextFields
@@ -60,9 +60,15 @@
     self.getLogin.leftView = paddingView;
     self.getLogin.leftViewMode = UITextFieldViewModeAlways;
     
+    self.getLogin.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getLogin.autocorrectionType = UITextAutocorrectionTypeNo;
+    
     UIView *paddingViewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.getPassword.leftView = paddingViewOne;
     self.getPassword.leftViewMode = UITextFieldViewModeAlways;
+    
+    self.getPassword.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
     
     UIColor *color= [UIColor whiteColor];
     self.getLogin.frame = CGRectMake(120, 165, 300, 50);

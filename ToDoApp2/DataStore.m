@@ -140,6 +140,17 @@
                               nil];
     
     UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];
+    
+    self.arrayOfColorsToPick = [[NSMutableArray alloc] init];
+    [self.arrayOfColorsToPick addObject:color];
+    if ([self.arrayOfColorsToPick containsObject:color]) {
+        NSLog(@"jesteś frajerem");
+    }
+    if (self.arrayOfColorsToPick.count > 6){
+        [self.arrayOfColorsToPick removeAllObjects];
+        
+    }
+    
     return color;
 
 }

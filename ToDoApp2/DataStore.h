@@ -27,6 +27,6 @@
 
 @property (strong, nonatomic) NSMutableArray *arrayOfFriendsLocally;
 @property (strong, nonatomic) NSMutableArray *arrayOfTasksLocally;
-
+@property (strong, nonatomic) NSMutableArray *arrayOfColorsToPick;
 
 @end

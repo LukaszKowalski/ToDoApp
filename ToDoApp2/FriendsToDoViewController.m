@@ -83,6 +83,8 @@
     self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type task for %@", self.titleName];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
+    self.addTaskTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+
     
     // confirmButton
     
@@ -99,20 +101,17 @@
     self.addTaskButton.tag = 1;
     
     // initArray
-    
-    
-    
+        
     [self reloadTableView];
     self.delegate = self;
     
 }
 - (void)reloadTableView{
     
+    [SVProgressHUD showWithStatus:@"Loading Tasks"];
     self.delegate = self;
     [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     
-    [self.tableView reloadData];
-    [SVProgressHUD dismiss];
 
     
 }
@@ -122,6 +121,7 @@
     self.arrayOfUserTasks = array;
     NSLog(@"Jak wyglada array %@", array);
     [self.tableView reloadData];
+    [SVProgressHUD dismiss];
 
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
