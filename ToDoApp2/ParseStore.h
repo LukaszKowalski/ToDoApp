@@ -33,9 +33,11 @@
 -(void)asignWhosViewControllerItIs:(NSDictionary *)user;
 -(PFUser *)userFromObjectId:(NSString *)objectId;
 -(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task;
-
+-(void)asignArrayOfTasks:(NSMutableArray *)array;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfColors;
 @property (strong, nonatomic) NSDictionary *usersViewController;
+@property (strong, nonatomic) NSMutableArray *asignedArrayOfTasks;
+
 
 @end

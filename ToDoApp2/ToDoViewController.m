@@ -305,7 +305,7 @@
     self.friendsController = [[FriendsViewController alloc] init];
     }
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-    [self.navigationController pushViewController:self.friendsController animated:YES];
+    [self.navigationController pushViewController:self.friendsController animated:NO];
 
 }
 - (void) goToSettings{
@@ -314,7 +314,7 @@
         self.settingsViewController = [[SettingsViewController alloc] init];
     }
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-    [self.navigationController pushViewController:self.settingsViewController animated:YES];
+    [self.navigationController pushViewController:self.settingsViewController animated:NO];
 
     
 }

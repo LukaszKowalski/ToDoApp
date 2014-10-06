@@ -274,30 +274,13 @@
     return self.usersViewController;
 };
 
-//- (void)loadUserData:(NSString *)objectId{
-//    
-//    PFUser *user = [PFUser currentUser];
-//    
-//    __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
-//    
-//    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-//    query.cachePolicy = kPFCachePolicyNetworkElseCache;
-//    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            
-//            for (id object in objects) {
-//                [arrayOfParseTasks addObject:object];
-//            }
-//            
-//            dispatch_async(dispatch_get_main_queue(),^{
-//                [delegate loadArrayOfTasks:arrayOfParseTasks];
-//            });
-//            
-//            
-//        }
-//    }];
-//
-//
+-(void)asignArrayOfTasks:(NSMutableArray *)array{    
+    self.asignedArrayOfTasks = array;
+};
+-(NSMutableArray *)getArrayOfTasks{
+    return self.asignedArrayOfTasks;
+};
+
+
 
 @end

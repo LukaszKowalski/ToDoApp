@@ -65,7 +65,7 @@
     UIImage *btnImage = [UIImage imageNamed:@"IcoFriends.png"];
     
     [self.friendsLists setImage:btnImage forState:UIControlStateNormal];
-    self.friendsLists.frame = CGRectMake(219, 64, 81, 75);
+    self.friendsLists.frame = CGRectMake(20, 64, 81, 75);
     self.friendsLists.backgroundColor = [UIColor clearColor];
     [self.friendsLists addTarget:self action:@selector(friendsButtonFired) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.friendsLists];
@@ -92,7 +92,7 @@
     
     self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
-    self.confirmButton.frame = CGRectMake(20, 64, 81, 75);
+    self.confirmButton.frame = CGRectMake(219, 64, 81, 75);
     self.confirmButton.backgroundColor = [UIColor clearColor];
     [self.confirmButton addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.confirmButton];
@@ -119,6 +119,7 @@
     
    // NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
     self.arrayOfUserTasks = array;
+    [[ParseStore sharedInstance] asignArrayOfTasks:self.arrayOfUserTasks];
     NSLog(@"Jak wyglada array %@", array);
     [self.tableView reloadData];
     [SVProgressHUD dismiss];
@@ -141,6 +142,8 @@
     NSString *colorInString = [task objectForKey:@"color"];
     cell.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     cell.taskForFriend.text = [task objectForKey:@"taskString"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     
     return cell;
 }
@@ -157,25 +160,25 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
-    NSString *username = [self.objectId objectForKey:@"username"];
-    
-    PFQuery *userQuery=[PFUser query];
-    [userQuery whereKey:@"username" equalTo:username];
-
-    // send push notification to the user
-    PFQuery *pushQuery = [PFInstallation query];
-    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
-
-    PFPush *push = [PFPush new];
-    [push setQuery: pushQuery];
-    PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
-    NSString *message= [NSString stringWithFormat:@"%@ przypomina Ci o %@",[PFUser currentUser].username ,[task objectForKey:@"taskString"]];
-    [push setData: @{ @"alert":message}];
-    [push sendPushInBackground];
-
-    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
+//    self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
+//    NSString *username = [self.objectId objectForKey:@"username"];
+//    
+//    PFQuery *userQuery=[PFUser query];
+//    [userQuery whereKey:@"username" equalTo:username];
+//
+//    // send push notification to the user
+//    PFQuery *pushQuery = [PFInstallation query];
+//    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+//
+//    PFPush *push = [PFPush new];
+//    [push setQuery: pushQuery];
+//    PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
+//    NSString *message= [NSString stringWithFormat:@"%@ przypomina Ci o %@",[PFUser currentUser].username ,[task objectForKey:@"taskString"]];
+//    [push setData: @{ @"alert":message}];
+//    [push sendPushInBackground];
+//
+//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+//    
 }
 
 -(void)addItem:(NSString *)item {
@@ -189,11 +192,16 @@
 }
 - (void)addTask:(UIButton *)sender {
     
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+
+    self.tableView.userInteractionEnabled = NO;
+
     if (self.addTaskButton.tag == 1) {
-        
+        CGSize viewSize = self.view.frame.size;
+
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView animateWithDuration:0.3 animations:^{
-            [self.tableView setFrame:CGRectMake(13, 140, 294, 410)];
+            [self.tableView setFrame:CGRectMake(13, 140, 294, viewSize.height -73)];
             [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
         } completion:^(BOOL finished) {
             self.confirmButton.hidden = NO;
@@ -204,9 +212,12 @@
         self.addTaskTextField.delegate = self;
         self.addTaskButton.tag = 2;
     }else{
+        self.tableView.userInteractionEnabled = YES;
+
         [UIView animateWithDuration:0.3 animations:^{
-            
-            [self.tableView setFrame:CGRectMake(13, 75, 294, 410)];
+            CGSize viewSize = self.view.frame.size;
+   
+            [self.tableView setFrame:CGRectMake(13, 75, 294, viewSize.height -73)];
             [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
         }];
         self.addTaskTextField.hidden = YES;
@@ -239,11 +250,12 @@
     
     textField.text = @"";
     [self.delegate addItem:newTask];
-    
+    CGSize viewSize = self.view.frame.size;
+
     [self.addTaskTextField resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
         self.addTaskTextField.hidden = YES;
-        [self.tableView setFrame:CGRectMake(13, 75, 294, 410)];
+        [self.tableView setFrame:CGRectMake(13, 75, 294, viewSize.height -73)];
         [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
     }];
     [self.addTaskTextField resignFirstResponder];

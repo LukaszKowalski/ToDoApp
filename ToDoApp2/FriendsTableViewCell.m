@@ -15,6 +15,7 @@
         self.newestFriend.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.contentView addSubview:self.newestFriend];
     }
+    
     return self;
 }
 

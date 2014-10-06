@@ -146,7 +146,8 @@
 - (void)reloadTableView{
 
     NSMutableArray *friends = [[NSMutableArray alloc] init];
-    
+    self.friendsTableView.userInteractionEnabled = YES;
+
     friends = [[DataStore sharedInstance] loadFriends:@"friendsArrayLocally"];
     self.arrayOfFriends = [[friends reverseObjectEnumerator] allObjects];
     
@@ -159,9 +160,7 @@
         
     self.delegate = self;
     
-    if (self.arrayOfFriends == nil) {
-      [[ParseStore sharedInstance] loadFriends:self withObjectId:[PFUser currentUser].objectId];
-        }
+        self.friendsTableView.userInteractionEnabled = NO;
 
     }
     NSLog(@"friends : %@", self.arrayOfFriends);
@@ -196,6 +195,8 @@
     cell.newestFriend.text = [self.userCell objectForKey:@"username"];
     NSString *colorInString = [self.userCell objectForKey:@"color"];
     cell.newestFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     return cell;
     
 }
@@ -222,7 +223,7 @@
         [[ParseStore sharedInstance] asignWhosViewControllerItIs:self.userCell];
         friendsToDoView.titleName = [NSString stringWithFormat:@"%@", [self.userCell objectForKey:@"username"]];
         
-        [self.navigationController pushViewController:friendsToDoView animated:YES];
+        [self.navigationController pushViewController:friendsToDoView animated:NO];
         [self.friendsTableView deselectRowAtIndexPath:indexPath animated:NO];
     });
 
@@ -300,7 +301,7 @@
         self.settingsViewController = [[SettingsViewController alloc] init];
     }
     [self.friendsTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-    [self.navigationController pushViewController:self.settingsViewController animated:YES];
+    [self.navigationController pushViewController:self.settingsViewController animated:NO];
     
     
 }
