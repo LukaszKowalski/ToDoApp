@@ -224,8 +224,10 @@
     
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
     
-    //    PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
-    //    NSString*taskStringToDelete = [taskTodelete objectForKey:@"taskString"];
+    PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
+    
+    NSLog(@"task to delete %@", taskTodelete);
+//    NSString* objectIdToDelete = [taskTodelete objectForKey:@"taskOb"];
     //    [[ParseStore sharedInstance] deleteTask:taskStringToDelete];
 
     [self.tableView reloadData];

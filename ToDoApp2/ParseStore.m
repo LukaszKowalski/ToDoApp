@@ -86,18 +86,18 @@
 
 -(void)deleteTask:(NSString *)taskString{
     
-//    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-//    [query whereKey:@"taskString" equalTo:taskString];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            for (PFObject *object in objects) {
-//                [object delete];
-//            }
-//        } else {
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//        }
-//    }];
+    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+    [query whereKey:@"taskString" equalTo:taskString];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            for (PFObject *object in objects) {
+                [object delete];
+            }
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
     
 }
 
@@ -116,20 +116,12 @@
         if (!error) {
                         
             for (id object in objects) {
-                [arrayOfParseTasks addObject:object];
+                [arrayOfParseTasks insertObject:object atIndex:0];
 
             }
             arrayOfParseTasks = [[DataStore sharedInstance] changeArrayOfParseObjects:arrayOfParseTasks];
             
-            NSSortDescriptor *dateDescriptor = [NSSortDescriptor
-                                                sortDescriptorWithKey:@"createdAt"
-                                                ascending:NO];
-            NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:dateDescriptor];
-            NSMutableArray *sortedEventArray = [arrayOfParseTasks
-                                                sortedArrayUsingDescriptors:sortDescriptors];
-            
-            
-            [[DataStore sharedInstance] saveData:sortedEventArray  withKey:@"tasksArrayLocally"];
+            [[DataStore sharedInstance] saveData:arrayOfParseTasks  withKey:@"tasksArrayLocally"];
 
 //            dispatch_async(dispatch_get_main_queue(),^{
 //                [delegate loadArrayOfTasks:arrayOfParseTasks];
