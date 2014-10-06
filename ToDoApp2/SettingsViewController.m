@@ -60,40 +60,25 @@
     self.logoutLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:self.logoutLabel];
     
-    // Line Labels
-//    
-//    self.line1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 215, 260, 1)];
-//    self.line1.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
-//    self.line2 = [[UILabel alloc] initWithFrame:CGRectMake(30, 275, 260, 1)];
-//    self.line2.backgroundColor = [UIColor colorWithRed:31/255.0f green:33/255.0f blue:86/255.0f alpha:1.0f];
-//    [self.view addSubview:self.line1];
-//    [self.view addSubview:self.line2];
-//    
     // Rainbow Sign
     
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
     
-//        CATextLayer *textLayer = [[CATextLayer alloc] init];
-//        textLayer.contentsScale = [UIScreen mainScreen].scale;
-//        NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
-//        textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Thin" size:18.0f];
-//        
-//        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"My Tasks", nil)
-//                                                                               attributes:textProperties];
-//        
-//        textLayer.string = attributedString;
-//        
-//        
-//        textLayer.frame = self.view.bounds;
-//        
-//        UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
-//        self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
-//        self.imageView.layer.mask = textLayer;
-//        
-//        [self.imageView sizeToFit];
-//        self.imageView.center = self.view.center;
-//        self.imageView.frame = CGRectIntegral(self.imageView.frame);
-//        [self.view addSubview:self.imageView];
-//    
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Settings", nil)
+                                                                           attributes:textProperties];
+    textLayer.string = attributedString;
+    textLayer.frame = self.view.bounds;
+    
+    UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+    self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+    self.imageView.layer.mask = textLayer;
+    
+    self.imageView.frame = CGRectMake(125,26,320,40);
+    [self.view addSubview: self.imageView];
+
     
 }
 

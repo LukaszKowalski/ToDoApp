@@ -25,7 +25,7 @@
 @property (strong, nonatomic) UIButton *confirmButton;
 @property (strong, nonatomic) UIActivityIndicatorView *goToFriendsToDo;
 @property (strong, nonatomic) UIButton *settings;
-
+@property (strong, nonatomic) UIImageView *imageView;
 -(void)reloadTableView;
 -(void)loadArrayOfFriends:(NSMutableArray *)array;
 

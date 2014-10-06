@@ -61,7 +61,7 @@
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(60,10,320,40);
+    self.imageView.frame = CGRectMake(125,26,320,40);
     [self.view addSubview: self.imageView];
 
     

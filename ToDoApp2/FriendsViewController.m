@@ -29,7 +29,6 @@
     
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
-    self.title = @"Friends list";
     self.friendsTableView = [[UITableView alloc] init];
     CGSize viewSize = self.view.frame.size;
     self.friendsTableView.frame = CGRectMake(13, 75, viewSize.width-26, viewSize.height -73);
@@ -102,6 +101,25 @@
     self.addTaskTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 
     [self.view addSubview:self.addTaskTextField];
+
+    // Rainbow Sign
+    
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+    
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Friends list", nil)
+                                                                           attributes:textProperties];
+    textLayer.string = attributedString;
+    textLayer.frame = self.view.bounds;
+    
+    UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+    self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+    self.imageView.layer.mask = textLayer;
+    
+    self.imageView.frame = CGRectMake(125,26,320,40);
+    [self.view addSubview: self.imageView];
 
     
     // confirmButton
