@@ -23,7 +23,8 @@
 -(PFObject *)createTaskLocally:(NSString *)taskString;
 -(void)saveUser:(NSDictionary *)myDictionary withKey:(NSString *)keyString;
 -(void)changeUserData:(PFObject*)object;
-
+-(NSMutableDictionary *)changeTaskData:(PFObject *)object;
+- (NSMutableArray *)changeArrayOfParseObjects:(NSMutableArray *)array;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfFriendsLocally;
 @property (strong, nonatomic) NSMutableArray *arrayOfTasksLocally;

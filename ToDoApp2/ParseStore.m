@@ -75,8 +75,8 @@
                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
             }
             }else{
-                NSLog(@"alert");
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
+                [SVProgressHUD dismiss];
                     [alert show];
             }
         }
@@ -104,9 +104,7 @@
 -(void)deleteFriend:(NSString *)username{
     
 }
-- (void)loadTasks:(ToDoViewController *)delegate{
-    
-    
+- (void)loadTasks{
 
     PFUser *user = [PFUser currentUser];
     __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
@@ -121,12 +119,39 @@
                 [arrayOfParseTasks addObject:object];
 
             }
+            arrayOfParseTasks = [[DataStore sharedInstance] changeArrayOfParseObjects:arrayOfParseTasks];
+            [[DataStore sharedInstance] saveData:arrayOfParseTasks  withKey:@"tasksArrayLocally"];
+
+//            dispatch_async(dispatch_get_main_queue(),^{
+//                [delegate loadArrayOfTasks:arrayOfParseTasks];
+//                
+//            });
             
-            dispatch_async(dispatch_get_main_queue(),^{
-                [delegate loadArrayOfTasks:arrayOfParseTasks];
-                
-            });
+        }
+    }];
+}
+
+- (void)loadFriends{
+    
+      __block NSMutableArray *arrayOfParseFriends = [NSMutableArray new];
+    
+    PFQuery *query= [PFUser query];
+    [query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *objects, NSError *error){
+        
+        if (!error) {
+            NSLog(@"object %@", objects);
+            arrayOfParseFriends = [objects objectForKey:@"friendsArray"];
+            NSLog(@"array friendow %@", arrayOfParseFriends);
             
+            for (NSString *userId in arrayOfParseFriends) {
+                PFQuery *queryAboutUser = [PFUser query];
+                [queryAboutUser whereKey:@"objectId" equalTo:userId];
+                PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
+                [[DataStore sharedInstance] changeUserData:user];
+            }
+            
+//            [[DataStore sharedInstance] saveData:arrayOfParseFriends  withKey:@"friendsArrayLocally"];
         }
     }];
 }
@@ -150,8 +175,14 @@
                 [arrayOfUserTasks addObject:object];
             }
             
+            NSSortDescriptor *dateDescriptor = [NSSortDescriptor
+                                                sortDescriptorWithKey:@"createdAt"
+                                                ascending:NO];
+            NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:dateDescriptor];
+            NSMutableArray *sortedEventArray = [arrayOfUserTasks
+                                         sortedArrayUsingDescriptors:sortDescriptors];
 //           dispatch_async(dispatch_get_main_queue(),^{
-                [delegate loadArrayOfTaskss:arrayOfUserTasks];
+                [delegate loadArrayOfTaskss:sortedEventArray];
 //            });
         
         }
@@ -265,12 +296,9 @@
 };
 
 -(void)asignWhosViewControllerItIs:(NSDictionary *)user{
-    NSLog(@" tak wyglada user %@", user);
-
     self.usersViewController = user;
 };
 -(NSDictionary *)whosViewControllerItIs{
-    NSLog(@" tak wyglada user %@", self.usersViewController);
     return self.usersViewController;
 };
 

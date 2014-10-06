@@ -126,7 +126,6 @@
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
 
-
                     }
         }];
     }
@@ -146,6 +145,8 @@
 }
 - (void)loginFired:(id)sender{
     
+    [SVProgressHUD showWithStatus:@"Logging ..." maskType:SVProgressHUDMaskTypeGradient];
+
     NSString *loginWithLowerCase = self.getLogin.text;
     NSString *passwordWithLowerCase = self.getPassword.text;
     
@@ -164,8 +165,14 @@
                 [self.getLogin resignFirstResponder];
                 [self.getPassword resignFirstResponder];
                 [[ParseStore sharedInstance] registerUserForPushNotification];
+                [[ParseStore sharedInstance] loadTasks];
+                dispatch_async(dispatch_get_main_queue(),^{
+                [[ParseStore sharedInstance] loadFriends];
+                    [SVProgressHUD dismiss];
+                });
                 
             } else {
+                [SVProgressHUD dismiss];
                 //Something bad has ocurred
                 NSString *errorString = [[error userInfo] objectForKey:@"error"];
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

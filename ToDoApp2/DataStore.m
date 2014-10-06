@@ -22,6 +22,9 @@
     return sharedInstance;
 }
 
+
+
+
 -(NSMutableArray *)loadData:(NSString *)keyString
 {
     
@@ -29,6 +32,9 @@
     self.arrayOfTasksLocally = encodedAllData;
     return self.arrayOfTasksLocally;
 }
+
+
+
 -(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString{
     
     [[myArray reverseObjectEnumerator] allObjects];
@@ -36,7 +42,11 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
 
 }
+
+
+
 -(void)saveUser:(NSDictionary *)myDictionary withKey:(NSString *)keyString{
+    
     
     [[NSUserDefaults standardUserDefaults] setObject:myDictionary forKey:keyString];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
@@ -44,14 +54,18 @@
 }
 
 
+
+
 -(NSMutableArray *)loadFriends:(NSString *)keyString
 {
     NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];;
-    NSLog(@"Ty suk %@", [encodedAllData class]);
-
+    NSLog(@"encodedAlldata: %@", encodedAllData);
     self.arrayOfFriendsLocally = encodedAllData;
     return self.arrayOfFriendsLocally;
 }
+
+
+
 
 -(void)addFriend:(NSDictionary *)friend{
     
@@ -62,6 +76,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
 
 }
+
+
+
+
 -(void)addTask:(PFObject*)task{
     
     NSDictionary *taskLocally = [self changeData:task];
@@ -76,6 +94,9 @@
     
 }
 
+
+
+
 -(NSDictionary *)changeData:(PFObject *)object{
     NSArray *allKeys = [object allKeys];
     NSMutableDictionary *changedData = [[NSMutableDictionary alloc] init];
@@ -84,21 +105,43 @@
     }
     return changedData;
 }
+
+
 -(void)changeUserData:(PFObject *)object{
     NSArray *allKeys = [object allKeys];
     NSMutableDictionary *changedData = [[NSMutableDictionary alloc] init];
     for (NSString * key in allKeys) {
         [changedData setValue:[object objectForKey:key] forKey:key];
     }
-    NSLog(@"changedData = %@", changedData);
     if (!self.arrayOfFriendsLocally) {
         self.arrayOfFriendsLocally = [NSMutableArray new];
     }
     
     [self.arrayOfFriendsLocally addObject:changedData];
     [[DataStore sharedInstance] saveData:self.arrayOfFriendsLocally withKey:@"friendsArrayLocally"];
-    NSLog(@"data store array %@", self.arrayOfFriendsLocally); 
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+}
+
+-(NSMutableDictionary *)changeTaskData:(PFObject *)object{
+    NSArray *allKeys = [object allKeys];
+    NSMutableDictionary *changedData = [[NSMutableDictionary alloc] init];
+    for (NSString * key in allKeys) {
+        [changedData setValue:[object objectForKey:key] forKey:key];
+    }
+    return changedData;
+}
+
+
+- (NSMutableArray *)changeArrayOfParseObjects:(NSMutableArray *)array{
+
+    NSMutableArray *kutasy = [[NSMutableArray alloc]init];
+    
+    for (PFObject *object in array) {
+        NSMutableDictionary *kutas = [[DataStore sharedInstance] changeTaskData:object];
+        [kutasy addObject:kutas];
+    }
+    
+    return kutasy;
 }
 
 
@@ -144,7 +187,6 @@
     self.arrayOfColorsToPick = [[NSMutableArray alloc] init];
     [self.arrayOfColorsToPick addObject:color];
     if ([self.arrayOfColorsToPick containsObject:color]) {
-        NSLog(@"jesteś frajerem");
     }
     if (self.arrayOfColorsToPick.count > 6){
         [self.arrayOfColorsToPick removeAllObjects];

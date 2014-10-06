@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UIButton *confirmButton;
 @property (nonatomic, assign) NSInteger swipeSwitch;
 @property (strong, nonatomic) UIButton *settings;
+@property (strong, nonatomic) UIImageView *imageView;
 
 -(void)reloadTableView;
 -(void)loadArrayOfTasks:(NSMutableArray *)array;

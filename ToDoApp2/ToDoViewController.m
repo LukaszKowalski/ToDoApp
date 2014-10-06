@@ -45,10 +45,28 @@
     self.tableView.tableFooterView = [[UIView alloc ] init];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
+    // Rainbow Sign
+    
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+    
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"My Tasks", nil)
+                                                                           attributes:textProperties];
+    textLayer.string = attributedString;
+    textLayer.frame = self.view.bounds;
+    
+    UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+    self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+    self.imageView.layer.mask = textLayer;
+    
+    self.imageView.frame = CGRectMake(60,10,320,40);
+    [self.view addSubview: self.imageView];
 
     
 //    // nav bar
-//    
+//
 //    self.bar = [[UINavigationBar alloc] init];
 //    [self.bar setFrame:CGRectMake(0, 20, 320, 44)];
 //    self.bar.backgroundColor = [UIColor blackColor];
@@ -142,21 +160,21 @@
     [self.view addSubview:self.settings];
     self.settings.hidden = NO;
     
-    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(60,10,320,40)];
-    navView.backgroundColor = [UIColor clearColor];
-    
-    RSMaskedLabel *label = [[RSMaskedLabel alloc] initWithFrame:navView.frame];
-    label.text =@"My Tasks";
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
-
-    [navView addSubview:label];
-    
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:navView.frame];
-    [imgView setImage:[UIImage imageNamed:@"rainbow"]];
-    
-    [navView addSubview:imgView];
-    [navView addSubview:label];
-    [self.view addSubview:navView];
+//    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(60,10,320,40)];
+//    navView.backgroundColor = [UIColor clearColor];
+//    
+//    RSMaskedLabel *label = [[RSMaskedLabel alloc] initWithFrame:navView.frame];
+//    label.text =@"My Tasks";
+//    label.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
+//
+//    [navView addSubview:label];
+//    
+//    UIImageView *imgView = [[UIImageView alloc] initWithFrame:navView.frame];
+//    [imgView setImage:[UIImage imageNamed:@"rainbow"]];
+//    
+//    [navView addSubview:imgView];
+//    [navView addSubview:label];
+//    [self.view addSubview:navView];
     
 
     // initArray
@@ -171,12 +189,11 @@
 
 - (void)reloadTableView{
     
-    NSMutableArray *dupaNieOdwrocona = [[NSMutableArray alloc] init];
-    dupaNieOdwrocona = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
-    self.arrayOfParseTasks = [[dupaNieOdwrocona reverseObjectEnumerator] allObjects];
+    self.arrayOfParseTasks = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
+    
     
     if (self.arrayOfParseTasks == nil) {
-//    [[ParseStore sharedInstance] loadTasks:self];
+        
         self.arrayOfParseTasks = @[
                          @{@"color": @"0.603922,0.831373,0.419608,1.000000", @"principal": @"DoTeam",
                          @"taskString": @"Hi, welcome in \"Do\" ;)", @"taskUsernameId": @"asdfasdfas"},
@@ -188,24 +205,23 @@
     };
     
     self.delegate = self;
-    [[[self.arrayOfParseTasks reverseObjectEnumerator] allObjects] mutableCopy];
+//    [[[self.arrayOfParseTasks reverseObjectEnumerator] allObjects] mutableCopy];
     [self.tableView reloadData];
 
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
    
-    NSArray* reversed = [[array reverseObjectEnumerator] allObjects];
 //    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
-    self.arrayOfParseTasks = [reversed mutableCopy];
+    self.arrayOfParseTasks = array;
+    [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
+
 //    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
     [self.tableView reloadData];
 }
 
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
     
-    NSLog(@"integer %ld", (long)[integer row]);
-
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
     
     //    PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];

@@ -22,8 +22,8 @@
 -(void)addFriend:(NSString *)username;
 -(void)deleteTask:(NSString *)taskString;
 -(void)deleteFriend:(NSString *)username;
--(void)loadFriends:(FriendsViewController *)delegate withObjectId:(NSString *)objectID;
--(void)loadTasks:(ToDoViewController *)delegate;
+-(void)loadFriends;
+-(void)loadTasks;
 -(void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username;
 -(void)addTask:(NSString *)taskString forUser:(NSString *)username;
 -(UIColor *)randomColor;

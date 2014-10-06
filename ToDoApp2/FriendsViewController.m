@@ -152,18 +152,18 @@
     self.arrayOfFriends = [[friends reverseObjectEnumerator] allObjects];
     
     if (self.arrayOfFriends == nil) {
+        
         self.arrayOfFriends = @[
                                    @{@"color": @"0.603922,0.831373,0.419608,1.000000", @"principal": @"DoTeam",
-                                     @"username": @"Simply add you friends username", @"taskUsernameId": @"asdfasdfas"},
+                                     @"username": @"Simply add your friend username", @"taskUsernameId": @"asdfasdfas"},
                                    @{@"color": @"1.000000,0.792157,0.368627,1.000000", @"principal": @"DoTeam",
-                                     @"username": @"Tap, add see DoTeam's tasks", @"taskUsernameId": @"asdfasdfas"}                                   ];
+                                     @"username": @"or add \"DoTeam\" ", @"taskUsernameId": @"asdfasdfas"}                                   ];
         
     self.delegate = self;
     
         self.friendsTableView.userInteractionEnabled = NO;
 
     }
-    NSLog(@"friends : %@", self.arrayOfFriends);
     [self.friendsTableView reloadData];
     [SVProgressHUD dismiss];
 }
@@ -214,7 +214,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
 
-    [SVProgressHUD showWithStatus:@"Loading Tasks"];
+    [SVProgressHUD showWithStatus:@"Loading Tasks" maskType:SVProgressHUDMaskTypeGradient];
     dispatch_async(dispatch_get_main_queue(),^{
         
         FriendsToDoViewController *friendsToDoView = [[FriendsToDoViewController alloc] init];
@@ -239,7 +239,7 @@
 -(void)addItem:(NSString *)item {
     
      dispatch_async(dispatch_get_main_queue(),^{
-    [SVProgressHUD showWithStatus:@"Adding Friend"];
+    [SVProgressHUD showWithStatus:@"Adding Friend" maskType:SVProgressHUDMaskTypeGradient];
 
     [[ParseStore sharedInstance] addFriend:item];
 //    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];

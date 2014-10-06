@@ -44,9 +44,9 @@
 }
 - (void)handleGesture:(UILongPressGestureRecognizer *)sender{
     
-     NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
+    self.arrayOfUserTasksForNotification = [[ParseStore sharedInstance] asignedArrayOfTasks];
+    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
     PFObject *task  = [self.arrayOfUserTasksForNotification objectAtIndex:indexPath.row];
-
     
     if (sender.state == UIGestureRecognizerStateBegan){
         
@@ -65,7 +65,7 @@
     // send push notification to the user
     PFQuery *pushQuery = [PFInstallation query];
     [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
-    self.arrayOfUserTasksForNotification = [[ParseStore sharedInstance] asignedArrayOfTasks];
+    
     PFPush *push = [PFPush new];
     [push setQuery: pushQuery];
     NSString *message= [NSString stringWithFormat:@"%@ remainds you about %@",[PFUser currentUser].username ,[task objectForKey:@"taskString"]];

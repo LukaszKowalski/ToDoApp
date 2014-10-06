@@ -108,10 +108,11 @@
 }
 - (void)reloadTableView{
     
-    [SVProgressHUD showWithStatus:@"Loading Tasks"];
+    [SVProgressHUD showWithStatus:@"Loading Tasks" maskType:SVProgressHUDMaskTypeGradient];
     self.delegate = self;
-    [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     
+    [[ParseStore sharedInstance] loadTasksForUser:self forUser:[NSString stringWithFormat:@"%@", self.titleName]];
+
 
     
 }
@@ -120,7 +121,6 @@
    // NSMutableArray* reversed = [[array reverseObjectEnumerator] allObjects];
     self.arrayOfUserTasks = array;
     [[ParseStore sharedInstance] asignArrayOfTasks:self.arrayOfUserTasks];
-    NSLog(@"Jak wyglada array %@", array);
     [self.tableView reloadData];
     [SVProgressHUD dismiss];
 
@@ -184,7 +184,7 @@
 -(void)addItem:(NSString *)item {
     
      dispatch_async(dispatch_get_main_queue(),^{
-         [SVProgressHUD showWithStatus:@"Adding Task"];
+         
     self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
     [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
     [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];
@@ -238,13 +238,15 @@
 
 - (void) confirmTask{
     
-    [SVProgressHUD showWithStatus:@"Adding Task..."];
+    [SVProgressHUD showWithStatus:@"Adding Task..." maskType:SVProgressHUDMaskTypeGradient];
     [self textFieldShouldReturn:self.addTaskTextField];
     
 }
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    self.tableView.userInteractionEnabled = YES;
+
     
     NSString *newTask = textField.text;
     
