@@ -25,6 +25,7 @@
 -(void)changeUserData:(PFObject*)object;
 -(NSMutableDictionary *)changeTaskData:(PFObject *)object;
 - (NSMutableArray *)changeArrayOfParseObjects:(NSMutableArray *)array;
+-(UIColor *)randomColor:(NSUInteger )item;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfFriendsLocally;
 @property (strong, nonatomic) NSMutableArray *arrayOfTasksLocally;

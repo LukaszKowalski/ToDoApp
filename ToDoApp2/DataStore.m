@@ -88,8 +88,9 @@
         self.arrayOfTasksLocally = [[NSMutableArray alloc] init];
     }
     
-    [self.arrayOfTasksLocally addObject:taskLocally];
+    [self.arrayOfTasksLocally insertObject:taskLocally atIndex:0];
     [[DataStore sharedInstance] saveData:self.arrayOfTasksLocally withKey:@"tasksArrayLocally"];
+    NSLog(@" %lu", (unsigned long)[self.arrayOfTasksLocally count]);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     
 }
@@ -148,7 +149,7 @@
 -(PFObject *)createTaskLocally:(NSString *)taskString{
     PFUser *user = [PFUser currentUser];
     
-    UIColor *color = self.randomColor;
+    UIColor *color = [[DataStore sharedInstance] randomColor:[self.arrayOfTasksLocally count]];
     const CGFloat *components = CGColorGetComponents(color.CGColor);
     NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
     
@@ -170,30 +171,23 @@
     return uuidString;
 }
 
--(UIColor *)randomColor{
+
     
-    NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
-                              [UIColor colorWithRed:255/255.0 green:202/255.0 blue:94/255.0 alpha:1],
-                              [UIColor colorWithRed:255/255.0 green:94/255.0 blue:115/255.0 alpha:1],
-                              [UIColor colorWithRed:101/255.0 green:192/255.0 blue:197/255.0 alpha:1],
-                              [UIColor colorWithRed:133/255.0 green:117/255.0 blue:167/255.0 alpha:1],
-                              [UIColor colorWithRed:154/255.0 green:212/255.0 blue:107/255.0 alpha:1],
-                              [UIColor colorWithRed:215/255.0 green:216/255.0 blue:184/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:181/255.0 blue:156/255.0 alpha:1],
-                              nil];
-    
-    UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];
-    
-    self.arrayOfColorsToPick = [[NSMutableArray alloc] init];
-    [self.arrayOfColorsToPick addObject:color];
-    if ([self.arrayOfColorsToPick containsObject:color]) {
-    }
-    if (self.arrayOfColorsToPick.count > 6){
-        [self.arrayOfColorsToPick removeAllObjects];
+-(UIColor *)randomColor:(NSUInteger )item{
         
-    }
-    
-    return color;
+        NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
+                                  [UIColor colorWithRed:255/255.0 green:202/255.0 blue:94/255.0 alpha:1],
+                                  [UIColor colorWithRed:255/255.0 green:94/255.0 blue:115/255.0 alpha:1],
+                                  [UIColor colorWithRed:101/255.0 green:192/255.0 blue:197/255.0 alpha:1],
+                                  [UIColor colorWithRed:133/255.0 green:117/255.0 blue:167/255.0 alpha:1],
+                                  [UIColor colorWithRed:154/255.0 green:212/255.0 blue:107/255.0 alpha:1],
+                                  [UIColor colorWithRed:215/255.0 green:216/255.0 blue:184/255.0 alpha:1],
+                                  [UIColor colorWithRed:0/255.0 green:181/255.0 blue:156/255.0 alpha:1],
+                                  nil];
+        
+        NSInteger modInd = item % [rainbowColors count];
+        return [rainbowColors objectAtIndex:modInd];
+        
 
 }
 

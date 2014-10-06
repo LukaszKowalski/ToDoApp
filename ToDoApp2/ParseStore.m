@@ -120,7 +120,16 @@
 
             }
             arrayOfParseTasks = [[DataStore sharedInstance] changeArrayOfParseObjects:arrayOfParseTasks];
-            [[DataStore sharedInstance] saveData:arrayOfParseTasks  withKey:@"tasksArrayLocally"];
+            
+            NSSortDescriptor *dateDescriptor = [NSSortDescriptor
+                                                sortDescriptorWithKey:@"createdAt"
+                                                ascending:NO];
+            NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:dateDescriptor];
+            NSMutableArray *sortedEventArray = [arrayOfParseTasks
+                                                sortedArrayUsingDescriptors:sortDescriptors];
+            
+            
+            [[DataStore sharedInstance] saveData:sortedEventArray  withKey:@"tasksArrayLocally"];
 
 //            dispatch_async(dispatch_get_main_queue(),^{
 //                [delegate loadArrayOfTasks:arrayOfParseTasks];

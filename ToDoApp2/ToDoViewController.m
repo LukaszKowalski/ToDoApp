@@ -190,9 +190,9 @@
 - (void)reloadTableView{
     
     self.arrayOfParseTasks = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
+    NSLog(@" %d", [self.arrayOfParseTasks count]);
     
-    
-    if (self.arrayOfParseTasks == nil) {
+    if ([self.arrayOfParseTasks count] == 0) {
         
         self.arrayOfParseTasks = @[
                          @{@"color": @"0.603922,0.831373,0.419608,1.000000", @"principal": @"DoTeam",
@@ -211,13 +211,13 @@
 }
 
 -(void)loadArrayOfTasks:(NSMutableArray *)array {
-   
-//    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
-    self.arrayOfParseTasks = array;
-    [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
-
-//    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
-    [self.tableView reloadData];
+//   
+////    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
+//    self.arrayOfParseTasks = array;
+//    [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
+//
+////    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
+//    [self.tableView reloadData];
 }
 
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
