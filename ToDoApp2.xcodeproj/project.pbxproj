@@ -181,6 +181,25 @@
 			name = "Login and SignUp";
 			sourceTree = "<group>";
 		};
+		C383C6CF19E5B54A00CBD0B7 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				C3CF636019E32E8B00DB7A29 /* DoLogo@2x.png */,
+				C3CF636119E32E8B00DB7A29 /* IcoCheck@2x.png */,
+				C3CF636219E32E8B00DB7A29 /* IcoCheckColor@2x.png */,
+				C3CF636319E32E8B00DB7A29 /* IcoFriends.png */,
+				C3CF636419E32E8B00DB7A29 /* IcoFriends@2x.png */,
+				C3CF636519E32E8B00DB7A29 /* IcoNo.png */,
+				C3CF636619E32E8B00DB7A29 /* IcoNo@2x.png */,
+				C3CF636719E32E8B00DB7A29 /* IcoPass@2x.png */,
+				C3CF636819E32E8B00DB7A29 /* IcoPlus@2x.png */,
+				C3CF636919E32E8B00DB7A29 /* IcoSettings@2x.png */,
+				C3CF636A19E32E8B00DB7A29 /* IcoTask@2x.png */,
+			);
+			name = images;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		C38E1E1319CA1A08008DF0BE /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,17 +218,6 @@
 				C3C4FBEB198FC84100F36830 /* ToDoApp2Tests */,
 				C3C4FBCB198FC84100F36830 /* Frameworks */,
 				C3C4FBCA198FC84100F36830 /* Products */,
-				C3CF636019E32E8B00DB7A29 /* DoLogo@2x.png */,
-				C3CF636119E32E8B00DB7A29 /* IcoCheck@2x.png */,
-				C3CF636219E32E8B00DB7A29 /* IcoCheckColor@2x.png */,
-				C3CF636319E32E8B00DB7A29 /* IcoFriends.png */,
-				C3CF636419E32E8B00DB7A29 /* IcoFriends@2x.png */,
-				C3CF636519E32E8B00DB7A29 /* IcoNo.png */,
-				C3CF636619E32E8B00DB7A29 /* IcoNo@2x.png */,
-				C3CF636719E32E8B00DB7A29 /* IcoPass@2x.png */,
-				C3CF636819E32E8B00DB7A29 /* IcoPlus@2x.png */,
-				C3CF636919E32E8B00DB7A29 /* IcoSettings@2x.png */,
-				C3CF636A19E32E8B00DB7A29 /* IcoTask@2x.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -249,10 +257,12 @@
 			children = (
 				C3C4FBDB198FC84100F36830 /* ToDoAppDelegate.h */,
 				C3C4FBDC198FC84100F36830 /* ToDoAppDelegate.m */,
+				C37D37F419C07ECC00CEAC31 /* Login and SignUp */,
 				C3DF846119A7453100701980 /* ViewControllers */,
 				C3DF846019A7451700701980 /* TableViewCells */,
 				C38E1E1319CA1A08008DF0BE /* Data */,
 				C3C4FBDE198FC84100F36830 /* Images.xcassets */,
+				C383C6CF19E5B54A00CBD0B7 /* images */,
 				C3C4FBD3198FC84100F36830 /* Supporting Files */,
 			);
 			path = ToDoApp2;
@@ -308,7 +318,6 @@
 		C3DF846119A7453100701980 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C37D37F419C07ECC00CEAC31 /* Login and SignUp */,
 				C3D1D97519BE2E8F00120D55 /* ToDoViewController.h */,
 				C3D1D97619BE2E8F00120D55 /* ToDoViewController.m */,
 				C3BAA8F5199284BB00FDCE14 /* FriendsViewController.h */,

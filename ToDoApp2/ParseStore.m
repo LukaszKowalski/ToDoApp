@@ -19,7 +19,7 @@
     return sharedInstance;
 }
 
--(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number{
+-(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number withId:(NSString *)taskId{
     
     PFUser *user = [PFUser currentUser];
     
@@ -32,6 +32,7 @@
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
+    task[@"deleteId"] = taskId;
     
     [task saveInBackground];
     
@@ -87,7 +88,7 @@
 -(void)deleteTask:(NSString *)taskString withId:(NSString *)taskId{
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-    [query whereKey:@"objectId" equalTo:taskId];
+    [query whereKey:@"deleteId" equalTo:taskId];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -161,7 +162,7 @@
                 [[DataStore sharedInstance] changeUserData:user];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
-//            [[DataStore sharedInstance] saveData:arrayOfParseFriends  withKey:@"friendsArrayLocally"];
+
         }
     }];
 }
@@ -171,8 +172,6 @@
     PFQuery *queryAboutUser = [PFUser query];
     [queryAboutUser whereKey:@"username" equalTo:username];
     PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
-    
-//   NSDictionary *user = [[ParseStore sharedInstance] whosViewControllerItIs];
     
     __block NSMutableArray *arrayOfUserTasks = [NSMutableArray new];
     
@@ -199,6 +198,7 @@
     [userQuery whereKey:@"username" equalTo:username];
     
     // send push notification to the user
+    
     PFQuery *pushQuery = [PFInstallation query];
     [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
     
@@ -209,8 +209,6 @@
     [push sendPushInBackground];
     
 
-    
-    
 }
 
 - (void)loadFriends:(FriendsViewController *)delegate withObjectId:(NSString *)objectID{

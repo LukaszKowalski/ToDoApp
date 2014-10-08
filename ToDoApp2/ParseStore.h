@@ -18,7 +18,7 @@
 @interface ParseStore : NSObject
 
 +(instancetype)sharedInstance;
--(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number;
+-(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number withId:(NSString *)taskId;
 -(void)addFriend:(NSString *)username;
 -(void)deleteTask:(NSString *)taskString withId:(NSString *)taskId;
 -(void)deleteFriend:(NSString *)username;

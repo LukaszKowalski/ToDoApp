@@ -28,7 +28,6 @@
 @property (strong, nonatomic) UIImageView *imageView;
 
 -(void)reloadTableView;
--(void)loadArrayOfTasks:(NSMutableArray *)array;
 
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer;
 

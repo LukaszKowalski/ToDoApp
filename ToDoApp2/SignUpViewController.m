@@ -150,6 +150,7 @@
             [SVProgressHUD dismiss];
             
         } else {
+            
             //Something bad has occurred
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

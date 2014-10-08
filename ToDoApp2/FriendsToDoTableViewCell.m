@@ -39,7 +39,6 @@
     longPress.allowableMovement = 100.0f;
     [self.contentView addGestureRecognizer:longPress];
     
-    
     return self;
 }
 - (void)handleGesture:(UILongPressGestureRecognizer *)sender{

@@ -156,7 +156,7 @@
 }
 
 
--(PFObject *)createTaskLocally:(NSString *)taskString{
+-(PFObject *)createTaskLocally:(NSString *)taskString withId:(NSString *)taskId{
     PFUser *user = [PFUser currentUser];
     
     UIColor *color = [[DataStore sharedInstance] randomColor:[self.arrayOfTasksLocally count]];
@@ -168,6 +168,7 @@
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
+    task[@"deleteId"] = taskId;
     
     return task;
 }

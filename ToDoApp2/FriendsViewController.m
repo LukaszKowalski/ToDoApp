@@ -257,12 +257,10 @@
 -(void)addItem:(NSString *)item {
     
      dispatch_async(dispatch_get_main_queue(),^{
+
     [SVProgressHUD showWithStatus:@"Adding Friend" maskType:SVProgressHUDMaskTypeGradient];
 
     [[ParseStore sharedInstance] addFriend:item];
-//    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
-//    NSLog(@"task = %@", task);
-//    [[DataStore sharedInstance] addTask:task];
     
     [self.friendsTableView reloadData];
      });

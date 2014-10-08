@@ -14,7 +14,6 @@
 
 @property (nonatomic, strong) UILabel *taskForFriend;
 @property (nonatomic, strong) UILabel *remiderSent;
-
 @property (strong, nonatomic) NSDictionary *objectId;
 @property (strong, nonatomic) NSMutableArray *arrayOfUserTasksForNotification;
 

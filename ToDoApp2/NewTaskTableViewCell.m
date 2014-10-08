@@ -52,8 +52,6 @@
         
         self.confirmButton.hidden = YES;
         
-        //
-        
         // no
         
         
@@ -106,7 +104,6 @@
 }
 
 -(void)didSwipeRightInCell:(id)sender{
-    //    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
     
     if (self.currentStatus == SWIPE_TYPE_LEFT) {
         
@@ -124,13 +121,7 @@
         [UIView animateWithDuration:0.5 animations:^{
             [self.newestTask setFrame:CGRectMake(260, 0, 294, 66)];
         }];
-        
-        //        double delayInSeconds = 0.7;
-        //        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        //        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        //
-        
-        
+                
         self.currentStatus = SWIPE_TYPE_RIGHT;
     }
 }

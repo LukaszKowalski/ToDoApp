@@ -196,7 +196,7 @@
 
     }
     
-    NSLog(@" %d", [self.arrayOfParseTasks count]);
+    NSLog(@" %lu", (unsigned long)[self.arrayOfParseTasks count]);
     
     self.delegate = self;
     [self.tableView reloadData];
@@ -204,29 +204,16 @@
 }
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
     
-    
     PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
-    NSString *taskId = [taskTodelete objectForKey:@"objectId"];
+    NSString *taskId = [taskTodelete objectForKey:@"deleteId"];
+    
     NSLog(@" taksId = %@", taskId);
+    
     [[ParseStore sharedInstance] deleteTask:@"dupa" withId:taskId];
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
     [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"tasksArrayLocally"];
     
-    
-    NSLog(@"task to delete %@", taskTodelete);
-//    NSString* objectIdToDelete = [taskTodelete objectForKey:@"taskOb"];
-    //    [[ParseStore sharedInstance] deleteTask:taskStringToDelete];
-
     [self.tableView reloadData];
-}
--(void)loadArrayOfTasks:(NSMutableArray *)array {
-    //
-    ////    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
-    //    self.arrayOfParseTasks = array;
-    //    [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
-    //
-    ////    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
-    //    [self.tableView reloadData];
 }
 
 
@@ -235,25 +222,28 @@
     return [self.arrayOfParseTasks count];
 }
 
+
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
     NewTaskTableViewCell *cell = (NewTaskTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newItem"];
     
-    if (cell == nil) {
+        if (cell == nil) {
         cell = [[NewTaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"newItem"];
-    }
+            }
 
     PFObject *task = [self.arrayOfParseTasks objectAtIndex:indexPath.row];
+    NSString *colorInString = [task objectForKey:@"color"];
+    
     cell.viewController = self;
     cell.delegate = self; 
-    NSString *colorInString = [task objectForKey:@"color"];
     cell.newestTask.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     cell.newestTask.text =   [task objectForKey:@"taskString"];
     cell.newestTask.textAlignment = NSTextAlignmentCenter;
     cell.whoAddedTask.text = [task objectForKey:@"principal"];
     cell.whoAddedTask.textAlignment = NSTextAlignmentCenter;
     cell.whoAddedTask.textColor = cell.newestTask.backgroundColor;
+    
     return cell;
 }
 
@@ -261,6 +251,7 @@
 {
    [super didReceiveMemoryWarning];
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 66;
@@ -295,16 +286,19 @@
         self.addTaskTextField.hidden = NO;
         self.addTaskTextField.backgroundColor = [UIColor whiteColor];
     }];
-    [self.addTaskTextField becomeFirstResponder];
-    self.addTaskTextField.delegate = self;
-    self.addTaskButton.tag = 2;
-    }else{
-        [UIView animateWithDuration:0.3 animations:^{
-            CGSize viewSize = self.view.frame.size;
+        
+        [self.addTaskTextField becomeFirstResponder];
+        self.addTaskTextField.delegate = self;
+        self.addTaskButton.tag = 2;
+        
+        }else{
+        
+            [UIView animateWithDuration:0.3 animations:^{
+                CGSize viewSize = self.view.frame.size;
 
-            self.addTaskTextField.hidden = YES;
-            [self.tableView setFrame:CGRectMake(0, 75, 320, viewSize.height -73)];
-            [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+                self.addTaskTextField.hidden = YES;
+                [self.tableView setFrame:CGRectMake(0, 75, 320, viewSize.height -73)];
+                [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
             }];
         
         self.confirmButton.hidden = YES;
@@ -318,7 +312,8 @@
     
     if (!self.friendsController){
     self.friendsController = [[FriendsViewController alloc] init];
-    }
+        }
+    
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     [self.navigationController pushViewController:self.friendsController animated:NO];
 
@@ -349,11 +344,18 @@
     [self.addTaskTextField resignFirstResponder];
     self.friendsLists.hidden = NO;
     
-    NSUInteger numberOfTasks = [self.arrayOfParseTasks count];
-    [[ParseStore sharedInstance] addTask:newTask forNumber:numberOfTasks];
     
-    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+    NSString* idForTask = @"kutas";
+    
+    NSUInteger numberOfTasks = [self.arrayOfParseTasks count];
+    [[ParseStore sharedInstance] addTask:newTask forNumber:numberOfTasks withId:idForTask];
+
+    
+    PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask withId:idForTask];
     [[DataStore sharedInstance] addTask:task];
+    
+    
+    
     [UIView animateWithDuration:0.6 animations:^{
         self.addTaskTextField.alpha = 0;
         self.addTaskTextField.placeholder = [NSString stringWithFormat:@"%@", newTask];
