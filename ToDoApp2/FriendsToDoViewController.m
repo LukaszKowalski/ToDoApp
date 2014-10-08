@@ -100,7 +100,7 @@
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(125,26,320,40);
+    self.imageView.frame = CGRectMake(122,30,320,40);
     [self.view addSubview: self.imageView];
 
     
@@ -160,6 +160,7 @@
     NSString *colorInString = [task objectForKey:@"color"];
     cell.taskForFriend.backgroundColor = [[ParseStore sharedInstance] giveColorfromStringColor:colorInString];
     cell.taskForFriend.text = [task objectForKey:@"taskString"];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     
@@ -178,35 +179,34 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-//    self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
-//    NSString *username = [self.objectId objectForKey:@"username"];
-//    
-//    PFQuery *userQuery=[PFUser query];
-//    [userQuery whereKey:@"username" equalTo:username];
-//
-//    // send push notification to the user
-//    PFQuery *pushQuery = [PFInstallation query];
-//    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
-//
-//    PFPush *push = [PFPush new];
-//    [push setQuery: pushQuery];
-//    PFObject *task  = [self.arrayOfUserTasks objectAtIndex:indexPath.row];
-//    NSString *message= [NSString stringWithFormat:@"%@ przypomina Ci o %@",[PFUser currentUser].username ,[task objectForKey:@"taskString"]];
-//    [push setData: @{ @"alert":message}];
-//    [push sendPushInBackground];
-//
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-//    
+    NSLog(@"Alert");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hint!"
+                                                    message:@"Hold to send a reminder"
+                                                   delegate:self
+                                          cancelButtonTitle:@"ok"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+
 }
 
 -(void)addItem:(NSString *)item {
     
-     dispatch_async(dispatch_get_main_queue(),^{
-         
-    self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
-    [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
-    [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];
-     });
+    [SVProgressHUD showWithStatus:@"Adding Task..." maskType:SVProgressHUDMaskTypeGradient];
+
+    
+    dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+    dispatch_async(myQueue, ^{
+        
+        self.objectId = [[ParseStore sharedInstance] whosViewControllerItIs];
+        [[ParseStore sharedInstance] addTask:item forUser:[NSString stringWithFormat:@"%@", self.titleName]];
+        [[ParseStore sharedInstance] sendNotificationNewTask:self.objectId withString:item];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            
+        });
+    });
+    
 }
 - (void)addTask:(UIButton *)sender {
     
@@ -256,7 +256,6 @@
 
 - (void) confirmTask{
     
-    [SVProgressHUD showWithStatus:@"Adding Task..." maskType:SVProgressHUDMaskTypeGradient];
     [self textFieldShouldReturn:self.addTaskTextField];
     
 }

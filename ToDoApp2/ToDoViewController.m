@@ -53,6 +53,7 @@
     
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"My Tasks", nil)
                                                                            attributes:textProperties];
+    
     textLayer.string = attributedString;
     textLayer.frame = self.view.bounds;
     
@@ -60,17 +61,10 @@
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(125,26,320,40);
+    self.imageView.frame = CGRectMake(125,30,320,40);
     [self.view addSubview: self.imageView];
 
-    
-//    // nav bar
-//
-//    self.bar = [[UINavigationBar alloc] init];
-//    [self.bar setFrame:CGRectMake(0, 20, 320, 44)];
-//    self.bar.backgroundColor = [UIColor blackColor];
-//    [self.view addSubview:self.bar];
-    
+
     self.cap = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 320, 75)];
     self.cap.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.view addSubview:self.cap];
@@ -159,22 +153,6 @@
     [self.view addSubview:self.settings];
     self.settings.hidden = NO;
     
-//    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(60,10,320,40)];
-//    navView.backgroundColor = [UIColor clearColor];
-//    
-//    RSMaskedLabel *label = [[RSMaskedLabel alloc] initWithFrame:navView.frame];
-//    label.text =@"My Tasks";
-//    label.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
-//
-//    [navView addSubview:label];
-//    
-//    UIImageView *imgView = [[UIImageView alloc] initWithFrame:navView.frame];
-//    [imgView setImage:[UIImage imageNamed:@"rainbow"]];
-//    
-//    [navView addSubview:imgView];
-//    [navView addSubview:label];
-//    [self.view addSubview:navView];
-    
 
     // initArray
     
@@ -190,9 +168,19 @@
     self.arrayOfParseTasks = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
     
     if (!self.arrayOfParseTasks) {
+        
         [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
-        [[ParseStore sharedInstance] loadFriends];
-        [SVProgressHUD dismiss];
+        
+        dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+        dispatch_async(myQueue, ^{
+            
+            [[ParseStore sharedInstance] loadTasks];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+            });
+        });
 
     }
     
@@ -345,7 +333,7 @@
     self.friendsLists.hidden = NO;
     
     
-    NSString* idForTask = @"kutas";
+    NSString* idForTask = [[NSProcessInfo processInfo] globallyUniqueString];
     
     NSUInteger numberOfTasks = [self.arrayOfParseTasks count];
     [[ParseStore sharedInstance] addTask:newTask forNumber:numberOfTasks withId:idForTask];

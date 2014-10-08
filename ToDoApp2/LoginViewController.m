@@ -59,6 +59,8 @@
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.getLogin.leftView = paddingView;
     self.getLogin.leftViewMode = UITextFieldViewModeAlways;
+    self.getLogin.textAlignment = NSTextAlignmentCenter;
+
     
     self.getLogin.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getLogin.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -66,18 +68,20 @@
     UIView *paddingViewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.getPassword.leftView = paddingViewOne;
     self.getPassword.leftViewMode = UITextFieldViewModeAlways;
+    self.getPassword.textAlignment = NSTextAlignmentCenter;
+    
     
     self.getPassword.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
     
     UIColor *color= [UIColor whiteColor];
-    self.getLogin.frame = CGRectMake(110, 175, 300, 50);
+    self.getLogin.frame = CGRectMake(0, 175, 320, 50);
     self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"username" attributes: @{NSForegroundColorAttributeName:color ,
                      NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:20]
                      }];
     
     self.getLogin.textColor = [UIColor whiteColor];
-    self.getPassword.frame  = CGRectMake(110, 235, 300, 50);
+    self.getPassword.frame  = CGRectMake(0, 235, 320, 50);
     self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"password" attributes: @{NSForegroundColorAttributeName:color ,
                                                                                                                 NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:20]
                                                                
@@ -126,7 +130,6 @@
                                             block:^(PFUser *user, NSError *error) {
                 if (user) {
                     
-//                    [[ParseStore sharedInstance] loadTasks];
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
 
@@ -169,10 +172,20 @@
                 [self.getLogin resignFirstResponder];
                 [self.getPassword resignFirstResponder];
                 [[ParseStore sharedInstance] registerUserForPushNotification];
-                dispatch_async(dispatch_get_main_queue(),^{
-                [[ParseStore sharedInstance] loadTasks];
-                [[ParseStore sharedInstance] loadFriends];
+                
+                
+                [SVProgressHUD showWithStatus:@"Loading Tasks" maskType:SVProgressHUDMaskTypeGradient];
+
+                dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+                dispatch_async(myQueue, ^{
                     
+                    [[ParseStore sharedInstance] loadTasks];
+                    [[ParseStore sharedInstance] loadFriends];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        
+                    });
                 });
                 
             } else {

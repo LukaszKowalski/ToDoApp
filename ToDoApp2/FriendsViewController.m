@@ -118,7 +118,7 @@
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(125,26,320,40);
+    self.imageView.frame = CGRectMake(125,30,320,40);
     [self.view addSubview: self.imageView];
 
     
@@ -256,14 +256,20 @@
 
 -(void)addItem:(NSString *)item {
     
-     dispatch_async(dispatch_get_main_queue(),^{
-
     [SVProgressHUD showWithStatus:@"Adding Friend" maskType:SVProgressHUDMaskTypeGradient];
-
-    [[ParseStore sharedInstance] addFriend:item];
+    
+    dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+    dispatch_async(myQueue, ^{
+        
+            [[ParseStore sharedInstance] addFriend:item];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            
+        });
+    });
     
     [self.friendsTableView reloadData];
-     });
     
 }
     

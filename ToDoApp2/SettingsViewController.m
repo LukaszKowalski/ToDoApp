@@ -76,7 +76,7 @@
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(125,26,320,40);
+    self.imageView.frame = CGRectMake(125,30,320,40);
     [self.view addSubview: self.imageView];
 
     
@@ -95,7 +95,7 @@
     }
     
     NSArray *recipents = nil;
-    NSString *message = [NSString stringWithFormat:@"Hi, kurwa DO jest zajebiste."];
+    NSString *message = [NSString stringWithFormat:@"Hi, find \"Do\" on the appstore! My username is: %@", [[PFUser currentUser] username]];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;
@@ -111,8 +111,11 @@
 }
 - (void)logout:(UIButton *)sender{
     [PFUser logOut];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+    NSDictionary *defaultsDictionary = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+    for (NSString *key in [defaultsDictionary allKeys]) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]){
         

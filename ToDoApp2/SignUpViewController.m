@@ -37,6 +37,9 @@
     self.getLogin.frame = CGRectMake(63, 140, 200, 50);
     self.getPassword.frame  = CGRectMake(63, 190, 200, 50);
     self.getEmail.frame = CGRectMake(50, 240, 260, 50);
+    self.getLogin.textAlignment = NSTextAlignmentCenter;
+    self.getEmail.textAlignment = NSTextAlignmentCenter;
+    self.getPassword.textAlignment = NSTextAlignmentCenter;
     
     // textfields
     
@@ -84,14 +87,23 @@
     self.getEmail.autocorrectionType = UITextAutocorrectionTypeNo;
     
     // Label
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Thin" size:25];
     
-    self.signUpLabel.text = @"Create Your  Account";
-    self.signUpLabel.frame = CGRectMake(15, 80, 300, 50);
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString( @"Create Your  Account", nil)
+                                                                           attributes:textProperties];
+    textLayer.string = attributedString;
+    textLayer.frame = self.view.bounds;
     
-    self.signUpLabel.textColor = [UIColor whiteColor];
-    self.signUpLabel.textAlignment = NSTextAlignmentCenter;
-    self.signUpLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:25];
-
+    UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+    self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+    self.imageView.layer.mask = textLayer;
+    
+    self.imageView.frame = CGRectMake(48,88,300,50);
+    [self.view addSubview: self.imageView];
+    
     
     // LINES
     

@@ -20,5 +20,7 @@
 @property (strong, nonatomic) UILabel *line1;
 @property (strong, nonatomic) UILabel *line2;
 @property (strong, nonatomic) UILabel *line3;
+@property (strong, nonatomic) UIImageView *imageView;
+
 
 @end
