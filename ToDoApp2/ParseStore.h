@@ -18,9 +18,9 @@
 @interface ParseStore : NSObject
 
 +(instancetype)sharedInstance;
--(void)addTask:(NSString *)taskString;
+-(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number;
 -(void)addFriend:(NSString *)username;
--(void)deleteTask:(NSString *)taskString;
+-(void)deleteTask:(NSString *)taskString withId:(NSString *)taskId;
 -(void)deleteFriend:(NSString *)username;
 -(void)loadFriends;
 -(void)loadTasks;
@@ -34,6 +34,7 @@
 -(PFUser *)userFromObjectId:(NSString *)objectId;
 -(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task;
 -(void)asignArrayOfTasks:(NSMutableArray *)array;
+-(void)addTaskDoTeam:(NSString *)taskString forNumber:(NSUInteger)number;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfColors;
 @property (strong, nonatomic) NSDictionary *usersViewController;

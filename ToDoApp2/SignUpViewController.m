@@ -143,6 +143,10 @@
             
             self.login = [[LoginViewController alloc] init];
             [self.navigationController pushViewController:self.login animated:YES];
+            [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe right to delete task" forNumber:1];
+            [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe left, find who gave you \"do\"" forNumber:2];
+            [[ParseStore sharedInstance] addTaskDoTeam:@"Hi, welcome in \"Do\" ;)" forNumber:0];
+
             [SVProgressHUD dismiss];
             
         } else {

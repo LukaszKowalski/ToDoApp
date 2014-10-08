@@ -71,8 +71,9 @@
     if ([notificationPayload objectForKey:@"reload"]) {
             // handle recived notification
             NSString *newTask = [notificationPayload objectForKey:@"taskString"];
-            PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
-            [[DataStore sharedInstance] addTask:task];
+//            PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+//            [[DataStore sharedInstance] addTask:task];
+        [[ParseStore sharedInstance] loadTasks];
     }
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
@@ -135,9 +136,9 @@
     if ([userInfo objectForKey:@"reload"]) {
         // handle recived notification
         NSString *newTask = [userInfo objectForKey:@"taskString"];
-        PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
-        [[DataStore sharedInstance] addTask:task];
- 
+//        PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+//        [[DataStore sharedInstance] addTask:task];
+        [[ParseStore sharedInstance] loadTasks];
         
     }
 

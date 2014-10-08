@@ -117,12 +117,16 @@
     // Auto-login
 
 - (void)viewDidAppear:(BOOL)animated{
-        if ([NSUserDefaults standardUserDefaults]) {
+
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
+            [SVProgressHUD showWithStatus:@"Logging ..." maskType:SVProgressHUDMaskTypeGradient];
+
             [PFUser logInWithUsernameInBackground:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
                                          password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]
                                             block:^(PFUser *user, NSError *error) {
                 if (user) {
                     
+//                    [[ParseStore sharedInstance] loadTasks];
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
 
@@ -165,14 +169,14 @@
                 [self.getLogin resignFirstResponder];
                 [self.getPassword resignFirstResponder];
                 [[ParseStore sharedInstance] registerUserForPushNotification];
-                [[ParseStore sharedInstance] loadTasks];
                 dispatch_async(dispatch_get_main_queue(),^{
+                [[ParseStore sharedInstance] loadTasks];
                 [[ParseStore sharedInstance] loadFriends];
-                    [SVProgressHUD dismiss];
+                    
                 });
                 
             } else {
-                [SVProgressHUD dismiss];
+                
                 //Something bad has ocurred
                 NSString *errorString = [[error userInfo] objectForKey:@"error"];
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];

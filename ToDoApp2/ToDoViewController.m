@@ -187,43 +187,31 @@
 }
 
 - (void)reloadTableView{
-    
     self.arrayOfParseTasks = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
+    
+    if (!self.arrayOfParseTasks) {
+        [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
+        [[ParseStore sharedInstance] loadFriends];
+        [SVProgressHUD dismiss];
+
+    }
+    
     NSLog(@" %d", [self.arrayOfParseTasks count]);
     
-    if ([self.arrayOfParseTasks count] == 0) {
-        
-        self.arrayOfParseTasks = @[
-                         @{@"color": @"0.603922,0.831373,0.419608,1.000000", @"principal": @"DoTeam",
-                         @"taskString": @"Hi, welcome in \"Do\" ;)", @"taskUsernameId": @"asdfasdfas"},
-    @{@"color": @"1.000000,0.792157,0.368627,1.000000", @"principal": @"DoTeam",
-      @"taskString": @"Swipe right to delete task", @"taskUsernameId": @"asdfasdfas"},
-    @{@"color": @"0.396078,0.752941,0.772549,1.000000", @"principal": @"DoTeam",
-      @"taskString": @"Swipe left, find who gave you \"do\"", @"taskUsernameId": @"asdfasdfas"}];
-    
-    };
-    
     self.delegate = self;
-//    [[[self.arrayOfParseTasks reverseObjectEnumerator] allObjects] mutableCopy];
     [self.tableView reloadData];
-
+    [SVProgressHUD dismiss];
 }
-
--(void)loadArrayOfTasks:(NSMutableArray *)array {
-//   
-////    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
-//    self.arrayOfParseTasks = array;
-//    [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
-//
-////    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
-//    [self.tableView reloadData];
-}
-
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
     
-    [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
     
     PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
+    NSString *taskId = [taskTodelete objectForKey:@"objectId"];
+    NSLog(@" taksId = %@", taskId);
+    [[ParseStore sharedInstance] deleteTask:@"dupa" withId:taskId];
+    [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
+    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"tasksArrayLocally"];
+    
     
     NSLog(@"task to delete %@", taskTodelete);
 //    NSString* objectIdToDelete = [taskTodelete objectForKey:@"taskOb"];
@@ -231,6 +219,16 @@
 
     [self.tableView reloadData];
 }
+-(void)loadArrayOfTasks:(NSMutableArray *)array {
+    //
+    ////    self.arrayOfParseTasks = [[DataStore sharedInstance] changeArray:array];
+    //    self.arrayOfParseTasks = array;
+    //    [[self.arrayOfParseTasks reverseObjectEnumerator] allObjects];
+    //
+    ////    [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"friendsArrayLocally"];
+    //    [self.tableView reloadData];
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
@@ -351,7 +349,8 @@
     [self.addTaskTextField resignFirstResponder];
     self.friendsLists.hidden = NO;
     
-    [[ParseStore sharedInstance] addTask:newTask];
+    NSUInteger numberOfTasks = [self.arrayOfParseTasks count];
+    [[ParseStore sharedInstance] addTask:newTask forNumber:numberOfTasks];
     
     PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
     [[DataStore sharedInstance] addTask:task];

@@ -30,6 +30,7 @@
     
     NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];
     self.arrayOfTasksLocally = encodedAllData;
+    NSLog(@"loading %@", self.arrayOfTasksLocally);
     return self.arrayOfTasksLocally;
 }
 
@@ -38,8 +39,15 @@
 -(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString{
     
     [[myArray reverseObjectEnumerator] allObjects];
+//    [[NSUserDefaults standardUserDefaults] setObject:myArray forKey:keyString];
+    
     [[NSUserDefaults standardUserDefaults] setObject:myArray forKey:keyString];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+//    NSLog(@"saved");
+//    NSMutableArray *kutas = [[NSUserDefaults standardUserDefaults] objectForKey:@"tasksArrayLocally"];
+//    NSLog(@" kutas %@", kutas);
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
 
 }
 
@@ -128,6 +136,7 @@
     NSMutableDictionary *changedData = [[NSMutableDictionary alloc] init];
     for (NSString * key in allKeys) {
         [changedData setValue:[object objectForKey:key] forKey:key];
+        [changedData setValue:[object objectId] forKey:@"objectId"];
     }
     return changedData;
 }
@@ -140,6 +149,7 @@
     for (PFObject *object in array) {
         NSMutableDictionary *kutas = [[DataStore sharedInstance] changeTaskData:object];
         [kutasy addObject:kutas];
+        
     }
     
     return kutasy;

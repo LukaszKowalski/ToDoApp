@@ -19,20 +19,11 @@
     return sharedInstance;
 }
 
--(void)addTask:(NSString *)taskString{
-    
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"userTasks.plist"];
-//    NSMutableArray *userTasks = [NSMutableArray arrayWithContentsOfFile:path];
-//    NSLog(@"path %@", path);
-//    if (nil == userTasks) {
-//        userTasks = [[NSMutableArray alloc] initWithCapacity:0];
-//    }
+-(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number{
     
     PFUser *user = [PFUser currentUser];
     
-    UIColor *color = self.randomColor;
+    UIColor *color = [[DataStore sharedInstance] randomColor:number];
     const CGFloat *components = CGColorGetComponents(color.CGColor);
     NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
     
@@ -42,16 +33,25 @@
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
     
-//    NSArray *allKeys = [task allKeys];
-//    NSMutableDictionary *taskData = [[NSMutableDictionary alloc] init];
-//    for (NSString * key in allKeys) {
-//        [taskData setValue:[task objectForKey:key] forKey:key];
-//    }
-//
-//    [userTasks addObject:task];
-//    [userTasks writeToFile:path atomically: TRUE];
-//    NSLog(@"userTasks %@", userTasks);
     [task saveInBackground];
+    
+}
+
+-(void)addTaskDoTeam:(NSString *)taskString forNumber:(NSUInteger)number{
+    
+    PFUser *user = [PFUser currentUser];
+    
+    UIColor *color = [[DataStore sharedInstance] randomColor:number];
+    const CGFloat *components = CGColorGetComponents(color.CGColor);
+    NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
+    
+    PFObject *task = [PFObject objectWithClassName:@"Tasks"];
+    task[@"taskString"] = taskString;
+    task[@"taskUsernameId"] = user.objectId;
+    task[@"color"] = colorAsString;
+    task[@"principal"] = @"DoTeam";
+    
+    [task save];
     
 }
 
@@ -84,44 +84,53 @@
 }
 
 
--(void)deleteTask:(NSString *)taskString{
+-(void)deleteTask:(NSString *)taskString withId:(NSString *)taskId{
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-    [query whereKey:@"taskString" equalTo:taskString];
+    [query whereKey:@"objectId" equalTo:taskId];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %d scores.", objects.count);
+            // Do something with the found objects
             for (PFObject *object in objects) {
-                [object delete];
+                [object deleteInBackground];
             }
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    
 }
+
 
 -(void)deleteFriend:(NSString *)username{
     
 }
 - (void)loadTasks{
+    
+    [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
 
     PFUser *user = [PFUser currentUser];
     __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
     query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    
+    [query orderByAscending:@"createdAt"];
+    
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
+    [query includeKey:@"objectId"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
                         
             for (id object in objects) {
+                NSLog(@" kurwa objectId %@", [object objectId]);
                 [arrayOfParseTasks insertObject:object atIndex:0];
 
             }
             arrayOfParseTasks = [[DataStore sharedInstance] changeArrayOfParseObjects:arrayOfParseTasks];
-            
             [[DataStore sharedInstance] saveData:arrayOfParseTasks  withKey:@"tasksArrayLocally"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
+            NSLog(@"loaded");
 
 //            dispatch_async(dispatch_get_main_queue(),^{
 //                [delegate loadArrayOfTasks:arrayOfParseTasks];
@@ -151,7 +160,7 @@
                 PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
                 [[DataStore sharedInstance] changeUserData:user];
             }
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
 //            [[DataStore sharedInstance] saveData:arrayOfParseFriends  withKey:@"friendsArrayLocally"];
         }
     }];
@@ -168,6 +177,8 @@
     __block NSMutableArray *arrayOfUserTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+    [query orderByDescending:@"createdAt"];
+
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -175,17 +186,7 @@
             for (id object in objects) {
                 [arrayOfUserTasks addObject:object];
             }
-            
-            NSSortDescriptor *dateDescriptor = [NSSortDescriptor
-                                                sortDescriptorWithKey:@"createdAt"
-                                                ascending:NO];
-            NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:dateDescriptor];
-            NSMutableArray *sortedEventArray = [arrayOfUserTasks
-                                         sortedArrayUsingDescriptors:sortDescriptors];
-//           dispatch_async(dispatch_get_main_queue(),^{
-                [delegate loadArrayOfTaskss:sortedEventArray];
-//            });
-        
+                [delegate loadArrayOfTaskss:arrayOfUserTasks];
         }
     }];
 }
