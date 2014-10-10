@@ -93,7 +93,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
-            NSLog(@"Successfully retrieved %d scores.", objects.count);
+            NSLog(@"Successfully retrieved %d scores. Deleting...", objects.count);
             // Do something with the found objects
             for (PFObject *object in objects) {
                 [object deleteInBackground];
@@ -124,19 +124,13 @@
         if (!error) {
                         
             for (id object in objects) {
-                NSLog(@" kurwa objectId %@", [object objectId]);
                 [arrayOfParseTasks insertObject:object atIndex:0];
 
             }
             arrayOfParseTasks = [[DataStore sharedInstance] changeArrayOfParseObjects:arrayOfParseTasks];
             [[DataStore sharedInstance] saveData:arrayOfParseTasks  withKey:@"tasksArrayLocally"];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
-            NSLog(@"loaded");
-
-//            dispatch_async(dispatch_get_main_queue(),^{
-//                [delegate loadArrayOfTasks:arrayOfParseTasks];
-//                
-//            });
+            NSLog(@"ParseStore LoadTasks method is fired");
             
         }
     }];
@@ -151,9 +145,7 @@
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *objects, NSError *error){
         
         if (!error) {
-            NSLog(@"object %@", objects);
             arrayOfParseFriends = [objects objectForKey:@"friendsArray"];
-            NSLog(@"array friendow %@", arrayOfParseFriends);
             
             for (NSString *userId in arrayOfParseFriends) {
                 PFQuery *queryAboutUser = [PFUser query];

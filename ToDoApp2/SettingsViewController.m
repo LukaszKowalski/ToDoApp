@@ -111,21 +111,25 @@
 }
 - (void)logout:(UIButton *)sender{
     [PFUser logOut];
-    NSDictionary *defaultsDictionary = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-    for (NSString *key in [defaultsDictionary allKeys]) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
-    }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+
+        [self resetDefaults];
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"username"]){
-        
-        if (!self.loginController) {
-            self.loginController = [[LoginViewController alloc] init];
-        }
+            if (!self.loginController) {
+                self.loginController = [[LoginViewController alloc] init];
+
         self.loginController.navigationController.navigationItem.hidesBackButton = YES;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
     
+}
+- (void)resetDefaults {
+    
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary * dict = [defs dictionaryRepresentation];
+    for (id key in dict) {
+        [defs removeObjectForKey:key];
+    }
+    [defs synchronize];
 }
 
 

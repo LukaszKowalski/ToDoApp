@@ -9,6 +9,7 @@
 
 #import "DataStore.h"
 
+
 @class ParseStore;
 
 @implementation DataStore
@@ -28,9 +29,11 @@
 -(NSMutableArray *)loadData:(NSString *)keyString
 {
     
+    [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
+
     NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];
     self.arrayOfTasksLocally = encodedAllData;
-    NSLog(@"loading %@", self.arrayOfTasksLocally);
+    NSLog(@"DataStore LoadData method is fired with results: %@", self.arrayOfTasksLocally);
     return self.arrayOfTasksLocally;
 }
 
@@ -39,15 +42,9 @@
 -(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString{
     
     [[myArray reverseObjectEnumerator] allObjects];
-//    [[NSUserDefaults standardUserDefaults] setObject:myArray forKey:keyString];
     
     [[NSUserDefaults standardUserDefaults] setObject:myArray forKey:keyString];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-//    NSLog(@"saved");
-//    NSMutableArray *kutas = [[NSUserDefaults standardUserDefaults] objectForKey:@"tasksArrayLocally"];
-//    NSLog(@" kutas %@", kutas);
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
 
 }
 
@@ -67,7 +64,7 @@
 -(NSMutableArray *)loadFriends:(NSString *)keyString
 {
     NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];;
-    NSLog(@"encodedAlldata: %@", encodedAllData);
+    NSLog(@"DataStore LoadFriends method is fired with results: %@", encodedAllData);
     self.arrayOfFriendsLocally = encodedAllData;
     return self.arrayOfFriendsLocally;
 }
@@ -98,7 +95,8 @@
     
     [self.arrayOfTasksLocally insertObject:taskLocally atIndex:0];
     [[DataStore sharedInstance] saveData:self.arrayOfTasksLocally withKey:@"tasksArrayLocally"];
-    NSLog(@" %lu", (unsigned long)[self.arrayOfTasksLocally count]);
+    
+    NSLog(@"DataStore Adding task. Current count of tasks is: %lu", (unsigned long)[self.arrayOfTasksLocally count]);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     
 }

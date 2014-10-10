@@ -143,13 +143,16 @@
 
 }
 
-// Przycisk konto
+// Create Account button
 
 - (void)createUserAccount{
     
     self.signUpController = [[SignUpViewController alloc] init];
     [self.navigationController pushViewController:self.signUpController animated:YES];
 }
+
+// Log in to the app
+
 - (void)loginFired:(id)sender{
     
     [SVProgressHUD showWithStatus:@"Logging ..." maskType:SVProgressHUDMaskTypeGradient];
@@ -173,9 +176,6 @@
                 [self.getPassword resignFirstResponder];
                 [[ParseStore sharedInstance] registerUserForPushNotification];
                 
-                
-                [SVProgressHUD showWithStatus:@"Loading Tasks" maskType:SVProgressHUDMaskTypeGradient];
-
                 dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
                 dispatch_async(myQueue, ^{
                     
@@ -183,8 +183,7 @@
                     [[ParseStore sharedInstance] loadFriends];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        
+                                                
                     });
                 });
                 
@@ -205,6 +204,10 @@
 {
     return YES;
 }
+
+
+// ForgotPassword Button
+
 - (void)forgotPasswordProblem{
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Forgot Password?"

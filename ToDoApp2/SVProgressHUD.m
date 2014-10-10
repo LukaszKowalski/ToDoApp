@@ -681,8 +681,7 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
                                  [rootController setNeedsStatusBarAppearanceUpdate];
                              }
                              // uncomment to make sure UIWindow is gone from app.windows
-                             //NSLog(@"%@", [UIApplication sharedApplication].windows);
-                             //NSLog(@"keyWindow = %@", [UIApplication sharedApplication].keyWindow);
+
                          }
                      }];
 }

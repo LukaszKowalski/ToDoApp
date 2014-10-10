@@ -70,7 +70,7 @@
     // Create a pointer to the Photo object
     if ([notificationPayload objectForKey:@"reload"]) {
             // handle recived notification
-            NSString *newTask = [notificationPayload objectForKey:@"taskString"];
+//            NSString *newTask = [notificationPayload objectForKey:@"taskString"];
 //            PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
 //            [[DataStore sharedInstance] addTask:task];
         [[ParseStore sharedInstance] loadTasks];
@@ -135,7 +135,7 @@
     
     if ([userInfo objectForKey:@"reload"]) {
         // handle recived notification
-        NSString *newTask = [userInfo objectForKey:@"taskString"];
+//        NSString *newTask = [userInfo objectForKey:@"taskString"];
 //        PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
 //        [[DataStore sharedInstance] addTask:task];
         [[ParseStore sharedInstance] loadTasks];

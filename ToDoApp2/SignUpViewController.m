@@ -132,6 +132,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Creating Account
+
 -(void)createAccount:(id)sender{
     
     //1
@@ -177,19 +179,6 @@
     
     [self.view endEditing:YES];
 }
--(UIColor *)randomColor{
-    
-    NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
-                              [UIColor colorWithRed:255/255.0 green:232/255.0 blue:0/255.0 alpha:1],
-                              [UIColor colorWithRed:20/255.0 green:162/255.0 blue:212/255.0 alpha:1],
-                              [UIColor colorWithRed:175/255.0 green:94/255.0 blue:156/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:177/255.0 blue:106/255.0 alpha:1],
-                              [UIColor colorWithRed:247/255.0 green:148/255.0 blue:30/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:82/255.0 blue:156/255.0 alpha:1],
-                              nil];
-    
-    UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];
-    return color;
-}
+
 
 @end

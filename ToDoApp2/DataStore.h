@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "SVProgressHUD.h"
 #import <Parse/Parse.h>
 
 @interface DataStore : NSObject

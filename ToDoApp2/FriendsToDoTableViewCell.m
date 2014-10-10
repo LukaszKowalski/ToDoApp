@@ -35,7 +35,7 @@
     }
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    longPress.minimumPressDuration = 1.0f;
+    longPress.minimumPressDuration = 0.4f;
     longPress.allowableMovement = 100.0f;
     [self.contentView addGestureRecognizer:longPress];
     
@@ -51,7 +51,7 @@
         
     self.remiderSent.hidden = NO;
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             self.remiderSent.hidden = YES;
         });
         

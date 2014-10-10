@@ -179,7 +179,6 @@
 }
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath{
     
-    NSLog(@"Alert");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hint!"
                                                     message:@"Hold to send a reminder"
                                                    delegate:self

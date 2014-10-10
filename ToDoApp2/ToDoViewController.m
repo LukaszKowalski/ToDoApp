@@ -115,13 +115,6 @@
     self.addTaskTextField.hidden = YES;
     self.addTaskTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     
-    if ([[PFUser currentUser] objectForKey:@"color" ] == nil) {
-        UIColor *color = [[ParseStore sharedInstance] randomColor];
-        const CGFloat *components = CGColorGetComponents(color.CGColor);
-        NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
-        [PFUser currentUser][@"color"] = colorAsString;
-        [[PFUser currentUser] saveInBackground];
-    }
     
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
@@ -153,8 +146,17 @@
     [self.view addSubview:self.settings];
     self.settings.hidden = NO;
     
+    // Add Color if user doesn't have one yet.
 
-    // initArray
+    if ([[PFUser currentUser] objectForKey:@"color" ] == nil) {
+        UIColor *color = [[ParseStore sharedInstance] randomColor];
+        const CGFloat *components = CGColorGetComponents(color.CGColor);
+        NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
+        [PFUser currentUser][@"color"] = colorAsString;
+        [[PFUser currentUser] saveInBackground];
+    }
+
+    // initArrays with data
     
     [self reloadTableView];
     
@@ -164,7 +166,11 @@
     [self.view endEditing:YES];
 }
 
+// Handle all data for tableView
+
 - (void)reloadTableView{
+    
+
     self.arrayOfParseTasks = [[DataStore sharedInstance] loadData:@"tasksArrayLocally"];
     
     if (!self.arrayOfParseTasks) {
@@ -184,8 +190,6 @@
 
     }
     
-    NSLog(@" %lu", (unsigned long)[self.arrayOfParseTasks count]);
-    
     self.delegate = self;
     [self.tableView reloadData];
     [SVProgressHUD dismiss];
@@ -194,9 +198,6 @@
     
     PFObject* taskTodelete = [self.arrayOfParseTasks objectAtIndex:[integer row]];
     NSString *taskId = [taskTodelete objectForKey:@"deleteId"];
-    
-    NSLog(@" taksId = %@", taskId);
-    
     [[ParseStore sharedInstance] deleteTask:@"dupa" withId:taskId];
     [self.arrayOfParseTasks removeObjectAtIndex:[integer row]];
     [[DataStore sharedInstance] saveData:self.arrayOfParseTasks withKey:@"tasksArrayLocally"];
