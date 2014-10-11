@@ -29,7 +29,7 @@
 -(NSMutableArray *)loadData:(NSString *)keyString
 {
     
-    [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
+//    [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
 
     NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];
     self.arrayOfTasksLocally = encodedAllData;
