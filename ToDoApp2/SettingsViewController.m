@@ -129,6 +129,9 @@
     for (id key in dict) {
         [defs removeObjectForKey:key];
     }
+
+    [[DataStore sharedInstance] clearAll];
+    
     [defs synchronize];
 }
 

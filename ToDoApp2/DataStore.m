@@ -39,7 +39,9 @@
 
 
 
--(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString{
+-(void)saveData:(NSMutableArray *)myArray withKey:(NSString *)keyString
+{
+    NSLog(@"saveData: %@\n\nmyArray == %@",keyString,myArray);
     
     [[myArray reverseObjectEnumerator] allObjects];
     
@@ -62,10 +64,13 @@
 
 
 -(NSMutableArray *)loadFriends:(NSString *)keyString
-{
-    NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];;
+{    
+    NSMutableArray *encodedAllData =  [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];
+    
+    self.arrayOfFriendsLocally = [NSMutableArray new];
+    
     NSLog(@"DataStore LoadFriends method is fired with results: %@", encodedAllData);
-    self.arrayOfFriendsLocally = encodedAllData;
+    self.arrayOfFriendsLocally = [[[NSUserDefaults standardUserDefaults] objectForKey:keyString] mutableCopy];
     return self.arrayOfFriendsLocally;
 }
 
@@ -114,7 +119,8 @@
 }
 
 
--(void)changeUserData:(PFObject *)object{
+-(void)changeUserData:(PFObject *)object
+{
     NSArray *allKeys = [object allKeys];
     NSMutableDictionary *changedData = [[NSMutableDictionary alloc] init];
     for (NSString * key in allKeys) {
@@ -125,6 +131,7 @@
     }
     
     [self.arrayOfFriendsLocally addObject:changedData];
+    
     [[DataStore sharedInstance] saveData:self.arrayOfFriendsLocally withKey:@"friendsArrayLocally"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
 }
@@ -198,6 +205,13 @@
         return [rainbowColors objectAtIndex:modInd];
         
 
+}
+
+-(void)clearAll
+{
+    self.arrayOfFriendsLocally = nil;
+    self.arrayOfTasksLocally = nil;
+    self.arrayOfColorsToPick = nil;
 }
 
 

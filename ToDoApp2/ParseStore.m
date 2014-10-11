@@ -136,8 +136,8 @@
     }];
 }
 
-- (void)loadFriends{
-    
+- (void)loadFriends
+{    
       __block NSMutableArray *arrayOfParseFriends = [NSMutableArray new];
     
     PFQuery *query= [PFUser query];
