@@ -7,23 +7,33 @@
 //
 
 #import "ToDoAppDelegate.h"
-#import "DoTask.h"
-#import "DoUser.h"
-#import "DataStore.h"
 
+#import "DataStore.h"
+#import "ParseStore.h"
 
 @implementation ToDoAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+
     LoginViewController *viewController = [[LoginViewController alloc] init];
+
+    
     UINavigationController *navCon = [[UINavigationController alloc] init];
-    navCon.navigationBar.barTintColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-Light" size:20], NSFontAttributeName, nil]];
-//  [navCon.navigationBar setTranslucent:NO];
-//    [navCon pushViewController:friendsView animated:NO];
+    
     [navCon pushViewController:viewController animated:NO];
+    navCon.navigationBar.barTintColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-Light" size:20], NSFontAttributeName, nil]];
+
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
+                                      forBarPosition:UIBarPositionAny
+                                          barMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
     
     self.window.rootViewController = navCon;
     self.window.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
@@ -53,8 +63,24 @@
                                                          UIRemoteNotificationTypeSound)];
     }
     
-    PFUser * user = [[ParseStore sharedInstance] userFromObjectId:@"1WBcXRsLlR" ];
-    NSLog(@"user works %@", user);
+    // Extract the notification data
+    
+    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    // Create a pointer to the Photo object
+    if ([notificationPayload objectForKey:@"reload"]) {
+            // handle recived notification
+//            NSString *newTask = [notificationPayload objectForKey:@"taskString"];
+//            PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+//            [[DataStore sharedInstance] addTask:task];
+        [[ParseStore sharedInstance] loadTasks];
+    }
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
+    
+    
+    
+    
     return YES;
 }
 
@@ -87,63 +113,43 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
-    NSLog(@">>%@",deviceToken);
+
     
     //Removing the brackets from the device token
     NSString *tokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    
-    NSLog(@"Push Notification tokenstring is %@",tokenString);
+    NSLog(@"%@", tokenString);
+
     
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
+    NSLog(@"Device token : %@", deviceToken);
     currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"%@", error);
+    
 }
 
+
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    if ([userInfo objectForKey:@"reload"]) {
+        // handle recived notification
+//        NSString *newTask = [userInfo objectForKey:@"taskString"];
+//        PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+//        [[DataStore sharedInstance] addTask:task];
+        [[ParseStore sharedInstance] loadTasks];
+        
+    }
+
+    
     [PFPush handlePush:userInfo];
 }
 
-//    DoUser *user = [DoUser new];
-//    user.userIdNumber = [self getRandomId];
-//    user.username =@"Lucasz";
-//
-//    DoUser *user2 = [DoUser new];
-//    user2.userIdNumber = [self getRandomId];
-//    user2.username =@"Phil";
-//
-//    DoTask *task = [DoTask new];
-//    task.idNumber = [self getRandomId];
-//    task.userIdNumber = user.userIdNumber;
-//    task.taskString =@"Task One";
-//
-//    DoTask *task2 = [DoTask new];
-//    task2.idNumber = [self getRandomId];
-//    task2.userIdNumber = user2.userIdNumber;
-//    task2.taskString =@"Task One";
-//
-//    NSArray *userArray = @[user,user2];
-//    NSArray *tasksArray = @[task,task2];
-//
-//    [[DataStore sharedInstance] saveData:userArray withKey:@"userArray"];
-//    [[DataStore sharedInstance] saveData:tasksArray withKey:@"tasksArray"];
-//
-//
 
-
-
--(NSString *)getRandomId
-{
-    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
-    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
-    CFRelease(newUniqueId);
-    return uuidString;
-}
 
 
 @end

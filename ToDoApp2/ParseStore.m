@@ -19,11 +19,11 @@
     return sharedInstance;
 }
 
--(void)addTask:(NSString *)taskString{
+-(void)addTask:(NSString *)taskString forNumber:(NSUInteger)number withId:(NSString *)taskId{
     
     PFUser *user = [PFUser currentUser];
     
-    UIColor *color = self.randomColor;
+    UIColor *color = [[DataStore sharedInstance] randomColor:number];
     const CGFloat *components = CGColorGetComponents(color.CGColor);
     NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
     
@@ -32,7 +32,30 @@
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
     task[@"principal"] = user.username;
+    task[@"deleteId"] = taskId;
+    
     [task saveInBackground];
+    
+}
+
+-(void)addTaskDoTeam:(NSString *)taskString forNumber:(NSUInteger)number{
+    
+    PFUser *user = [PFUser currentUser];
+    NSString* idForTask = [[NSProcessInfo processInfo] globallyUniqueString];
+
+    UIColor *color = [[DataStore sharedInstance] randomColor:number];
+    const CGFloat *components = CGColorGetComponents(color.CGColor);
+    NSString *colorAsString = [NSString stringWithFormat:@"%f,%f,%f,%f", components[0], components[1], components[2], components[3]];
+    
+    PFObject *task = [PFObject objectWithClassName:@"Tasks"];
+    task[@"taskString"] = taskString;
+    task[@"taskUsernameId"] = user.objectId;
+    task[@"color"] = colorAsString;
+    task[@"principal"] = @"DoTeam";
+    task[@"deleteId"] = idForTask;
+
+    
+    [task save];
     
 }
 
@@ -40,88 +63,105 @@
     
     // Check if User exists.
 
-
     PFQuery *query = [PFUser query];
     [query whereKey:@"username" equalTo:username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSLog(@"%@", objects);
+            
             if (objects.count > 0) {
             {
                 PFUser *user = [objects firstObject];
                 [user fetch];
-                NSLog(@"user %@", user);
+    
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
-                [[PFUser currentUser] save];
-//                NSArray *friends = [[PFUser currentUser] objectForKey:@"friendsArray"];
-//                for (NSString *friend in friends) {
-//                    PFQuery *query = [PFUser query];
-//                    [query whereKey:@"objectId" equalTo:friend];
-
-                }
-                
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+                [[DataStore sharedInstance] changeUserData:user];
+                [[PFUser currentUser] saveInBackground];
+               [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
             }
-            
-            }}];
-            
-        
-//    
-//    
-//            if (user) {
-//            [[PFUser currentUser] addObject:user forKey:@"friendsArray"];
-//            [[PFUser currentUser] saveInBackground];
-//                    } else {
-//            NSLog(@"alert");
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
-//            [alert show];
-//                    }
+            }else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
+                [SVProgressHUD dismiss];
+                    [alert show];
+            }
+        }
+    }];
 }
 
 
--(void)deleteTask:(NSString *)taskString{
+-(void)deleteTask:(NSString *)taskString withId:(NSString *)taskId{
     
-//    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-//    [query whereKey:@"taskString" equalTo:taskString];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            for (PFObject *object in objects) {
-//                [object delete];
-//            }
-//        } else {
-//            // Log details of the failure
-//            NSLog(@"Error: %@ %@", error, [error userInfo]);
-//        }
-//    }];
-    
+    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
+    [query whereKey:@"deleteId" equalTo:taskId];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %lu scores. Deleting...", (unsigned long)objects.count);
+            // Do something with the found objects
+            for (PFObject *object in objects) {
+                [object deleteInBackground];
+            }
+        }
+    }];
 }
+
 
 -(void)deleteFriend:(NSString *)username{
     
 }
-- (void)loadTasks:(ToDoViewController *)delegate{
-    PFUser *user = [PFUser currentUser];
+- (void)loadTasks{
     
+    [SVProgressHUD showWithStatus:@"Loading tasks..." maskType:SVProgressHUDMaskTypeGradient];
+
+    PFUser *user = [PFUser currentUser];
     __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
     query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    
+    [query orderByAscending:@"createdAt"];
+    
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
+    [query includeKey:@"objectId"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
                         
             for (id object in objects) {
-                [arrayOfParseTasks addObject:object];
+                [arrayOfParseTasks insertObject:object atIndex:0];
+
             }
+            arrayOfParseTasks = [[DataStore sharedInstance] changeArrayOfParseObjects:arrayOfParseTasks];
+            [[DataStore sharedInstance] saveData:arrayOfParseTasks  withKey:@"tasksArrayLocally"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTaskTableView" object:nil];
+            NSLog(@"ParseStore LoadTasks method is fired");
             
-            dispatch_async(dispatch_get_main_queue(),^{
-                [delegate loadArrayOfTasks:arrayOfParseTasks];
-            });
-            
-            
-            }
+        }
     }];
 }
+
+- (void)loadFriends
+{    
+      __block NSMutableArray *arrayOfParseFriends = [NSMutableArray new];
+    
+    PFQuery *query= [PFUser query];
+    [query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *objects, NSError *error){
+        
+        if (!error) {
+            arrayOfParseFriends = [objects objectForKey:@"friendsArray"];
+            
+            for (NSString *userId in arrayOfParseFriends) {
+                PFQuery *queryAboutUser = [PFUser query];
+                [queryAboutUser whereKey:@"objectId" equalTo:userId];
+                PFUser *user = (PFUser *)[queryAboutUser getFirstObject];
+                [[DataStore sharedInstance] changeUserData:user];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+
+        }
+    }];
+}
+
 - (void)loadTasksForUser:(FriendsToDoViewController *)delegate forUser:(NSString*)username{
     
     PFQuery *queryAboutUser = [PFUser query];
@@ -131,7 +171,8 @@
     __block NSMutableArray *arrayOfUserTasks = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-    query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    [query orderByDescending:@"createdAt"];
+
     [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -139,16 +180,31 @@
             for (id object in objects) {
                 [arrayOfUserTasks addObject:object];
             }
-            
-            dispatch_async(dispatch_get_main_queue(),^{
                 [delegate loadArrayOfTaskss:arrayOfUserTasks];
-            });
-            
-            
         }
     }];
 }
+-(void)sendNotificationNewTask:(NSDictionary *)user withString:(NSString *)task{
+    
+    NSDictionary *objectId = user;
+    NSString *username = [objectId objectForKey:@"username"];
+    PFQuery *userQuery=[PFUser query];
+    
+    [userQuery whereKey:@"username" equalTo:username];
+    
+    // send push notification to the user
+    
+    PFQuery *pushQuery = [PFInstallation query];
+    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+    
+    PFPush *push = [PFPush new];
+    [push setQuery: pushQuery];
+    NSString *message= [NSString stringWithFormat:@"New task for you \"%@\"", task];
+    [push setData: @{ @"alert":message, @"reload":@"reload data", @"taskString":task }];
+    [push sendPushInBackground];
+    
 
+}
 
 - (void)loadFriends:(FriendsViewController *)delegate withObjectId:(NSString *)objectID{
     
@@ -163,8 +219,8 @@
         PFUser *friend = [self userFromObjectId:friendId];
         [friendsArray addObject:friend];
     }
-    NSLog(@"load user array of friends %@", arrayOfUserFriends); 
-    [delegate loadArrayOfFriends:friendsArray];
+    
+      [delegate loadArrayOfFriends:friendsArray];
     
 }
 -(PFUser *)userFromObjectId:(NSString *)objectId {
@@ -179,7 +235,7 @@
     return user;
 }
 
--(void)addTask:(NSString *)taskString forUser:(NSString *)username{
+-(void)addTask:(NSString *)taskString forUser:(NSString *)username withId:(NSString *)taskId{
     
     UIColor *color = self.randomColor;
     const CGFloat *components = CGColorGetComponents(color.CGColor);
@@ -193,19 +249,25 @@
     task[@"taskString"] = taskString;
     task[@"taskUsernameId"] = user.objectId;
     task[@"color"] = colorAsString;
-    task[@"principal"] = user.username;
-    [task saveInBackground];
+    task[@"principal"] = [[PFUser currentUser] username];
+    task[@"deleteId"] = taskId;
+
+    
+    [task save];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadSomeoneTableView" object:nil];
+
     
 }
 -(UIColor *)randomColor{
     
     NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
-                              [UIColor colorWithRed:255/255.0 green:232/255.0 blue:0/255.0 alpha:1],
-                              [UIColor colorWithRed:20/255.0 green:162/255.0 blue:212/255.0 alpha:1],
-                              [UIColor colorWithRed:175/255.0 green:94/255.0 blue:156/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:177/255.0 blue:106/255.0 alpha:1],
-                              [UIColor colorWithRed:247/255.0 green:148/255.0 blue:30/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:82/255.0 blue:156/255.0 alpha:1],
+                              [UIColor colorWithRed:255/255.0 green:202/255.0 blue:94/255.0 alpha:1],
+                              [UIColor colorWithRed:255/255.0 green:94/255.0 blue:115/255.0 alpha:1],
+                              [UIColor colorWithRed:101/255.0 green:192/255.0 blue:197/255.0 alpha:1],
+                              [UIColor colorWithRed:133/255.0 green:117/255.0 blue:167/255.0 alpha:1],
+                              [UIColor colorWithRed:154/255.0 green:212/255.0 blue:107/255.0 alpha:1],
+                              [UIColor colorWithRed:215/255.0 green:216/255.0 blue:184/255.0 alpha:1],
+                              [UIColor colorWithRed:0/255.0 green:181/255.0 blue:156/255.0 alpha:1],
                               nil];
     
     UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];
@@ -230,37 +292,20 @@
     
 };
 
--(void)asignWhosViewControllerItIs:(PFUser *)user{
+-(void)asignWhosViewControllerItIs:(NSDictionary *)user{
     self.usersViewController = user;
 };
--(PFUser *)whosViewControllerItIs{
+-(NSDictionary *)whosViewControllerItIs{
     return self.usersViewController;
 };
 
-//- (void)loadUserData:(NSString *)objectId{
-//    
-//    PFUser *user = [PFUser currentUser];
-//    
-//    __block NSMutableArray *arrayOfParseTasks = [NSMutableArray new];
-//    
-//    PFQuery *query = [PFQuery queryWithClassName:@"Tasks"];
-//    query.cachePolicy = kPFCachePolicyNetworkElseCache;
-//    [query whereKey:@"taskUsernameId" equalTo:[NSString stringWithFormat:@"%@", user.objectId]];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            
-//            for (id object in objects) {
-//                [arrayOfParseTasks addObject:object];
-//            }
-//            
-//            dispatch_async(dispatch_get_main_queue(),^{
-//                [delegate loadArrayOfTasks:arrayOfParseTasks];
-//            });
-//            
-//            
-//        }
-//    }];
-//
-//
+-(void)asignArrayOfTasks:(NSMutableArray *)array{    
+    self.asignedArrayOfTasks = array;
+};
+-(NSMutableArray *)getArrayOfTasks{
+    return self.asignedArrayOfTasks;
+};
+
+
 
 @end

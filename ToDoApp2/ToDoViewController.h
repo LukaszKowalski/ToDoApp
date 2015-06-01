@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NewTaskTableViewCell.h"
 #import "FriendsViewController.h"
+#import "SettingsViewController.h"
 
 @interface ToDoViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -20,9 +21,14 @@
 @property (strong, nonatomic) UIButton *friendsLists;
 @property (strong, nonatomic) UINavigationBar *bar;
 @property (strong, nonatomic) UILabel *doSign;
+@property (strong, nonatomic) UILabel *cap;
+@property (strong, nonatomic) UIButton *confirmButton;
+@property (nonatomic, assign) NSInteger swipeSwitch;
+@property (strong, nonatomic) UIButton *settings;
+@property (strong, nonatomic) UIImageView *imageView;
 
 -(void)reloadTableView;
--(void)loadArrayOfTasks:(NSMutableArray *)array;
 
+-(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer;
 
 @end

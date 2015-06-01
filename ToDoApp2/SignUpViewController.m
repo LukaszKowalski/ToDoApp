@@ -8,10 +8,10 @@
 
 #import "SignUpViewController.h"
 
-
 @interface SignUpViewController ()
 
 @property (strong, nonatomic) LoginViewController *login;
+
 
 @end
 
@@ -27,17 +27,19 @@
     self.getPassword = [[UITextField alloc] init];
     self.getEmail = [[UITextField alloc] init];
     
-    self.createAccount = [[UIButton alloc] initWithFrame:CGRectMake(90, 330, 150, 40)];
+    self.createAccount = [[UIButton alloc] initWithFrame:CGRectMake(30, 330, 260, 50)];
     [self.createAccount setTitle:@"Create Account" forState:UIControlStateNormal];
-    [self.createAccount setBackgroundColor:[UIColor whiteColor]];
+    [self.createAccount setBackgroundColor:[UIColor colorWithRed:7/255.0f green:210/255.0f blue:126/255.0f alpha:1.0f]];
     [self.createAccount addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
-    [self.createAccount setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    [self.createAccount setTitleColor:[UIColor purpleColor] forState:UIControlStateHighlighted];
+    [self.createAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
     
-    
-    self.getLogin.frame = CGRectMake(70, 150, 200, 50);
-    self.getPassword.frame  = CGRectMake(70, 205, 200, 50);
-    self.getEmail.frame = CGRectMake(70, 260, 200, 50);
+    self.getLogin.frame = CGRectMake(63, 140, 200, 50);
+    self.getPassword.frame  = CGRectMake(63, 190, 200, 50);
+    self.getEmail.frame = CGRectMake(50, 240, 260, 50);
+    self.getLogin.textAlignment = NSTextAlignmentCenter;
+    self.getEmail.textAlignment = NSTextAlignmentCenter;
+    self.getPassword.textAlignment = NSTextAlignmentCenter;
     
     // textfields
     
@@ -58,45 +60,65 @@
     
     // Login TextField
     
-    self.getLogin.layer.cornerRadius=8.0f;
-    self.getLogin.layer.masksToBounds=YES;
-    self.getLogin.layer.borderColor=[[UIColor whiteColor]CGColor];
-    self.getLogin.layer.borderWidth= 2.5f;
-    self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Login" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getLogin.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Choose your Username" attributes: @{NSForegroundColorAttributeName:color ,
+                                                                                                                            NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];
     self.getLogin.textColor = [UIColor whiteColor];
-
-    
+    self.getLogin.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getLogin.autocorrectionType = UITextAutocorrectionTypeNo;
     // Password TextField
     
-    self.getPassword.layer.cornerRadius=8.0f;
-    self.getPassword.layer.masksToBounds=YES;
-    self.getPassword.layer.borderColor=[[UIColor whiteColor]CGColor];
-    self.getPassword.layer.borderWidth= 2.5f;
+
     self.getPassword.secureTextEntry = YES;
-    self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Password" attributes:@{NSForegroundColorAttributeName: color}];
+    self.getPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Choose your password" attributes: @{NSForegroundColorAttributeName:color ,
+                                                                                                                               NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];
     self.getPassword.textColor = [UIColor whiteColor];
+    
+    self.getPassword.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
 
         // Email TextField
     
-    self.getEmail.layer.cornerRadius=8.0f;
-    self.getEmail.layer.masksToBounds=YES;
-    self.getEmail.layer.borderColor=[[UIColor whiteColor]CGColor];
-    self.getEmail.layer.borderWidth= 2.5f;
-    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter your Email" attributes:@{NSForegroundColorAttributeName: color}];
-    self.getEmail.textColor = [UIColor whiteColor];
-    [self.getEmail setKeyboardType:UIKeyboardTypeEmailAddress];
 
+    self.getEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString: @"Enter your E-mail (Optional)" attributes: @{NSForegroundColorAttributeName:color ,
+                                                                                                                            NSFontAttributeName :[UIFont fontWithName: @"HelveticaNeue-Thin" size:15]}];    self.getEmail.textColor = [UIColor whiteColor];
+    [self.getEmail setKeyboardType:UIKeyboardTypeEmailAddress];
+    
+    self.getEmail.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.getEmail.autocorrectionType = UITextAutocorrectionTypeNo;
     
     // Label
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Thin" size:25];
     
-    self.signUpLabel.text = @"Create Your \"Do\" Account";
-    self.signUpLabel.frame = CGRectMake(15, 100, 300, 50);
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString( @"Create Your  Account", nil)
+                                                                           attributes:textProperties];
+    textLayer.string = attributedString;
+    textLayer.frame = self.view.bounds;
     
-    self.signUpLabel.textColor = [UIColor whiteColor];
-    self.signUpLabel.font = [UIFont systemFontOfSize:25];
-    self.signUpLabel.textAlignment = NSTextAlignmentCenter;
+    UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+    self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+    self.imageView.layer.mask = textLayer;
+    
+    self.imageView.frame = CGRectMake(48,88,300,50);
+    [self.view addSubview: self.imageView];
     
     
+    // LINES
+    
+    self.line1 = [[UILabel alloc] initWithFrame:CGRectMake(30, 186, 260, 1)];
+    self.line1.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    
+    self.line2 = [[UILabel alloc] initWithFrame:CGRectMake(30, 236, 260, 1)];
+    self.line2.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    
+    self.line3 = [[UILabel alloc] initWithFrame:CGRectMake(30, 286, 260, 1)];
+    self.line3.backgroundColor = [UIColor colorWithRed:29/255.0f green:34/255.0f blue:62/255.0f alpha:1.0f];
+    
+    [self.view addSubview:self.line1];
+    [self.view addSubview:self.line2];
+    [self.view addSubview:self.line3];
     [self.view addSubview:self.getLogin];
     [self.view addSubview:self.getPassword];
     [self.view addSubview:self.createAccount];
@@ -110,19 +132,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Creating Account
+
 -(void)createAccount:(id)sender{
     
     //1
+     dispatch_async(dispatch_get_main_queue(),^{
+    [SVProgressHUD showWithStatus:@"Adding Account"];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
+
     
     PFUser *user = [PFUser user];
     //2
-    NSString *usernameLowerCase = self.getLogin.text;
-    usernameLowerCase = [usernameLowerCase lowercaseString];
-    user.username = usernameLowerCase;
+    user.username = self.getLogin.text;
     
-    NSString *passwordLowerCase = self.getPassword.text;
-    passwordLowerCase = [passwordLowerCase lowercaseString];
-    user.password = passwordLowerCase;
+    user.password = self.getPassword.text;
     
     user.email = self.getEmail.text;
     //3
@@ -133,33 +157,28 @@
             
             self.login = [[LoginViewController alloc] init];
             [self.navigationController pushViewController:self.login animated:YES];
+            [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe right to delete task" forNumber:1];
+            [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe left, find who gave you \"do\"" forNumber:2];
+            [[ParseStore sharedInstance] addTaskDoTeam:@"Hi, welcome in \"Do\" ;)" forNumber:0];
+
+            [SVProgressHUD dismiss];
             
         } else {
+            
             //Something bad has occurred
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [errorAlertView show];
+            [SVProgressHUD dismiss];
         }
     }];
+     });
     
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     [self.view endEditing:YES];
 }
--(UIColor *)randomColor{
-    
-    NSArray *rainbowColors = [[NSArray alloc] initWithObjects:
-                              [UIColor colorWithRed:255/255.0 green:232/255.0 blue:0/255.0 alpha:1],
-                              [UIColor colorWithRed:20/255.0 green:162/255.0 blue:212/255.0 alpha:1],
-                              [UIColor colorWithRed:175/255.0 green:94/255.0 blue:156/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:177/255.0 blue:106/255.0 alpha:1],
-                              [UIColor colorWithRed:247/255.0 green:148/255.0 blue:30/255.0 alpha:1],
-                              [UIColor colorWithRed:0/255.0 green:82/255.0 blue:156/255.0 alpha:1],
-                              nil];
-    
-    UIColor *color = [rainbowColors objectAtIndex:arc4random()%[rainbowColors count]];
-    return color;
-}
+
 
 @end

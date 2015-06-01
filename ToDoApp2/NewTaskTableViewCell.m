@@ -8,57 +8,78 @@
 
 #import "NewTaskTableViewCell.h"
 #import "ToDoViewController.h"
+#import "SVProgressHUD.h"
+
 
 @implementation NewTaskTableViewCell
+
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
+        self.background = [[UILabel alloc] init];
+        
         self.newestTask = [[UILabel alloc] init];
-        self.newestTask.frame = CGRectMake(0, 0, 300, 70);
+        self.newestTask.frame = CGRectMake(13, 0, 294, 66);
         self.newestTask.textColor = [UIColor whiteColor];
-        self.newestTask.font = [UIFont systemFontOfSize:26];
+        self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.newestTask setUserInteractionEnabled:YES];
         
+        self.contentView.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+        
         self.whoAddedTask = [[UILabel alloc] init];
-        self.whoAddedTask.frame = CGRectMake(0, 0, 320, 70);
+        self.whoAddedTask.frame = CGRectMake(0, 0, 320, 66);
         self.whoAddedTask.textColor = [UIColor whiteColor];
-        self.whoAddedTask.font = [UIFont systemFontOfSize:26];
+        self.whoAddedTask.userInteractionEnabled = NO;
+        self.whoAddedTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         self.whoAddedTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
-        
         [self.contentView addSubview:self.newestTask];
-        self.done = [[UIButton alloc] initWithFrame:(CGRectMake(0, 0, 200, 70))];
-        self.no = [[UIButton alloc] initWithFrame:(CGRectMake(200,0, 120, 70))];
-        self.done.titleLabel.text = @"Done";
-        self.done.titleLabel.font = [UIFont systemFontOfSize:26];
-        self.done.backgroundColor  = [UIColor colorWithRed:49/255.0f green:151/255.0f blue:43/255.0f alpha:1.0f];
-        self.no.titleLabel.text = @"No";
-        self.no.titleLabel.font = [UIFont systemFontOfSize:26];
-        self.no.backgroundColor =  [UIColor colorWithRed:227/255.0f green:4/255.0f blue:15/255.0f alpha:1.0f];
-        self.done.hidden = YES;
-        self.no.hidden = YES;
-        self.backgroundColor = [UIColor clearColor];
-        
-        [self.done addTarget:self action:@selector(doneFired:) forControlEvents:UIControlEventTouchUpInside];
-        [self.no addTarget:self action:@selector(noFired:) forControlEvents:UIControlEventTouchUpInside];
-        [self.no setTitle:@"No" forState:UIControlStateNormal];
-        [self.done setTitle:@"Done" forState:UIControlStateNormal];
-        
-        
-        self.done.tag = 10000;
-        self.no.tag = 10001;
+        [self.contentView insertSubview:self.whoAddedTask belowSubview:self.newestTask];
 
+        // confirm
+        
+        UIImage *confirmImage = [UIImage imageNamed:@"IcoCheckColor.png"];
+        self.confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.confirmButton setImage:confirmImage forState:UIControlStateNormal];
+        self.confirmButton.frame = CGRectMake(80, 0, 81, 75);
+        self.confirmButton.backgroundColor = [UIColor clearColor];
+        [self.confirmButton addTarget:self action:@selector(confirmTask) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:self.confirmButton];
+        [self.contentView insertSubview:self.confirmButton belowSubview:self.newestTask];
+        
+        self.confirmButton.hidden = YES;
+        
+        // no
+        
+        
+        self.no = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *plusImage = [UIImage imageNamed:@"IcoNo.png"];
+        [self.no setImage:plusImage forState:UIControlStateNormal];
+        self.no.backgroundColor = [UIColor clearColor];
+        [self.no addTarget:self action:@selector(noTask) forControlEvents:UIControlEventTouchUpInside];
+        self.no.frame = CGRectMake(150, 0, 81, 75);
+        
         [self.contentView addSubview:self.no];
-        [self.contentView addSubview:self.done];
+        [self.contentView insertSubview:self.no belowSubview:self.newestTask];
+        
+        self.no.hidden = YES;
+        
+        //
+        
+        self.currentStatus = SWIPE_TYPE_START;
+        
         [self.contentView insertSubview:self.whoAddedTask belowSubview:self.newestTask];
         
         UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRightInCell:)];
         [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
         
+        
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeLeftInCell:)];
         [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+        
         
         [self.newestTask addGestureRecognizer:swipeRight];
         [self.newestTask addGestureRecognizer:swipeLeft];
@@ -82,152 +103,96 @@
     
 }
 
--(void)didSwipeRightInCell:(id)sender {
+-(void)didSwipeRightInCell:(id)sender{
     
-    // Inform the delegate of the right swipe
-   // [delegate didSwipeRightInCellWithIndexPath:_indexPath];
-    
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    
-    // Swipe top view left
-    [UIView animateWithDuration:0.3 animations:^{
+    if (self.currentStatus == SWIPE_TYPE_LEFT) {
         
-        [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-        
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
+        }];
+        self.currentStatus = SWIPE_TYPE_START;
     }
-//                     completion:^(BOOL finished) {
-//        
-//        // Bounce lower view
-//        [UIView animateWithDuration:0.15 animations:^{
-//            
-//            [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-//            
-//        }
-//                         completion:^(BOOL finished) {
-//            
-//            [UIView animateWithDuration:0.15 animations:^{
-//                [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-//            }];
-//        }];
-//    }
-         ];
-    
- //   }];
+    else if (self.currentStatus == SWIPE_TYPE_START){
+        self.whoAddedTask.hidden = YES;
+        self.confirmButton.hidden = NO;
+        self.no.hidden = NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(260, 0, 294, 66)];
+        }];
+                
+        self.currentStatus = SWIPE_TYPE_RIGHT;
+    }
 }
 
 -(void)didSwipeLeftInCell:(id)sender {
     
-    // Inform the delegate of the left swipe
-   // [delegate didSwipeLeftInCellWithIndexPath:_indexPath];
-    
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.newestTask setFrame:CGRectMake(-270, 0, self.contentView.frame.size.width, 70)];
+    if (self.currentStatus == SWIPE_TYPE_START){
+        self.currentStatus = SWIPE_TYPE_LEFT;
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(-220, 0, 294, 66)];
+        }];
+    }else if (self.currentStatus == SWIPE_TYPE_RIGHT){
+        
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
+            self.currentStatus = SWIPE_TYPE_START;
+        } completion:^(BOOL finished) {
+            self.whoAddedTask.hidden = NO;
+            self.confirmButton.hidden = YES;
+            self.no.hidden = NO;
+            
+        }];
     }
-//                     completion:^(BOOL finished) {
-//        [UIView animateWithDuration:0.15 animations:^{
-//            [self.newestTask setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 70)];
-//        }];
-//    }
-     ];
+}
+-(void) noTask{
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
+        self.currentStatus = SWIPE_TYPE_START;
+    } completion:^(BOOL finished) {
+        self.whoAddedTask.hidden = NO;
+        self.confirmButton.hidden = YES;
+        self.no.hidden = NO;
+    }];
+}
+-(void) confirmTask{
+
+    
+    NSIndexPath *indexPath = [(UITableView *)self.superview.superview indexPathForCell: self];
+    
+    self.currentStatus = SWIPE_TYPE_START;
+    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    [UIView animateWithDuration:0.8 animations:^{
+        self.newestTask.text = @"Task Done";
+        self.newestTask.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:22];
+        [self.newestTask setFrame:CGRectMake(13, 0, 294, 66)];
+        
+    } completion:^(BOOL finished) {
+        self.whoAddedTask.hidden = NO;
+        self.confirmButton.hidden = YES;
+        self.no.hidden = NO;
+        self.newestTask.textColor = [UIColor whiteColor];
+        
+        [UIView transitionWithView:self.newestTask duration:0.7 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+            self.newestTask.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
+            self.newestTask.text = @"";
+        } completion:^(BOOL finished){
+            
+            [self.delegate removeTaskforRowAtIndexPath:indexPath];
+            
+        }];
+        
+    }];
+    
+    
+    self.currentStatus = SWIPE_TYPE_START;
+    
     
 }
 
-
--(void)noFired:(id)sender{
-
-    self.done.hidden = YES;
-    self.no.hidden = YES;
-    self.newestTask.hidden = NO;
-}
-
--(void)doneFired:(id)sender{
-    
-    self.blinkLabel = [[UILabel alloc] initWithFrame:self.frame];
-    self.blinkLabel.backgroundColor = [UIColor colorWithRed:255/255.0f green:114/255.0f blue:0/255.0f alpha:1];
-    self.blinkLabel.text = @"Task Done";
-    self.blinkLabel.textAlignment = NSTextAlignmentCenter;
-    self.blinkLabel.textColor = [UIColor whiteColor];
-    self.blinkLabel.font = [UIFont systemFontOfSize:26];
-    
-    
-    CGRect cellFrame = self.frame;
-    self.blinkLabel.frame = CGRectMake(cellFrame.origin.x, cellFrame.origin.y+self.superview.superview.frame.origin.y+64, cellFrame.size.width, cellFrame.size.height);
-    
-    UIView *view = [[[[self.contentView superview] superview] superview] superview];
-    [view addSubview:self.blinkLabel];
-    [view sendSubviewToBack:self.blinkLabel];
-    
-
-         [UITableViewCell animateWithDuration:1.0f
-                          animations:^
-          {
-              
-              [self setBounds:CGRectMake(-320, 0, 320, 78)];
-          }
-                          completion:^(BOOL finished)
-          {
-              
-              [[ParseStore sharedInstance] deleteTask:@""];
-              [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
-              self.done.hidden = YES;
-              self.no.hidden = YES;
-              self.newestTask.hidden = NO;
-              self.blinkLabel.hidden = YES;
-              [self setBounds:CGRectMake(0, 0, 320, 78)];
-          }
-          ];
-     }
-#pragma mark - horizontal pan gesture methods
-//-(BOOL)gestureRecognizerShouldBegin:(UISwipeGestureRecognizer *)gestureRecognizer {
-//    CGPoint translation = [gestureRecognizer translationInView:self.newestTask];
-//    // Check for horizontal gesture
-//    if (fabsf(translation.x) > fabsf(translation.y)) {
-//        return YES;
-//    }
-//    return NO;
-//}
-//
-//-(void)handlePan:(UIPanGestureRecognizer *)recognizer {
-//    // 1
-//    [self subviews];
-//    
-//    
-//    if (recognizer.state == UIGestureRecognizerStateBegan) {
-//        // if the gesture has just started, record the current centre location
-//        __originalCenter = self.newestTask.center;
-//    }
-//    
-//    // 2
-//    if (recognizer.state == UIGestureRecognizerStateChanged) {
-//        // translate the center
-//        CGPoint translation = [recognizer translationInView:self.newestTask];
-//        
-//        self.newestTask.center = CGPointMake(__originalCenter.x + translation.x, __originalCenter.y);
-//        // determine whether the item has been dragged far enough to initiate a delete / complete
-//        __deleteOnDragRelease = self.newestTask.frame.origin.x < -self.newestTask.frame.size.width / 2;
-//        
-//    }
-//    
-//    // 3
-//    if (recognizer.state == UIGestureRecognizerStateEnded) {
-//        CGPoint translation = [recognizer translationInView:self.newestTask];
-//        if (__originalCenter.x + translation.x > -110) {
-//            self.newestTask.center = CGPointMake(-110, __originalCenter.y);
-//        }
-//        // the frame this cell would have had before being dragged
-//        CGRect originalFrame = CGRectMake(0, self.newestTask.frame.origin.y,
-//                                          self.newestTask.bounds.size.width, self.newestTask.bounds.size.height);
-//        if (!__deleteOnDragRelease) {
-//            // if the item is not being deleted, snap back to the original location
-//            [UIView animateWithDuration:0.2
-//                             animations:^{
-//                                 self.newestTask.frame = originalFrame;
-//                             }
-//             ];
-//        }
-//    }
-//}
 
 @end

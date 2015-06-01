@@ -7,32 +7,29 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DoTask.h"
-#import "DoUser.h"
+#import "SVProgressHUD.h"
 #import <Parse/Parse.h>
 
 @interface DataStore : NSObject
 
 +(instancetype)sharedInstance;
 
--(void)loadData:(NSString *)keyString;
--(void)saveData:(NSArray *)array withKey:(NSString *)keyString;
+-(NSMutableArray *)loadData:(NSString *)keyString;
+-(void)saveData:(NSMutableArray *)myDictionary withKey:(NSString *)keyString;
+-(NSMutableArray *)loadFriends:(NSString *)keyString;
+-(void)addFriend:(PFUser *)friend;
+-(void)addTask:(PFObject*)task;
+-(NSDictionary *)changeData:(PFObject*)object;
+-(PFObject *)createTaskLocally:(NSString *)taskString withId:(NSString *)taskId;
+-(void)saveUser:(NSDictionary *)myDictionary withKey:(NSString *)keyString;
+-(void)changeUserData:(PFObject*)object;
+-(NSMutableDictionary *)changeTaskData:(PFObject *)object;
+- (NSMutableArray *)changeArrayOfParseObjects:(NSMutableArray *)array;
+-(UIColor *)randomColor:(NSUInteger )item;
+-(void)clearAll;
 
--(void)addTask:(NSString *)taskString;
--(void)deleteTask:(DoTask *)task;
-
--(void)loadFriends:(NSString *)keyString;
--(void)addFriend:(NSString *)item;
-
--(DoUser *)findFriendByID:(NSString *)idNumber;
--(void)addTaskForUser:(DoUser *)user item:(NSString *)item;
-//-(void)loadUserTasks:(NSString *)keyString;
--(void)addUser:(NSString *)item;
-
-@property (strong, nonatomic) NSMutableArray *arrayOfUsers;
-@property (strong, nonatomic) NSMutableArray *arrayOfFriends;
- @property (strong, nonatomic) NSMutableArray *arrayOfTasks;
-
-
+@property (strong, nonatomic) NSMutableArray *arrayOfFriendsLocally;
+@property (strong, nonatomic) NSMutableArray *arrayOfTasksLocally;
+@property (strong, nonatomic) NSMutableArray *arrayOfColorsToPick;
 
 @end

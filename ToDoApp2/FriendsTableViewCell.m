@@ -9,13 +9,13 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.newestFriend = [[UILabel alloc] init];
-        self.newestFriend.frame = CGRectMake(0, 0, 320, 70);
+        self.newestFriend.frame = CGRectMake(0, 0, 294, 66);
         self.newestFriend.textAlignment = NSTextAlignmentCenter;
         self.newestFriend.textColor = [UIColor whiteColor];
-        self.newestFriend.font = [UIFont systemFontOfSize:26];
-    
+        self.newestFriend.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
         [self.contentView addSubview:self.newestFriend];
     }
+    
     return self;
 }
 
