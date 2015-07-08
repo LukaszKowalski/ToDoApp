@@ -27,7 +27,7 @@
     self.sendSms.frame = CGRectMake(120, 110, 75, 75);
     self.sendSms.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     [self.sendSms addTarget:self action:@selector(sendSms:) forControlEvents:UIControlEventTouchUpInside];
-    UIImage *sms = [UIImage imageNamed:@"IcoPlus.png"];
+    UIImage *sms = [UIImage imageNamed:@"Invite.png"];
     [self.sendSms setImage:sms forState:UIControlStateNormal];
     [self.view addSubview:self.sendSms];
     
@@ -95,7 +95,7 @@
     }
     
     NSArray *recipents = nil;
-    NSString *message = [NSString stringWithFormat:@"Hi, find \"Do\" on the appstore! My username is: %@", [[PFUser currentUser] username]];
+    NSString *message = [NSString stringWithFormat:@"Hi, find \"Do\" on the appstore! My username is: %@. https://itunes.apple.com/us/app/doapp/id928866777", [[PFUser currentUser] username]];
     
     MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
     messageController.messageComposeDelegate = self;

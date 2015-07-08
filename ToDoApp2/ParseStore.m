@@ -77,6 +77,7 @@
                 [[DataStore sharedInstance] changeUserData:user];
                 [[PFUser currentUser] saveInBackground];
                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+                
             }
             }else{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];

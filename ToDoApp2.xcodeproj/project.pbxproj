@@ -55,6 +55,8 @@
 		C3DBD5F419BDDD84000F4EB0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3DBD5F319BDDD84000F4EB0 /* Security.framework */; };
 		C3DBD5F619BDDD8A000F4EB0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3DBD5F519BDDD8A000F4EB0 /* StoreKit.framework */; };
 		C3DBD5F819BDDD93000F4EB0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3DBD5F719BDDD92000F4EB0 /* SystemConfiguration.framework */; };
+		C3FF50741B2311B500218FC6 /* IcoSettings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3FF50721B2311B400218FC6 /* IcoSettings@2x.png */; };
+		C3FF50751B2311B500218FC6 /* Invite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C3FF50731B2311B400218FC6 /* Invite@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,7 +96,6 @@
 		C34BA16D1B1C75A700DE97D1 /* Rainbow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rainbow.png; sourceTree = "<group>"; };
 		C34BA16F1B1C75C600DE97D1 /* PassIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PassIcon@2x.png"; sourceTree = "<group>"; };
 		C34BA1711B1C75C900DE97D1 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
-		C34BA1731B1C75CD00DE97D1 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Invite@2x.png"; sourceTree = "<group>"; };
 		C34BA1741B1C760A00DE97D1 /* IcoTask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IcoTask@2x.png"; sourceTree = "<group>"; };
 		C34BA1761B1C772700DE97D1 /* IcoCheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IcoCheck@2x.png"; sourceTree = "<group>"; };
 		C37D37F119BF02B500CEAC31 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
@@ -136,6 +137,8 @@
 		C3DBD5F319BDDD84000F4EB0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C3DBD5F519BDDD8A000F4EB0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C3DBD5F719BDDD92000F4EB0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C3FF50721B2311B400218FC6 /* IcoSettings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IcoSettings@2x.png"; sourceTree = "<group>"; };
+		C3FF50731B2311B400218FC6 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Invite@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,9 +208,10 @@
 				C3C4FBCB198FC84100F36830 /* Frameworks */,
 				C3C4FBCA198FC84100F36830 /* Products */,
 				C3479E6A19D68DB40091D70E /* IcoFriends@2x.png */,
+				C3FF50721B2311B400218FC6 /* IcoSettings@2x.png */,
+				C3FF50731B2311B400218FC6 /* Invite@2x.png */,
 				C34BA16B1B1C74B200DE97D1 /* IcoCheckColor@2x.png */,
 				C34BA1711B1C75C900DE97D1 /* Back@2x.png */,
-				C34BA1731B1C75CD00DE97D1 /* Invite@2x.png */,
 				C348C4C71B1C96EA00D9ED54 /* IcoNo@2x.png */,
 				C34BA1761B1C772700DE97D1 /* IcoCheck@2x.png */,
 				C3479E6B19D68DB40091D70E /* DoLogo@2x.png */,
@@ -408,6 +412,7 @@
 			files = (
 				C34BA1721B1C75C900DE97D1 /* Back@2x.png in Resources */,
 				C3C4FBD7198FC84100F36830 /* InfoPlist.strings in Resources */,
+				C3FF50741B2311B500218FC6 /* IcoSettings@2x.png in Resources */,
 				C3479E6F19D68DB40091D70E /* IcoPlus@2x.png in Resources */,
 				C34BA1751B1C760A00DE97D1 /* IcoTask@2x.png in Resources */,
 				C3479E6E19D68DB40091D70E /* DoLogo@2x.png in Resources */,
@@ -417,6 +422,7 @@
 				C34BA16E1B1C75A700DE97D1 /* Rainbow.png in Resources */,
 				C3C4FBDF198FC84100F36830 /* Images.xcassets in Resources */,
 				C34BA1701B1C75C600DE97D1 /* PassIcon@2x.png in Resources */,
+				C3FF50751B2311B500218FC6 /* Invite@2x.png in Resources */,
 				C348C4CA1B1C97D300D9ED54 /* IcoLogout@2x.png in Resources */,
 				C34BA1771B1C772700DE97D1 /* IcoCheck@2x.png in Resources */,
 			);
@@ -578,9 +584,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ToDoApp2/ToDoApp2-Prefix.pch";
 				INFOPLIST_FILE = "ToDoApp2/ToDoApp2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ed74f806-85a2-43e2-b626-b3c1c295e1c9";
+				PROVISIONING_PROFILE = "68d70c35-0979-40ed-a661-c6bcf5722078";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -600,9 +606,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ToDoApp2/ToDoApp2-Prefix.pch";
 				INFOPLIST_FILE = "ToDoApp2/ToDoApp2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ed74f806-85a2-43e2-b626-b3c1c295e1c9";
+				PROVISIONING_PROFILE = "68d70c35-0979-40ed-a661-c6bcf5722078";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

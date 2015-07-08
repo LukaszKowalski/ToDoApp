@@ -139,7 +139,7 @@
     
     // settingsButton
     
-    UIImage *settingsImage = [UIImage imageNamed:@"IcoNo.png"];
+    UIImage *settingsImage = [UIImage imageNamed:@"IcoSettings.png"];
     self.settings = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.settings setImage:settingsImage forState:UIControlStateNormal];
     self.settings.frame = CGRectMake(20, 64, 81, 75);
