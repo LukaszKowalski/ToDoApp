@@ -13,6 +13,7 @@
 
 @implementation ToDoAppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -76,9 +77,11 @@
         [[ParseStore sharedInstance] loadTasks];
     }
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-
+    [FBSDKLoginButton class];
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     
-    
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                    didFinishLaunchingWithOptions:launchOptions];
     
     
     return YES;
@@ -103,6 +106,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+     [FBSDKAppEvents activateApp];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
@@ -147,6 +151,12 @@
 
     
     [PFPush handlePush:userInfo];
+}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
 
 

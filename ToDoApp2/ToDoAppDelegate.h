@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Lukasz Kowalski. All rights reserved.
 //
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <UIKit/UIKit.h>
 #import "ToDoViewController.h"
 #import "FriendsViewController.h"
@@ -13,7 +15,7 @@
 #include "LoginViewController.h"
 #import <MessageUI/MessageUI.h>
 
-@interface ToDoAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ToDoAppDelegate : UIResponder <UIApplicationDelegate>;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) ToDoViewController *toDo;

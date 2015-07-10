@@ -11,6 +11,9 @@
 @interface LoginViewController ()
 
 @property (strong, nonatomic) SignUpViewController *signUpController;
+@property (strong, nonatomic) UIView* popupView;
+@property (strong, nonatomic) NSString* username;
+@property (strong, nonatomic) NSString* email;
 
 
 @end
@@ -50,8 +53,14 @@
     [self.login setTitle:@"LOG IN" forState:UIControlStateNormal];
     [self.login setBackgroundColor:[UIColor colorWithRed:7/255.0f green:210/255.0f blue:126/255.0f alpha:1.0f]];
 
-    [self.login addTarget:self action:@selector(loginFired:) forControlEvents:UIControlEventTouchUpInside];
+    [self.login addTarget:self action:@selector(loginFired) forControlEvents:UIControlEventTouchUpInside];
     [self.login setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] initWithFrame:CGRectMake(30, 400, 260, 50)];
+    [loginButton addTarget:self action:@selector(_loginWithFacebook) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:loginButton];
+    
+    
     
     
     
@@ -121,7 +130,8 @@
     // Auto-login
 
 - (void)viewDidAppear:(BOOL)animated{
-
+    
+    
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
             [SVProgressHUD showWithStatus:@"Logging ..." maskType:SVProgressHUDMaskTypeGradient];
 
@@ -133,7 +143,10 @@
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
 
-                    }
+                } else if([PFUser currentUser]){
+                    self.toDo = [[ToDoViewController alloc] init];
+                    [self.navigationController pushViewController:self.toDo animated:YES];
+                }
         }];
     }
 }
@@ -153,8 +166,8 @@
 
 // Log in to the app
 
-- (void)loginFired:(id)sender{
-    
+- (void)loginFired{
+    NSLog(@"loginFired");
     [SVProgressHUD showWithStatus:@"Logging ..." maskType:SVProgressHUDMaskTypeGradient];
 
     NSString *loginWithLowerCase = self.getLogin.text;
@@ -164,7 +177,7 @@
     [passwordWithLowerCase lowercaseString];
     
         [PFUser logInWithUsernameInBackground:loginWithLowerCase password:passwordWithLowerCase block:^(PFUser *user, NSError *error) {
-            if (user) {
+            if (user || [PFUser currentUser]) {
                 //Open the wall
                 [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getLogin.text] forKey:@"username"];
                 [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getPassword.text] forKey:@"password"];
@@ -205,7 +218,40 @@
 {
     return YES;
 }
-
+- (void)_loginWithFacebook {
+    NSLog(@"fb");
+    // Set permissions required from the facebook user account
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"email"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        if (!user) {
+            NSLog(@"Uh oh. The user cancelled the Facebook login.");
+        } else if (user.isNew) {
+            NSLog(@"User signed up and logged in through Facebook!");
+            if ([FBSDKAccessToken currentAccessToken]) {
+                FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me?fields=id,first_name,email,last_name" parameters:nil];
+                [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                    if (!error) {
+                        // result is a dictionary with the user's Facebook data
+                        
+                        NSString *facebookID = result[@"id"];
+                        NSString *firstName = result[@"first_name"];
+                        NSString *lastName = result[@"last_name"];
+                        NSString *email = result[@"email"];
+                        
+                        NSLog(@"%@", result);
+                        [self createAccountwithFirstName:firstName withlastName:lastName withEmail:email];
+                    } else if ([PFUser currentUser]) {
+                            NSLog(@"User logged in through Facebook!");
+                            [self loginFired];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+            }}
+    }];
+}
 
 // ForgotPassword Button
 
@@ -227,6 +273,92 @@
 
     [PFUser requestPasswordResetForEmailInBackground:[NSString stringWithFormat:@"%@", textField.text]
 ];
+}
+
+-(void)createAccountwithFirstName:(NSString*)firstName withlastName:(NSString*)lastName withEmail:(NSString *)email{
+    
+    NSLog(@"%@, %@, %@", firstName, lastName, email);
+    
+    self.popupView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    UIView *alpha = [[UIView alloc] initWithFrame:self.popupView.frame];
+    alpha.backgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.4];
+    [self.popupView addSubview:alpha];
+
+    UIView *usernameAndEmailView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/10, self.view.frame.size.height/6, self.view.frame.size.width*0.8, self.view.frame.size.height*0.6)];
+    usernameAndEmailView.backgroundColor = [UIColor whiteColor];
+    [self.popupView addSubview:usernameAndEmailView];
+    
+    UITextField *username = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/10, usernameAndEmailView.frame.size.height/8, usernameAndEmailView.frame.size.width*0.9, usernameAndEmailView.frame.size.height*0.1)];
+    [username setAdjustsFontSizeToFitWidth:YES];
+    [usernameAndEmailView addSubview:username];
+    username.text = [NSString stringWithFormat:@"%@_%@", firstName, lastName];
+    self.username = username.text;
+    
+    UITextField *userEmail = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/10, usernameAndEmailView.frame.size.height/4, usernameAndEmailView.frame.size.width*0.9, usernameAndEmailView.frame.size.height*0.1)];
+    [usernameAndEmailView addSubview:userEmail];
+    [userEmail setAdjustsFontSizeToFitWidth:YES];
+    userEmail.text = email;
+    self.email = userEmail.text;
+    
+    UIButton *done = [[UIButton alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/10, usernameAndEmailView.frame.size.height/2, usernameAndEmailView.frame.size.width*0.8, usernameAndEmailView.frame.size.height*0.1)];
+    [usernameAndEmailView addSubview:done];
+    [done addTarget:self action:@selector(saveUserWithUsername:andWithEmail:) forControlEvents:UIControlEventTouchUpInside];
+    [done setTitle:@"DONE" forState:UIControlStateNormal];
+    [done setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    done.backgroundColor = [UIColor colorWithRed:7/255.0f green:210/255.0f blue:126/255.0f alpha:1.0f];
+    
+    
+    [self.view addSubview:self.popupView];
+//    //1
+//    dispatch_async(dispatch_get_main_queue(),^{
+//        [SVProgressHUD showWithStatus:@"Adding Account"];
+//        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
+//        
+//        
+//        PFUser *user = [PFUser user];
+//        //2
+//        user.username = self.getLogin.text;
+//        
+//        user.password = self.getPassword.text;
+//        
+////        user.email = self.getEmail.text;
+//        //3
+//        
+//        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//            if (!error) {
+//                //The registration was successful, go to the wall
+//                
+//                self.login = [[LoginViewController alloc] init];
+//                [self.navigationController pushViewController:self.login animated:YES];
+//                [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe right to delete task" forNumber:1];
+//                [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe left, find who gave you \"do\"" forNumber:2];
+//                [[ParseStore sharedInstance] addTaskDoTeam:@"Hi, welcome in \"Do\" ;)" forNumber:0];
+//                
+//                [SVProgressHUD dismiss];
+//                
+//            } else {
+//                
+//                //Something bad has occurred
+//                NSString *errorString = [[error userInfo] objectForKey:@"error"];
+//                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//                [errorAlertView show];
+//                [SVProgressHUD dismiss];
+//            }
+//        }];
+//    });
+//
+}
+-(void)saveUserWithUsername:(NSString*)username andWithEmail:(NSString*)email{
+    [[PFUser currentUser] setUsername:[NSString stringWithFormat:@"%@", self.username]];
+    [[PFUser currentUser] setEmail:[NSString stringWithFormat:@"%@", self.email]];
+    
+    [[PFUser currentUser] saveEventually];
+    [self.popupView removeFromSuperview];
+    [self loginFired];
+}
+- (void)_logOut  {
+    [PFUser logOut]; // Log out
 }
 
 @end

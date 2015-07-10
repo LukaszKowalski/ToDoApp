@@ -12,6 +12,9 @@
 #import "ToDoViewController.h"
 #import "ParseStore.h"
 #import "SignUpViewController.h"
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
 @interface LoginViewController : UIViewController
 
@@ -26,7 +29,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 @property (strong, nonatomic) ToDoViewController *toDoViewController;
 @property (nonatomic, strong) ToDoViewController *toDo;
-
+-(void)createAccountwithFirstName:(NSString*)firstName withlastName:(NSString*)lastName withEmail:(NSString *)email;
 
 
 @end
