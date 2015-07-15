@@ -35,7 +35,8 @@
 -(void)asignArrayOfTasks:(NSMutableArray *)array;
 -(void)addTaskDoTeam:(NSString *)taskString forNumber:(NSUInteger)number;
 -(void)addTask:(NSString *)taskString forUser:(NSString *)username withId:(NSString *)taskId;
-
+-(void)addFriendClass:(NSString *)username;
+-(void)addFriendFromFB:(NSString *)facebookID;
 
 @property (strong, nonatomic) NSMutableArray *arrayOfColors;
 @property (strong, nonatomic) NSDictionary *usersViewController;

@@ -72,11 +72,31 @@
             {
                 PFUser *user = [objects firstObject];
                 [user fetch];
-    
+                
                 [[PFUser currentUser] addObject:user.objectId forKey:@"friendsArray"];
+                
+                
+                NSLog(@"user = %@ curr= %@", user, [PFUser currentUser].objectId );
                 [[DataStore sharedInstance] changeUserData:user];
                 [[PFUser currentUser] saveInBackground];
+
                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+                
+            
+                PFQuery *userQuery=[PFUser query];
+                [userQuery whereKey:@"username" equalTo:username];
+                
+                // send push notification to the user
+                PFQuery *pushQuery = [PFInstallation query];
+                [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+                
+                PFPush *push = [PFPush new];
+                [push setQuery: pushQuery];
+                NSString *message= [NSString stringWithFormat:@"%@ has just added you as a friend",[PFUser currentUser].username ];
+                [push setData: @{ @"alert":message}];
+                [push setData: @{ @"alert":message, @"reloadFriends":@"reload data", @"friendName": username}];
+                [push sendPushInBackground];
+//                [self addFriendRemotly:username];
                 
             }
             }else{
@@ -88,6 +108,155 @@
     }];
 }
 
+-(void)addFriendClass:(NSString *)username{
+    
+    
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"username" equalTo:username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            
+            if (objects.count > 0) {
+                {
+                    PFUser *user = [objects firstObject];
+                    [user fetch];
+                    
+                    PFQuery *query = [PFQuery queryWithClassName:@"Friends"];
+                    [query whereKey:@"friendsArrayOwnerId" equalTo:[PFUser currentUser].objectId];
+
+                    // Retrieve the object by id
+                    [query getFirstObjectInBackgroundWithBlock:^(PFObject *Friend, NSError *error){
+                        if(!error){
+                            
+                            [Friend addObject:user.objectId forKey:@"friendsArray"];
+                            [Friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (succeeded) {
+                                    [self addFriendRemotly:user.objectId];
+                                    
+                                } else {
+                                    // There was a problem, check error.description
+                                }
+                            }];
+                            
+                        } else {
+                            
+                            PFObject *friend = [PFObject objectWithClassName:@"Friends"];
+                            friend[@"friendsArrayOwnerId"] = [PFUser currentUser].objectId;
+                            [friend addObject:user.objectId forKey:@"friendsArray"];
+                            [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (succeeded) {
+                                    [self addFriendRemotly:user.objectId];
+
+                                } else {
+                                    // There was a problem, check error.description
+                                }
+                            }];
+                            NSLog(@"error: %@", error);
+                        }
+                    }];
+                }
+            }else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"error" message:@"user doesn't exist" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil, nil];
+                [SVProgressHUD dismiss];
+                [alert show];
+            }
+        }
+    }];
+
+    
+}
+
+-(void)addFriendFromFB:(NSString *)facebookID{
+    
+    PFQuery *query = [PFUser query];
+    NSLog(@"tutaj sie wyjebuje %@", [PFUser currentUser].objectId);
+
+    [query whereKey:@"fbId" equalTo:facebookID];
+    NSLog(@"tutaj sie wyjebuje %@", facebookID);
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSLog(@"%lu", (unsigned long)objects.count);
+            if (objects.count > 0) {
+                {
+                    PFUser *user = [objects firstObject];
+                    [user fetch];
+                    
+                    PFQuery *query = [PFQuery queryWithClassName:@"Friends"];
+                    NSLog(@"tutaj sie wyjebuje %@", [PFUser currentUser].objectId);
+                    [query whereKey:@"friendsArrayOwnerId" equalTo:[PFUser currentUser].objectId];
+                    
+                    // Retrieve the object by id
+                    [query getFirstObjectInBackgroundWithBlock:^(PFObject *Friend, NSError *error){
+                        if(!error){
+                            
+                            [Friend addObject:user.objectId forKey:@"friendsArray"];
+                            [Friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (succeeded) {
+                                    [self addFriendRemotly:user.objectId];
+                                    
+                                } else {
+                                    // There was a problem, check error.description
+                                }
+                            }];
+                            
+                        } else {
+                            
+                            PFObject *friend = [PFObject objectWithClassName:@"Friends"];
+                            friend[@"friendsArrayOwnerId"] = [PFUser currentUser].objectId;
+                            [friend addObject:user.objectId forKey:@"friendsArray"];
+                            [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (succeeded) {
+                                    [self addFriendRemotly:user.objectId];
+                                    
+                                } else {
+                                    // There was a problem, check error.description
+                                }
+                            }];
+                            NSLog(@"error: %@", error);
+                        }
+                    }];
+                }
+            }else{
+                NSLog(@"kurwa %@", error);
+                [SVProgressHUD dismiss];
+            }
+        }
+    }];
+    
+    
+}
+
+
+-(void)addFriendRemotly:(NSString *)friendsId{
+    // Check if User exists.
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Friends"];
+    [query whereKey:@"friendsArrayOwnerId" equalTo:friendsId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *Friend, NSError *error){
+        if(!error){
+            
+            [Friend addObject:[PFUser currentUser].objectId forKey:@"friendsArray"];
+            [Friend saveInBackground];
+            
+        } else {
+            
+            PFObject *friend = [PFObject objectWithClassName:@"Friends"];
+            friend[@"friendsArrayOwnerId"] = friendsId;
+            [friend addObject:[PFUser currentUser].objectId forKey:@"friendsArray"];
+            [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    // The object has been saved.
+                } else {
+                    // There was a problem, check error.description
+                }
+            }];
+            
+            NSLog(@"error: %@", error);
+            
+        }}];
+
+}
 
 -(void)deleteTask:(NSString *)taskString withId:(NSString *)taskId{
     
@@ -144,9 +313,10 @@
 {    
       __block NSMutableArray *arrayOfParseFriends = [NSMutableArray new];
     
-    PFQuery *query= [PFUser query];
-    [query whereKey:@"username" equalTo:[[PFUser currentUser]username]];
-    [query getFirstObjectInBackgroundWithBlock:^(PFObject *objects, NSError *error){
+    
+     PFQuery *friendsQuery = [PFQuery queryWithClassName:@"Friends"];
+    [friendsQuery whereKey:@"friendsArrayOwnerId" equalTo:[PFUser currentUser].objectId];
+    [friendsQuery getFirstObjectInBackgroundWithBlock:^(PFObject *objects, NSError *error){
         
         if (!error) {
             arrayOfParseFriends = [objects objectForKey:@"friendsArray"];

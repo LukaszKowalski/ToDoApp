@@ -14,12 +14,11 @@
 @property (strong, nonatomic) UIView* popupView;
 @property (strong, nonatomic) NSString* username;
 @property (strong, nonatomic) NSString* email;
-
+@property (strong, nonatomic) NSString* fbId;
 
 @end
 
 @implementation LoginViewController
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +31,7 @@
     self.getPassword = [[UITextField alloc] init];
     self.doSign = [[UILabel alloc]initWithFrame:CGRectMake(60, 30, 200, 200)];
 
-    self.signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(90, 360, 150, 40)];
+    self.signUpButton = [[UIButton alloc] initWithFrame:CGRectMake(90, 430, 150, 40)];
     [self.signUpButton setTitle:@"REGISTER" forState:UIControlStateNormal];
     [self.signUpButton setBackgroundColor:[UIColor clearColor]];
     [self.signUpButton addTarget:self action:@selector(createUserAccount) forControlEvents:UIControlEventTouchUpInside];
@@ -40,7 +39,7 @@
 
     self.signUpButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:12];
     
-    self.forgotPassword = [[UIButton alloc] initWithFrame:CGRectMake(90, 400, 150, 40)];
+    self.forgotPassword = [[UIButton alloc] initWithFrame:CGRectMake(90, 470, 150, 40)];
     [self.forgotPassword setTitle:@"FORGOT PASSWORD?" forState:UIControlStateNormal];
     [self.forgotPassword setBackgroundColor:[UIColor clearColor]];
     [self.forgotPassword addTarget:self action:@selector(forgotPasswordProblem) forControlEvents:UIControlEventTouchUpInside];
@@ -56,8 +55,11 @@
     [self.login addTarget:self action:@selector(loginFired) forControlEvents:UIControlEventTouchUpInside];
     [self.login setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] initWithFrame:CGRectMake(30, 400, 260, 50)];
+    UIButton *loginButton = [[UIButton alloc] initWithFrame:CGRectMake(30, 360, 260, 50)];
     [loginButton addTarget:self action:@selector(_loginWithFacebook) forControlEvents:UIControlEventTouchUpInside];
+//    loginButton.readPermissions = @[ @"user_about_me", @"user_friends", @"email"];
+//    loginButton.delegate = self;
+    loginButton.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:loginButton];
     
     
@@ -65,21 +67,15 @@
     
     
     // UITextFields
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
-    self.getLogin.leftView = paddingView;
-    self.getLogin.leftViewMode = UITextFieldViewModeAlways;
-    self.getLogin.textAlignment = NSTextAlignmentCenter;
 
-    
+    self.getLogin.textAlignment = NSTextAlignmentCenter;
     self.getLogin.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getLogin.autocorrectionType = UITextAutocorrectionTypeNo;
-    
-    UIView *paddingViewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
-    self.getPassword.leftView = paddingViewOne;
-    self.getPassword.leftViewMode = UITextFieldViewModeAlways;
+    self.getLogin.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+
+
     self.getPassword.textAlignment = NSTextAlignmentCenter;
-    
-    
+    self.getPassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;    
     self.getPassword.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
     
@@ -129,7 +125,7 @@
 
     // Auto-login
 
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated{
     
     
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]) {
@@ -143,10 +139,10 @@
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
 
-                } else if([PFUser currentUser]){
+                } else if ([PFUser currentUser]){
                     self.toDo = [[ToDoViewController alloc] init];
                     [self.navigationController pushViewController:self.toDo animated:YES];
-                }
+                        }
         }];
     }
 }
@@ -176,7 +172,9 @@
     [loginWithLowerCase lowercaseString];
     [passwordWithLowerCase lowercaseString];
     
-        [PFUser logInWithUsernameInBackground:loginWithLowerCase password:passwordWithLowerCase block:^(PFUser *user, NSError *error) {
+        [PFUser logInWithUsernameInBackground:loginWithLowerCase
+                                     password:passwordWithLowerCase
+                                        block:^(PFUser *user, NSError *error) {
             if (user || [PFUser currentUser]) {
                 //Open the wall
                 [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", self.getLogin.text] forKey:@"username"];
@@ -210,6 +208,38 @@
             }
         }];
     }
+
+- (void)  loginButton:(FBSDKLoginButton *)loginButton
+didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
+                error:(NSError *)error{
+    NSLog(@"sukces %@",[result token]);
+    NSLog(@"sukces %@",[result grantedPermissions]);
+    NSLog(@"error %@",error);
+    
+    if ([FBSDKAccessToken currentAccessToken]) {
+        FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me?fields=id,first_name,email,last_name"
+                                                                       parameters:nil];
+        [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+            if (!error) {
+                // result is a dictionary with the user's Facebook data
+                NSString *firstName = result[@"first_name"];
+                NSString *lastName = result[@"last_name"];
+                NSString *email = result[@"email"];
+                NSString *fbId = result[@"id"];
+                self.fbId = fbId;
+                
+                
+                [self createAccountwithFirstName:firstName withlastName:lastName withEmail:email];
+            }
+        }];
+    }
+}
+
+- (void)loginButtonDidLogOut:(FBSDKLoginButton *)loginButton{
+    NSLog(@"logout");
+
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     [self.view endEditing:YES];
@@ -221,12 +251,13 @@
 - (void)_loginWithFacebook {
     NSLog(@"fb");
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"email"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"email"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
             NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            NSLog(@"Facebook error: %@", error);
         } else if (user.isNew) {
             NSLog(@"User signed up and logged in through Facebook!");
             if ([FBSDKAccessToken currentAccessToken]) {
@@ -234,24 +265,67 @@
                 [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
                     if (!error) {
                         // result is a dictionary with the user's Facebook data
-                        
-                        NSString *facebookID = result[@"id"];
                         NSString *firstName = result[@"first_name"];
                         NSString *lastName = result[@"last_name"];
                         NSString *email = result[@"email"];
+                        NSString *fbId = result[@"id"];
+                        self.fbId = fbId;
+
                         
-                        NSLog(@"%@", result);
                         [self createAccountwithFirstName:firstName withlastName:lastName withEmail:email];
-                    } else if ([PFUser currentUser]) {
-                            NSLog(@"User logged in through Facebook!");
-                            [self loginFired];
-                    } else {
-                        NSLog(@"%@", error);
-                    }
+                                }
                 }];
-            }}
+            }
+
+            
+            
+        } else {
+            NSLog(@"User logged in through Facebook!");
+            [self loginFired];
+        }
     }];
 }
+
+//- (void)loginFB {
+//    NSLog(@"fb");
+//    // Set permissions required from the facebook user account
+//    NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"email"];
+//    
+//    // Login PFUser using Facebook
+//    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+//        if (!user) {
+//            NSLog(@"Uh oh. The user cancelled the Facebook login.");
+//            NSLog(@"Facebook error: %@", error);
+//        } else if (user.isNew) {
+//            NSLog(@"User signed up and logged in through Facebook!");
+//            if ([FBSDKAccessToken currentAccessToken]) {
+//                FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me?fields=id,first_name,email,last_name" parameters:nil];
+//                [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+//                    if (!error) {
+//                        // result is a dictionary with the user's Facebook data
+//                        NSString *firstName = result[@"first_name"];
+//                        NSString *lastName = result[@"last_name"];
+//                        NSString *email = result[@"email"];
+//                        NSString *fbId = result[@"id"];
+//                        self.fbId = fbId;
+//                        
+//                        
+//                        [self createAccountwithFirstName:firstName withlastName:lastName withEmail:email];
+//                    }
+//                }];
+//            }
+//            
+//            
+//            
+//        } else {
+//            NSLog(@"User logged in through Facebook!");
+//            [self loginFired];
+//        }
+//    }];
+//}
+
+//            NSLog(@"User signed up and logged in through Facebook!");
+
 
 // ForgotPassword Button
 
@@ -285,23 +359,32 @@
     alpha.backgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.4];
     [self.popupView addSubview:alpha];
 
-    UIView *usernameAndEmailView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/10, self.view.frame.size.height/6, self.view.frame.size.width*0.8, self.view.frame.size.height*0.6)];
+    UIView *usernameAndEmailView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/32, self.view.frame.size.height/6, self.view.frame.size.width*30/32, self.view.frame.size.height*0.6)];
     usernameAndEmailView.backgroundColor = [UIColor whiteColor];
     [self.popupView addSubview:usernameAndEmailView];
     
-    UITextField *username = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/10, usernameAndEmailView.frame.size.height/8, usernameAndEmailView.frame.size.width*0.9, usernameAndEmailView.frame.size.height*0.1)];
+    UITextField *username = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/32, usernameAndEmailView.frame.size.height/8, usernameAndEmailView.frame.size.width*30/32, usernameAndEmailView.frame.size.height*0.1)];
+    username.layer.borderColor = UIColor.blackColor.CGColor;
+    username.layer.borderWidth = 1;
+    username.layer.masksToBounds = true;
+    username.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+
     [username setAdjustsFontSizeToFitWidth:YES];
     [usernameAndEmailView addSubview:username];
-    username.text = [NSString stringWithFormat:@"%@_%@", firstName, lastName];
+    username.text = [[NSString stringWithFormat:@"%@_%@", firstName, lastName] lowercaseString];
     self.username = username.text;
     
-    UITextField *userEmail = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/10, usernameAndEmailView.frame.size.height/4, usernameAndEmailView.frame.size.width*0.9, usernameAndEmailView.frame.size.height*0.1)];
+    UITextField *userEmail = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/32, usernameAndEmailView.frame.size.height/4, usernameAndEmailView.frame.size.width*30/32, usernameAndEmailView.frame.size.height*0.1)];
+    userEmail.layer.borderColor = UIColor.blackColor.CGColor;
+    userEmail.layer.borderWidth = 1;
+    userEmail.layer.masksToBounds = true;
+    userEmail.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [usernameAndEmailView addSubview:userEmail];
     [userEmail setAdjustsFontSizeToFitWidth:YES];
     userEmail.text = email;
     self.email = userEmail.text;
     
-    UIButton *done = [[UIButton alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/10, usernameAndEmailView.frame.size.height/2, usernameAndEmailView.frame.size.width*0.8, usernameAndEmailView.frame.size.height*0.1)];
+    UIButton *done = [[UIButton alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/30, usernameAndEmailView.frame.size.height*0.8, usernameAndEmailView.frame.size.width*28/30, usernameAndEmailView.frame.size.height*0.15)];
     [usernameAndEmailView addSubview:done];
     [done addTarget:self action:@selector(saveUserWithUsername:andWithEmail:) forControlEvents:UIControlEventTouchUpInside];
     [done setTitle:@"DONE" forState:UIControlStateNormal];
@@ -310,55 +393,70 @@
     
     
     [self.view addSubview:self.popupView];
-//    //1
-//    dispatch_async(dispatch_get_main_queue(),^{
-//        [SVProgressHUD showWithStatus:@"Adding Account"];
-//        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient];
-//        
-//        
-//        PFUser *user = [PFUser user];
-//        //2
-//        user.username = self.getLogin.text;
-//        
-//        user.password = self.getPassword.text;
-//        
-////        user.email = self.getEmail.text;
-//        //3
-//        
-//        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//            if (!error) {
-//                //The registration was successful, go to the wall
-//                
-//                self.login = [[LoginViewController alloc] init];
-//                [self.navigationController pushViewController:self.login animated:YES];
-//                [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe right to delete task" forNumber:1];
-//                [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe left, find who gave you \"do\"" forNumber:2];
-//                [[ParseStore sharedInstance] addTaskDoTeam:@"Hi, welcome in \"Do\" ;)" forNumber:0];
-//                
-//                [SVProgressHUD dismiss];
-//                
-//            } else {
-//                
-//                //Something bad has occurred
-//                NSString *errorString = [[error userInfo] objectForKey:@"error"];
-//                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-//                [errorAlertView show];
-//                [SVProgressHUD dismiss];
-//            }
-//        }];
-//    });
-//
+
 }
+
 -(void)saveUserWithUsername:(NSString*)username andWithEmail:(NSString*)email{
     [[PFUser currentUser] setUsername:[NSString stringWithFormat:@"%@", self.username]];
     [[PFUser currentUser] setEmail:[NSString stringWithFormat:@"%@", self.email]];
+    [[PFUser currentUser] setPassword:[NSString stringWithFormat:@"%@", [self randomStringWithLength:6]]];
+    [[PFUser currentUser] setObject:self.fbId forKey:@"fbId"];
     
-    [[PFUser currentUser] saveEventually];
+    NSLog(@"username %@", self.username);
+    
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+                    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                                    initWithGraphPath:@"/me/friends"
+                                                    parameters:nil
+                                                    HTTPMethod:@"GET"];
+                    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                                            id result,
+                                                            NSError *error) {
+                        NSLog(@"rezultaty = %@", result);
+                        NSDictionary *data = [(NSDictionary *)result objectForKey:@"data"];
+                        if (result != NULL){
+                            for (NSDictionary* fbFriend in data) {
+                                NSString *facebookID = [fbFriend objectForKey:@"id"];
+                                // do stuff
+                                NSLog(@"trying to add friend %@", facebookID);
+                                [[ParseStore sharedInstance] addFriendFromFB:facebookID];
+                            }
+            
+                        }
+                           NSLog(@"error = %@", error);
+                    }];
+            
+        } else {
+            // There was a problem, check error.description
+        }
+    }];
+    
+       
+    [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe right to delete task" forNumber:1];
+    [[ParseStore sharedInstance] addTaskDoTeam:@"Swipe left, find who gave you \"do\"" forNumber:2];
+    [[ParseStore sharedInstance] addTaskDoTeam:@"Hi, welcome in \"Do\" ;)" forNumber:0];
+    
     [self.popupView removeFromSuperview];
     [self loginFired];
 }
+
 - (void)_logOut  {
+    NSLog(@"logout");
     [PFUser logOut]; // Log out
+}
+
+-(NSString *) randomStringWithLength: (int) len {
+    
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+    
+    for (int i=0; i<len; i++) {
+        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform([letters length])]];
+    }
+    
+    return randomString;
 }
 
 @end

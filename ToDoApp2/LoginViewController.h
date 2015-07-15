@@ -16,7 +16,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <FBSDKLoginButtonDelegate>
 
 @property (strong, nonatomic) UITextField *getLogin;
 @property (strong, nonatomic) UITextField *getPassword;

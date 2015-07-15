@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     // Sms Button
     
 
@@ -45,17 +47,19 @@
     [self.logout setImage:logout forState:UIControlStateNormal];
     
     // Invite Button
-    
-    self.invite = [[UILabel alloc] initWithFrame:CGRectMake(100, 70, 320, 75)];
+
+    self.invite = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, 75)];
     self.invite.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+    self.invite.textAlignment = NSTextAlignmentCenter;
     self.invite.text = @"Invite Friends";
     self.invite.textColor = [UIColor whiteColor];
     [self.view addSubview:self.invite];
     
     // Logout Label
     
-    self.logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 180, 320, 75)];
+    self.logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 180, self.view.frame.size.width, 75)];
     self.logoutLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+    self.logoutLabel.textAlignment = NSTextAlignmentCenter;
     self.logoutLabel.text = @"Log Out";
     self.logoutLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:self.logoutLabel];
@@ -65,18 +69,21 @@
     CATextLayer *textLayer = [[CATextLayer alloc] init];
     textLayer.contentsScale = [UIScreen mainScreen].scale;
     NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
-    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0f];
     
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Settings", nil)
                                                                            attributes:textProperties];
     textLayer.string = attributedString;
+    textLayer.alignmentMode = kCAAlignmentCenter;
     textLayer.frame = self.view.bounds;
     
     UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(125,30,320,40);
+//    self.imageView.frame = CGRectMake(125,30,320,40);
+    self.imageView.frame = CGRectMake(0, 30, self.view.frame.size.width, 40);
+
     [self.view addSubview: self.imageView];
 
     

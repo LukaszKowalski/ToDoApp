@@ -20,6 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
     
     self.view.backgroundColor = [UIColor colorWithRed:48/255.0f green:52/255.0f blue:104/255.0f alpha:1.0f];
     self.signUpLabel = [[UILabel alloc] init];
@@ -34,9 +36,9 @@
     [self.createAccount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
     
-    self.getLogin.frame = CGRectMake(63, 140, 200, 50);
-    self.getPassword.frame  = CGRectMake(63, 190, 200, 50);
-    self.getEmail.frame = CGRectMake(50, 240, 260, 50);
+    self.getLogin.frame = CGRectMake(0, 140, self.view.frame.size.width, 50);
+    self.getPassword.frame  = CGRectMake(0, 190, self.view.frame.size.width, 50);
+    self.getEmail.frame = CGRectMake(0, 240, self.view.frame.size.width, 50);
     self.getLogin.textAlignment = NSTextAlignmentCenter;
     self.getEmail.textAlignment = NSTextAlignmentCenter;
     self.getPassword.textAlignment = NSTextAlignmentCenter;
@@ -65,6 +67,7 @@
     self.getLogin.textColor = [UIColor whiteColor];
     self.getLogin.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getLogin.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.getLogin.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     // Password TextField
     
 
@@ -75,6 +78,7 @@
     
     self.getPassword.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getPassword.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.getPassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 
         // Email TextField
     
@@ -85,6 +89,8 @@
     
     self.getEmail.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.getEmail.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.getEmail.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+
     
     // Label
     CATextLayer *textLayer = [[CATextLayer alloc] init];
@@ -95,13 +101,15 @@
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString( @"Create Your  Account", nil)
                                                                            attributes:textProperties];
     textLayer.string = attributedString;
+    textLayer.alignmentMode = kCAAlignmentCenter;
     textLayer.frame = self.view.bounds;
     
     UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(48,88,300,50);
+    self.imageView.frame = CGRectMake(0, 88, self.view.frame.size.width, 50);
+
     [self.view addSubview: self.imageView];
     
     

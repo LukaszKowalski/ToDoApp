@@ -89,18 +89,19 @@
     CATextLayer *textLayer = [[CATextLayer alloc] init];
     textLayer.contentsScale = [UIScreen mainScreen].scale;
     NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
-    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0f];
     
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@'s list", self.titleName]
                                                                            attributes:textProperties];
     textLayer.string = attributedString;
+    textLayer.alignmentMode = kCAAlignmentCenter;
     textLayer.frame = self.view.bounds;
     
     UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
     
-    self.imageView.frame = CGRectMake(122,30,320,40);
+    self.imageView.frame = CGRectMake(0, 30, self.view.frame.size.width, 40);
     [self.view addSubview: self.imageView];
 
     

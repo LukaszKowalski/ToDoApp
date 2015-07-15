@@ -51,19 +51,20 @@
     CATextLayer *textLayer = [[CATextLayer alloc] init];
     textLayer.contentsScale = [UIScreen mainScreen].scale;
     NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
-    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0f];
     
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"My Tasks", nil)
                                                                            attributes:textProperties];
     
     textLayer.string = attributedString;
+    textLayer.alignmentMode = kCAAlignmentCenter;
     textLayer.frame = self.view.bounds;
     
     UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
-    
-    self.imageView.frame = CGRectMake(125,30,320,40);
+    self.imageView.frame = CGRectMake(0, 30, self.view.frame.size.width, 40);
+
     [self.view addSubview: self.imageView];
 
 
@@ -161,6 +162,7 @@
     // initArrays with data
     
     [self reloadTableView];
+    [self showAlertNoTasks];
     
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -195,6 +197,7 @@
     self.delegate = self;
     [self.tableView reloadData];
     [SVProgressHUD dismiss];
+
 }
 -(void)removeTaskforRowAtIndexPath:(NSIndexPath *)integer{
     
@@ -329,8 +332,13 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    NSLog(@"wywołuje się");
+    if ([textField.text isEqual:@""]) {
+        return YES;
+    }
     
     NSString *newTask = textField.text;
+    NSLog(@"newTask = %@", textField.text);
     textField.text = @"";
     [self.addTaskTextField resignFirstResponder];
     self.friendsLists.hidden = NO;
@@ -370,6 +378,24 @@
     return YES;
 }
 
+-(void)showAlertNoTasks{
+        if (self.arrayOfParseTasks && self.arrayOfParseTasks.count == 0) {
+                NSLog(@"dupa");
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You don't have any tasks" message:@"It's seems like you've got nothing to do. Add some tasks and be more productive" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            UITextField *textField = [alert textFieldAtIndex:0];
+            textField.placeholder = @"Add your task";
+            [alert textFieldAtIndex:0].delegate = self;
+            [alert show];
+            [self textFieldShouldReturn:textField];
 
+        }
+}
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    [self.addTaskButton setTransform:CGAffineTransformRotate(self.addTaskButton.transform, M_PI/4)];
+    [self textFieldShouldReturn:textField];
+}
 
 @end

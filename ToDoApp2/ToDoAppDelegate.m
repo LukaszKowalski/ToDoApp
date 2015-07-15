@@ -148,11 +148,22 @@
         [[ParseStore sharedInstance] loadTasks];
         
     }
+    if ([userInfo objectForKey:@"reloadFriends"]) {
+        // handle recived notification
+        //        NSString *newTask = [userInfo objectForKey:@"taskString"];
+        //        PFObject *task = [[DataStore sharedInstance] createTaskLocally:newTask];
+        //        [[DataStore sharedInstance] addTask:task];
+        [[ParseStore sharedInstance] loadFriends];
+        
+    }
+    
 
     
     [PFPush handlePush:userInfo];
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    NSLog(@"dupa wrocilem");
+    
     return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                           openURL:url
                                                 sourceApplication:sourceApplication
