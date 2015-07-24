@@ -113,7 +113,7 @@
     self.addTaskTextField.textAlignment= NSTextAlignmentCenter;
     self.addTaskTextField.textColor = [[ParseStore   sharedInstance] randomColor];
     self.addTaskTextField.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:20];
-    self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task"];
+    self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task %@", [[PFUser currentUser]username]];
     self.addTaskTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.addTaskTextField.hidden = YES;
     self.addTaskTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -263,7 +263,7 @@
     if (self.addTaskButton.tag == 1) {
         
         self.addTaskTextField.alpha = 1;
-        self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task"];
+        self.addTaskTextField.placeholder = [NSString stringWithFormat:@"Type your task %@", [[PFUser currentUser]username]];
 
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     

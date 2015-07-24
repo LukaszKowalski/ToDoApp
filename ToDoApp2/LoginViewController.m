@@ -57,12 +57,11 @@
     
     UIButton *loginButton = [[UIButton alloc] initWithFrame:CGRectMake(30, 360, 260, 50)];
     [loginButton addTarget:self action:@selector(_loginWithFacebook) forControlEvents:UIControlEventTouchUpInside];
-//    loginButton.readPermissions = @[ @"user_about_me", @"user_friends", @"email"];
-//    loginButton.delegate = self;
-    loginButton.backgroundColor = [UIColor whiteColor];
+    [loginButton setImage:[UIImage imageNamed:@"facebook.png"] forState:UIControlStateNormal];
+    [loginButton setImage:[UIImage imageNamed:@"facebook_off.png"] forState:UIControlStateSelected];
     [self.view addSubview:loginButton];
     
-    
+
     
     
     
@@ -286,47 +285,6 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
     }];
 }
 
-//- (void)loginFB {
-//    NSLog(@"fb");
-//    // Set permissions required from the facebook user account
-//    NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"email"];
-//    
-//    // Login PFUser using Facebook
-//    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-//        if (!user) {
-//            NSLog(@"Uh oh. The user cancelled the Facebook login.");
-//            NSLog(@"Facebook error: %@", error);
-//        } else if (user.isNew) {
-//            NSLog(@"User signed up and logged in through Facebook!");
-//            if ([FBSDKAccessToken currentAccessToken]) {
-//                FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me?fields=id,first_name,email,last_name" parameters:nil];
-//                [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-//                    if (!error) {
-//                        // result is a dictionary with the user's Facebook data
-//                        NSString *firstName = result[@"first_name"];
-//                        NSString *lastName = result[@"last_name"];
-//                        NSString *email = result[@"email"];
-//                        NSString *fbId = result[@"id"];
-//                        self.fbId = fbId;
-//                        
-//                        
-//                        [self createAccountwithFirstName:firstName withlastName:lastName withEmail:email];
-//                    }
-//                }];
-//            }
-//            
-//            
-//            
-//        } else {
-//            NSLog(@"User logged in through Facebook!");
-//            [self loginFired];
-//        }
-//    }];
-//}
-
-//            NSLog(@"User signed up and logged in through Facebook!");
-
-
 // ForgotPassword Button
 
 - (void)forgotPasswordProblem{
@@ -359,30 +317,66 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
     alpha.backgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.4];
     [self.popupView addSubview:alpha];
 
+    //Popup
+    
     UIView *usernameAndEmailView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/32, self.view.frame.size.height/6, self.view.frame.size.width*30/32, self.view.frame.size.height*0.6)];
     usernameAndEmailView.backgroundColor = [UIColor whiteColor];
     [self.popupView addSubview:usernameAndEmailView];
     
-    UITextField *username = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/32, usernameAndEmailView.frame.size.height/8, usernameAndEmailView.frame.size.width*30/32, usernameAndEmailView.frame.size.height*0.1)];
+    // Username
+    
+    UILabel *yourUsername = [[UILabel alloc] initWithFrame:CGRectMake(0, 60, usernameAndEmailView.frame.size.width, usernameAndEmailView.frame.size.height*0.1)];
+    yourUsername.text = @"Your username";
+    yourUsername.textAlignment = NSTextAlignmentCenter;
+    [usernameAndEmailView addSubview:yourUsername];
+    
+    UITextField *username = [[UITextField alloc] initWithFrame:CGRectMake(15, 100, usernameAndEmailView.frame.size.width*27/30, usernameAndEmailView.frame.size.height*0.1)];
     username.layer.borderColor = UIColor.blackColor.CGColor;
     username.layer.borderWidth = 1;
     username.layer.masksToBounds = true;
-    username.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-
     [username setAdjustsFontSizeToFitWidth:YES];
     [usernameAndEmailView addSubview:username];
+    username.tag = 1;
     username.text = [[NSString stringWithFormat:@"%@_%@", firstName, lastName] lowercaseString];
     self.username = username.text;
     
-    UITextField *userEmail = [[UITextField alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/32, usernameAndEmailView.frame.size.height/4, usernameAndEmailView.frame.size.width*30/32, usernameAndEmailView.frame.size.height*0.1)];
+    // userEmail
+    
+    UILabel *yourEmail = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, usernameAndEmailView.frame.size.width, usernameAndEmailView.frame.size.height*0.1)];
+    yourEmail.text = @"Your Email";
+    yourEmail.textAlignment = NSTextAlignmentCenter;
+    [usernameAndEmailView addSubview:yourEmail];
+    
+    UITextField *userEmail = [[UITextField alloc] initWithFrame:CGRectMake(15, 190, usernameAndEmailView.frame.size.width*27/30, usernameAndEmailView.frame.size.height*0.1)];
     userEmail.layer.borderColor = UIColor.blackColor.CGColor;
     userEmail.layer.borderWidth = 1;
+    userEmail.tag = 2;
     userEmail.layer.masksToBounds = true;
-    userEmail.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [usernameAndEmailView addSubview:userEmail];
     [userEmail setAdjustsFontSizeToFitWidth:YES];
     userEmail.text = email;
     self.email = userEmail.text;
+    
+    // CreateYourAccount
+    
+    CATextLayer *textLayer = [[CATextLayer alloc] init];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    NSMutableDictionary *textProperties = [NSMutableDictionary dictionary];
+    textProperties[NSFontAttributeName] = [UIFont fontWithName:@"HelveticaNeue-Thin" size:25];
+    
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:NSLocalizedString( @"Create Your  Account", nil)
+                                                                           attributes:textProperties];
+    textLayer.string = attributedString;
+    textLayer.alignmentMode = kCAAlignmentCenter;
+    textLayer.frame = usernameAndEmailView.bounds;
+    
+    UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
+    self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
+    self.imageView.layer.mask = textLayer;
+    self.imageView.frame = CGRectMake(0, 20, usernameAndEmailView.frame.size.width, 50);
+    [usernameAndEmailView addSubview: self.imageView];
+    
+    //Done
     
     UIButton *done = [[UIButton alloc] initWithFrame:CGRectMake(usernameAndEmailView.frame.size.width/30, usernameAndEmailView.frame.size.height*0.8, usernameAndEmailView.frame.size.width*28/30, usernameAndEmailView.frame.size.height*0.15)];
     [usernameAndEmailView addSubview:done];
@@ -426,6 +420,7 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
                         }
                            NSLog(@"error = %@", error);
                     }];
+                    [[ParseStore sharedInstance] loadFriends];
             
         } else {
             // There was a problem, check error.description
@@ -458,5 +453,20 @@ didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result
     
     return randomString;
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    NSLog(@"textfield %ld", (long)textField.tag);
+    if (textField.tag == 1 ) {
+        self.username = textField.text;
+    }
+    
+    if (textField.tag == 2 ) {
+        self.email = textField.text;
+    }
+
+    return YES;
+}
+
 
 @end

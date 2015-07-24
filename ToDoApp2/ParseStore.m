@@ -195,6 +195,21 @@
                                 if (succeeded) {
                                     [self addFriendRemotly:user.objectId];
                                     
+                                    PFQuery *userQuery=[PFUser query];
+                                    [userQuery whereKey:@"username" equalTo:[user username]];
+                                    
+                                    // send push notification to the user
+                                    PFQuery *pushQuery = [PFInstallation query];
+                                    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+                                    
+                                    PFPush *push = [PFPush new];
+                                    [push setQuery: pushQuery];
+                                    NSString *message= [NSString stringWithFormat:@"%@ has just added you as a friend",[PFUser currentUser].username ];
+                                    [push setData: @{ @"alert":message}];
+                                    [push setData: @{ @"alert":message, @"reloadFriends":@"reload data", @"friendName": [user username]}];
+                                    [push sendPushInBackground];
+
+                                    
                                 } else {
                                     // There was a problem, check error.description
                                 }
@@ -208,6 +223,21 @@
                             [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                 if (succeeded) {
                                     [self addFriendRemotly:user.objectId];
+                                    
+                                    NSLog(@"wysylam powiadomienie 1");
+                                    PFQuery *userQuery=[PFUser query];
+                                    [userQuery whereKey:@"username" equalTo:[user username]];
+                                    
+                                    // send push notification to the user
+                                    PFQuery *pushQuery = [PFInstallation query];
+                                    [pushQuery whereKey:@"Owner" matchesQuery:userQuery];
+                                    
+                                    PFPush *push = [PFPush new];
+                                    [push setQuery: pushQuery];
+                                    NSString *message= [NSString stringWithFormat:@"%@ has just added you as a friend",[PFUser currentUser].username ];
+                                    [push setData: @{ @"alert":message}];
+                                    [push setData: @{ @"alert":message, @"reloadFriends":@"reload data", @"friendName": [user username]}];
+                                    [push sendPushInBackground];
                                     
                                 } else {
                                     // There was a problem, check error.description

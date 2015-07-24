@@ -16,7 +16,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 
-@interface LoginViewController : UIViewController <FBSDKLoginButtonDelegate>
+@interface LoginViewController : UIViewController <FBSDKLoginButtonDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) UITextField *getLogin;
 @property (strong, nonatomic) UITextField *getPassword;
@@ -29,6 +29,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *loginIndicator;
 @property (strong, nonatomic) ToDoViewController *toDoViewController;
 @property (nonatomic, strong) ToDoViewController *toDo;
+@property (strong, nonatomic) UIImageView *imageView;
 -(void)createAccountwithFirstName:(NSString*)firstName withlastName:(NSString*)lastName withEmail:(NSString *)email;
 
 

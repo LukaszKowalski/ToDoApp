@@ -80,13 +80,78 @@
     UIImage *rainbowImage = [UIImage imageNamed:@"Rainbow"];
     self.imageView = [[UIImageView alloc] initWithImage:rainbowImage];
     self.imageView.layer.mask = textLayer;
-    
-//    self.imageView.frame = CGRectMake(125,30,320,40);
     self.imageView.frame = CGRectMake(0, 30, self.view.frame.size.width, 40);
 
     [self.view addSubview: self.imageView];
-
     
+    PFUser *user = [PFUser currentUser];
+    if (![PFFacebookUtils isLinkedWithUser:user]) {
+        
+        self.connectFacebookButton = [[UILabel alloc] initWithFrame:CGRectMake(0, 280, self.view.frame.size.width, 75)];
+        self.connectFacebookButton.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+        self.connectFacebookButton.textAlignment = NSTextAlignmentCenter;
+        self.connectFacebookButton.text = @"Connect your account";
+        self.connectFacebookButton.textColor = [UIColor whiteColor];
+        [self.view addSubview:self.connectFacebookButton];
+        
+        UILabel *whyConnect = [[UILabel alloc] initWithFrame:CGRectMake(40, 390, self.view.frame.size.width-80, 75)];
+        whyConnect.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        whyConnect.textAlignment = NSTextAlignmentCenter;
+        whyConnect.text = @"Connect your account with Facebook, and find your friends who also use DoApp";
+        whyConnect.textColor = [UIColor whiteColor];
+        whyConnect.lineBreakMode = NSLineBreakByWordWrapping;
+        whyConnect.numberOfLines = 0;
+        [self.view addSubview:whyConnect];
+
+        
+        UIButton *facebooklogin = [[UIButton alloc] initWithFrame:CGRectMake(30, 340, 260, 50)];
+        [facebooklogin addTarget:self action:@selector(connectFacebook) forControlEvents:UIControlEventTouchUpInside];
+        [facebooklogin setImage:[UIImage imageNamed:@"facebook.png"] forState:UIControlStateNormal];
+        [self.view addSubview:facebooklogin];
+    }
+    
+}
+
+-(void)connectFacebook{
+    PFUser *user = [PFUser currentUser];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"email"];
+    
+    if (![PFFacebookUtils isLinkedWithUser:user]) {
+        [PFFacebookUtils linkUserInBackground:user withReadPermissions:permissionsArray block:^(BOOL succeeded, NSError *error){
+            if ([PFFacebookUtils isLinkedWithUser:user]) {
+                FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me?fields=id,first_name,email,last_name" parameters:nil];
+                [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                    if (!error) {
+                        NSString *fbId = result[@"id"];
+                        [[PFUser currentUser] setObject:fbId forKey:@"fbId"];
+                        [[PFUser currentUser] saveInBackground];
+                        FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                                      initWithGraphPath:@"/me/friends"
+                                                      parameters:nil
+                                                      HTTPMethod:@"GET"];
+                        [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                                              id result,
+                                                              NSError *error) {
+                            NSLog(@"rezultaty = %@", result);
+                            NSDictionary *data = [(NSDictionary *)result objectForKey:@"data"];
+                            if (result != NULL){
+                                for (NSDictionary* fbFriend in data) {
+                                    NSString *facebookID = [fbFriend objectForKey:@"id"];
+                                    // do stuff
+                                    NSLog(@"trying to add friend %@", facebookID);
+                                    [[ParseStore sharedInstance] addFriendFromFB:facebookID];
+                                }
+                                
+                            }
+                            NSLog(@"error = %@", error);
+                        }];
+                        [[ParseStore sharedInstance] loadFriends];
+
+                    }
+                }];
+            }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

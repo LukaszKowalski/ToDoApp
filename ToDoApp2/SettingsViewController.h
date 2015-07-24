@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UILabel *line1;
 @property (strong, nonatomic) UILabel *line2;
 @property (strong, nonatomic) UILabel *invite;
+@property (strong, nonatomic) UILabel *connectFacebookButton;
 @property (strong, nonatomic) UILabel *changePassword;
 @property (strong, nonatomic) UILabel *logoutLabel;
 @property (nonatomic, strong) UIImageView *imageView;

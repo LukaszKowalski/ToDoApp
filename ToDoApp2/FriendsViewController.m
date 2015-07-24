@@ -157,6 +157,7 @@
     // initArray
 
     [self reloadTableView];
+    [[ParseStore sharedInstance] loadFriends];
     self.delegate = self;
 }
 
